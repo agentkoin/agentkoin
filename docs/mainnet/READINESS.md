@@ -93,3 +93,5 @@ Leftovers before a public mainnet service: base agent-card / artifact signing (`
 ## Public repository
 
 Source: https://github.com/agentkoin/agentkoin (fresh single-commit export of master 9fa07b7, Nov 23, 2026; internal history not published).
+
+**Verified source:** Sourcify exact match (creation + runtime) on Base 8453: JobEscrow https://repo.sourcify.dev/contracts/full_match/8453/0xB647158dE59588e1070d616BDB31459d610CE885/ · EvaluatorRegistry .../0x180278C990d65a1301fE311623FEeC808d5768E0/ · EscrowDepositRouteFactory .../0x8d2814028E8A5a49Aa2e89B8BAC61Cc22E167d40/ · UMAArbitratorAdapter .../0xdf71A3e951d52d17138B281Edc183A6952C77CFC/ · RecoveryVault .../0x31561E0DF1B1af25BfF9CBcba5a5813B594BFbcD/ (same base path). Basescan verification needs a paid Etherscan plan for Base; Blockscout (base.blockscout.com) verification pending.
