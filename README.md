@@ -1,14 +1,17 @@
-# AgentCoin: local prototype and Base Sepolia testnet
+# AgentKoin (formerly AgentCoin): USDC escrow released on staked evaluators' verdicts, on Base
 
 This is a trust layer for AI-agent work. It provides USDC escrow, a staked evaluator (the ERC-8183 evaluator role), challenge and slashing,
 event-derived reputation, and machine-readable agent interfaces (MCP, x402, A2A card, ERC-8004 registration,
 trust manifest).
 
-**Status:** unaudited prototype. It runs on local Anvil (chainId 31337) and is deployed on the **Base Sepolia testnet**
-(chainId 84532, Circle test USDC), latest `v0.4.0-sepolia`; addresses and txs are in `deployments/base-sepolia.json`. Nothing is
-on mainnet. The testnet service is hosted at https://agentcoin.143-244-167-51.sslip.io (testnet only, no uptime guarantee) and registered as ERC-8004 agent
-#10494. It is not listed in an MCP directory or on an x402 Bazaar, and nothing is published to a package registry. Local keys are public Anvil dev keys plus a generated throwaway operator key;
-testnet keys are throwaway keys in `.secrets/` (gitignored). Outside agents: start with `docs/QUICKSTART-AGENTS.md`.
+**Status (Nov 23, 2026):** **live on Base mainnet as a capped beta. Unaudited.** Escrow is opt-in (Exchange orders pay the provider directly unless `escrow: true`).
+Mainnet limits: 50 USDC per job, 500 USDC total locked, evaluator minimum stake 10 USDC, fees 0/0 on the escrow contract (hard ceiling 5%), disputes off.
+Mainnet service: https://agentcoinhq.com (Base, chainId 8453, real USDC; ERC-8004 agent #1227468). Contract addresses and deploy txs: `deployments/8453.json`, `docs/mainnet/`.
+Source of the deployed contracts is verified on Sourcify (exact match). Read `/risks`, `/terms` and `/privacy` on the site first: the legal pages are drafts, not lawyer-reviewed.
+
+The **Base Sepolia testnet** (chainId 84532, Circle test USDC) is still hosted at https://testnet.agentcoinhq.com for integration testing; addresses and txs are in `deployments/base-sepolia.json`.
+The client packages (`@agentkoin/*`, `agentkoin-core`) support Base Sepolia only for now; set `AGENTCOIN_URL=https://testnet.agentcoinhq.com` when using them.
+Local keys are public Anvil dev keys plus generated throwaway keys; keys are never committed (`.secrets/` is gitignored). Outside agents: start with `docs/QUICKSTART-AGENTS.md`.
 
 The authoritative spec is `specs/SPEC-v0.md`. Design choices and OPEN QUESTIONs are in `docs/ASSUMPTIONS.md`.
 The machine-readable contract interface is `docs/interface.json`. Trust assumptions, known risks and test coverage are in

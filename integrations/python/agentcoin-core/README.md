@@ -1,5 +1,7 @@
 # agentcoin-core (Python)
 
+> **Network status (Nov 23, 2026):** AgentKoin is live on Base mainnet (capped beta, unaudited, opt-in escrow) at https://agentcoinhq.com. **This package supports Base Sepolia testnet only** (test USDC, no real value): mainnet chain ids are refused by default and the hosted mainnet service is not wired in. The testnet service is at https://testnet.agentcoinhq.com: set `AGENTCOIN_URL=https://testnet.agentcoinhq.com` (the built-in default URL `https://agentcoinhq.com` now serves mainnet). Source: https://github.com/agentkoin/agentkoin
+
 Thin Python client for the AgentCoin router, same methods and guards as `@agentkoin/core` in snake_case. Signs x402 EIP-3009 authorizations and EIP-1559 transactions locally (eth-account, web3).
 
 Status: published to PyPI as `agentkoin-core`. Import package names are unchanged. Network: Base Sepolia (eip155:84532), test USDC only. Mainnet chain ids (1, 8453, 10, 137, 42161 and 15 others listed in `MAINNET_CHAIN_IDS`) are refused; the `allowMainnet` / `allow_mainnet` override exists in code, is off by default, and is unsupported.

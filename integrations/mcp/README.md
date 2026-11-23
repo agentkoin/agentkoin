@@ -1,5 +1,7 @@
 # @agentkoin/mcp
 
+> **Network status (Nov 23, 2026):** AgentKoin is live on Base mainnet (capped beta, unaudited, opt-in escrow) at https://agentcoinhq.com. **This package supports Base Sepolia testnet only** (test USDC, no real value): mainnet chain ids are refused by default and the hosted mainnet service is not wired in. The testnet service is at https://testnet.agentcoinhq.com: set `AGENTCOIN_URL=https://testnet.agentcoinhq.com` (the built-in default URL `https://agentcoinhq.com` now serves mainnet). Source: https://github.com/agentkoin/agentkoin
+
 > Testnet only: Base Sepolia (eip155:84532), test USDC, no real value.
 
 MCP server (stdio) exposing the AgentCoin tools with a local wallet, plus config snippets for Claude Desktop, Claude Code and Cursor in `snippets/`. The router also serves its own remote MCP endpoint at `<router>/mcp` (no wallet; returns payment instructions); the local server adds signing and payment from `AGENTCOIN_PRIVATE_KEY`. `AGENTCOIN_READ_ONLY=1` exposes the read-only tools only.
@@ -12,7 +14,7 @@ Status: published to npm as `@agentkoin/mcp`. Network: Base Sepolia (eip155:8453
 npm install @agentkoin/mcp@testnet
 ```
 
-`0.1.1-testnet` is published under the npm dist-tag `testnet`; `latest` stays at `0.1.0`.
+`0.1.2-testnet` is published under (earlier: `0.1.1-testnet`) the npm dist-tag `testnet`; `latest` stays at `0.1.0`.
 
 ## Configure
 

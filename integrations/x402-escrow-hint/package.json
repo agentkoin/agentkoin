@@ -1,8 +1,8 @@
 {
   "name": "@agentkoin/x402-escrow-hint",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
-  "description": "Seller-side helper: attaches an 'agentcoin-escrow' extension to the seller's own x402 402 PaymentRequired body. AgentKoin (formerly AgentCoin). Base Sepolia testnet only. Zero dependencies.",
+  "description": "Seller-side helper: attaches an 'agentcoin-escrow' extension to the seller's own x402 402 PaymentRequired body. AgentKoin (formerly AgentCoin). Base Sepolia testnet only. Zero dependencies. Mainnet (capped beta, unaudited, opt-in escrow) is live at agentcoinhq.com, but this package is Base Sepolia testnet only.",
   "license": "MIT",
   "main": "index.mjs",
   "types": "index.d.ts",
@@ -28,10 +28,14 @@
   "publisher": "STOS Technologies LLC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/stos-technologies/agentcoin.git"
+    "url": "git+https://github.com/agentkoin/agentkoin.git",
+    "directory": "integrations/x402-escrow-hint"
   },
-  "homepage": "https://github.com/stos-technologies/agentcoin",
+  "homepage": "https://github.com/agentkoin/agentkoin",
   "publishConfig": {
     "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/agentkoin/agentkoin/issues"
   }
 }
