@@ -21,7 +21,6 @@ test("AD-015: JSON/llms/OpenAPI/MCP/brand use AgentKoin; old paths and 402 ident
     const index = await (await get("/", { accept: "application/json" })).json();
     assert.equal(index.service, "AgentKoin testnet service");
     assert.equal(index.formerly, "AgentCoin");
-    assert.equal(index.ticker, "AGK");
     assert.equal(index.version, "0.5.40");
     assert.ok(index.links.trustManifest.endsWith("/.well-known/agentcoin-trust.json"));
     assert.ok(index.links.index.endsWith("/.well-known/agentcoin-index.json"));
@@ -31,7 +30,7 @@ test("AD-015: JSON/llms/OpenAPI/MCP/brand use AgentKoin; old paths and 402 ident
     const llms = await (await get("/llms.txt")).text();
     assert.match(llms, /^# AgentKoin \(Base Sepolia testnet\)/);
     assert.match(llms, /Formerly AgentCoin/);
-    assert.match(llms, /Ticker AGK/);
+    assert.doesNotMatch(llms, /AGK/);
 
     const openapi = await (await get("/openapi.json")).json();
     assert.equal(openapi.info.title, "AgentKoin testnet service: index, router, escrow");
@@ -48,7 +47,7 @@ test("AD-015: JSON/llms/OpenAPI/MCP/brand use AgentKoin; old paths and 402 ident
     const brandPath = path.join(AGENT, "static", "agentcoin-brand.json");
     const brandFile = JSON.parse(readFileSync(brandPath, "utf8"));
     assert.equal(brandFile.name, "AgentKoin");
-    assert.equal(brandFile.ticker, "AGK");
+    assert.equal(brandFile.ticker, undefined);
     assert.equal(brandFile.formerly, "AgentCoin");
     assert.equal(brandFile.v, "agentcoin-brand/v1");
     const oldBrand = await (await get("/.well-known/agentcoin-brand.json")).text();

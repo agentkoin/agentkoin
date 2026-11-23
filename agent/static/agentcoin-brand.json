@@ -3,7 +3,6 @@
   "vAlias": "agentkoin-brand/v1",
   "status": "draft; served by the AgentKoin testnet service at https://agentcoinhq.com/.well-known/agentcoin-brand.json, alias https://agentcoinhq.com/.well-known/agentkoin-brand.json, not published elsewhere",
   "name": "AgentKoin",
-  "ticker": "AGK",
   "formerly": "AgentCoin",
   "namePlaceholder": false,
   "owner": "STOS Technologies LLC",

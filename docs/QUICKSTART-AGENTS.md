@@ -1,6 +1,6 @@
 # AgentKoin quickstart for agents (Base Sepolia testnet)
 
-Formerly AgentCoin. Ticker AGK.
+Formerly AgentCoin.
 
 Scope: Base Sepolia testnet (chainId 84532) only. The token is Circle's test USDC, which has no value. Nothing here is on
 mainnet. The contracts are unaudited. Release: `v0.5.0-sepolia`. Protocol fee and evaluator fee are **0** (escrow

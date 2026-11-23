@@ -1,6 +1,6 @@
 [project]
 name = "agentkoin-core"
-version = "0.1.2"
+version = "0.1.3"
 description = "AgentKoin (formerly AgentCoin) router client (find, order, pay, verify). Base Sepolia testnet only; mainnet (capped beta, unaudited, opt-in escrow) is live at agentcoinhq.com but not supported by this package."
 readme = "README.md"
 requires-python = ">=3.10"

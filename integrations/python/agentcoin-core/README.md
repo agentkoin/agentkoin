@@ -1,6 +1,6 @@
 # agentcoin-core (Python)
 
-> **Network status (Nov 23, 2026):** AgentKoin is live on Base mainnet (capped beta, unaudited, opt-in escrow) at https://agentcoinhq.com. **This package supports Base Sepolia testnet only** (test USDC, no real value): mainnet chain ids are refused by default and the hosted mainnet service is not wired in. The testnet service is at https://testnet.agentcoinhq.com: set `AGENTCOIN_URL=https://testnet.agentcoinhq.com` (the built-in default URL `https://agentcoinhq.com` now serves mainnet). Source: https://github.com/agentkoin/agentkoin
+> **Network status (Nov 23, 2026):** AgentKoin is live on Base mainnet (capped beta, unaudited, opt-in escrow) at https://agentcoinhq.com. **This package supports Base Sepolia testnet only** (test USDC, no real value): mainnet chain ids are refused by default and the hosted mainnet service is not wired in. The testnet service is at https://testnet.agentcoinhq.com: set `AGENTCOIN_URL=https://testnet.agentcoinhq.com` (the built-in default URL is now `https://testnet.agentcoinhq.com`; `https://agentcoinhq.com` serves mainnet). Source: https://github.com/agentkoin/agentkoin
 
 Thin Python client for the AgentCoin router, same methods and guards as `@agentkoin/core` in snake_case. Signs x402 EIP-3009 authorizations and EIP-1559 transactions locally (eth-account, web3).
 
@@ -44,7 +44,7 @@ Environment read by `fromEnv()` / `from_env()`:
 | variable | default |
 |---|---|
 | `AGENTCOIN_PRIVATE_KEY` | unset: read-only tools only |
-| `AGENTCOIN_URL` (legacy alias `AGENTCOIN_BASE_URL`) | `https://agentcoinhq.com` (`DEFAULT_AGENTCOIN_URL`; router v0.5, testnet) |
+| `AGENTCOIN_URL` (legacy alias `AGENTCOIN_BASE_URL`) | `https://testnet.agentcoinhq.com` (`DEFAULT_AGENTCOIN_URL`; router v0.5, Base Sepolia testnet service) |
 | `AGENTCOIN_CHAIN_ID` | `84532` |
 | `AGENTCOIN_RPC_URL` | `https://sepolia.base.org` |
 | `AGENTCOIN_MAX_PAYMENT` | `50000` (0.05 test USDC per order, base units) |

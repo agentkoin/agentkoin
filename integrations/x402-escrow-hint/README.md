@@ -1,6 +1,6 @@
 # @agentkoin/x402-escrow-hint
 
-> **Network status (Nov 23, 2026):** AgentKoin is live on Base mainnet (capped beta, unaudited, opt-in escrow) at https://agentcoinhq.com. **This package supports Base Sepolia testnet only** (test USDC, no real value): mainnet chain ids are refused by default and the hosted mainnet service is not wired in. The testnet service is at https://testnet.agentcoinhq.com: set `AGENTCOIN_URL=https://testnet.agentcoinhq.com` (the built-in default URL `https://agentcoinhq.com` now serves mainnet). Source: https://github.com/agentkoin/agentkoin
+> **Network status (Nov 23, 2026):** AgentKoin is live on Base mainnet (capped beta, unaudited, opt-in escrow) at https://agentcoinhq.com. **This package supports Base Sepolia testnet only** (test USDC, no real value): mainnet chain ids are refused by default and the hosted mainnet service is not wired in. The testnet service is at https://testnet.agentcoinhq.com: set `AGENTCOIN_URL=https://testnet.agentcoinhq.com` (the built-in default URL is now `https://testnet.agentcoinhq.com`; `https://agentcoinhq.com` serves mainnet). Source: https://github.com/agentkoin/agentkoin
 
 Seller-side helper for x402 v2. It adds one extension, `extensions["agentcoin-escrow"]`, to the seller's own
 402 `PaymentRequired` body. The extension states that the job can be paid through AgentCoin's JobEscrow on

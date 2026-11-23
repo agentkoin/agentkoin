@@ -14,7 +14,7 @@ export function toolAnnotations(t: { name: string; readOnly: boolean }) {
 export function createAgentCoinMcpServer(client?: AgentCoin | AgentCoinOptions, o: { readOnly?: boolean } = {}): Server {
   const c = asClient(client);
   const specs = toolSpecs.filter((t) => !o.readOnly || t.readOnly);
-  const server = new Server({ name: "agentkoin", version: "0.1.1-testnet" }, { capabilities: { tools: {} } });
+  const server = new Server({ name: "agentkoin", version: "0.1.3-testnet" }, { capabilities: { tools: {} } });
   server.setRequestHandler(ListToolsRequestSchema, async () => ({
     tools: specs.map((t) => ({ name: t.name, description: t.description, inputSchema: t.parameters as any, annotations: toolAnnotations(t) })),
   }));

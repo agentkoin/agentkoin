@@ -1,6 +1,6 @@
 {
   "name": "@agentkoin/x402-escrow-hint",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "description": "Seller-side helper: attaches an 'agentcoin-escrow' extension to the seller's own x402 402 PaymentRequired body. AgentKoin (formerly AgentCoin). Base Sepolia testnet only. Zero dependencies. Mainnet (capped beta, unaudited, opt-in escrow) is live at agentcoinhq.com, but this package is Base Sepolia testnet only.",
   "license": "MIT",

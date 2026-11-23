@@ -1,6 +1,6 @@
 # @agentkoin/mcp
 
-> **Network status (Nov 23, 2026):** AgentKoin is live on Base mainnet (capped beta, unaudited, opt-in escrow) at https://agentcoinhq.com. **This package supports Base Sepolia testnet only** (test USDC, no real value): mainnet chain ids are refused by default and the hosted mainnet service is not wired in. The testnet service is at https://testnet.agentcoinhq.com: set `AGENTCOIN_URL=https://testnet.agentcoinhq.com` (the built-in default URL `https://agentcoinhq.com` now serves mainnet). Source: https://github.com/agentkoin/agentkoin
+> **Network status (Nov 23, 2026):** AgentKoin is live on Base mainnet (capped beta, unaudited, opt-in escrow) at https://agentcoinhq.com. **This package supports Base Sepolia testnet only** (test USDC, no real value): mainnet chain ids are refused by default and the hosted mainnet service is not wired in. The testnet service is at https://testnet.agentcoinhq.com: set `AGENTCOIN_URL=https://testnet.agentcoinhq.com` (the built-in default URL is now `https://testnet.agentcoinhq.com`; `https://agentcoinhq.com` serves mainnet). Source: https://github.com/agentkoin/agentkoin
 
 > Testnet only: Base Sepolia (eip155:84532), test USDC, no real value.
 
@@ -14,7 +14,7 @@ Status: published to npm as `@agentkoin/mcp`. Network: Base Sepolia (eip155:8453
 npm install @agentkoin/mcp@testnet
 ```
 
-`0.1.2-testnet` is published under (earlier: `0.1.1-testnet`) the npm dist-tag `testnet`; `latest` stays at `0.1.0`.
+`0.1.3-testnet` is published under (earlier: `0.1.2-testnet`) the npm dist-tag `testnet`; `latest` stays at `0.1.0`.
 
 ## Configure
 
@@ -60,7 +60,7 @@ Environment read by `fromEnv()` / `from_env()`:
 | variable | default |
 |---|---|
 | `AGENTCOIN_PRIVATE_KEY` | unset: read-only tools only |
-| `AGENTCOIN_URL` (legacy alias `AGENTCOIN_BASE_URL`) | `https://agentcoinhq.com` (`DEFAULT_AGENTCOIN_URL`; router v0.5, testnet) |
+| `AGENTCOIN_URL` (legacy alias `AGENTCOIN_BASE_URL`) | `https://testnet.agentcoinhq.com` (`DEFAULT_AGENTCOIN_URL`; router v0.5, Base Sepolia testnet service) |
 | `AGENTCOIN_CHAIN_ID` | `84532` |
 | `AGENTCOIN_RPC_URL` | `https://sepolia.base.org` |
 | `AGENTCOIN_MAX_PAYMENT` | `50000` (0.05 test USDC per order, base units) |

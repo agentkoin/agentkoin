@@ -7,7 +7,7 @@ export const EXTENSION_KEY = "agentcoin-escrow";
 export const HINT_VERSION = "agentcoin-escrow-hint/v1";
 
 /** Default service URL; must equal DEFAULT_AGENTCOIN_URL in @agentkoin/core (kept local: zero dependencies). Override with AGENTCOIN_URL. */
-export const DEFAULT_AGENTCOIN_URL = "https://agentcoinhq.com";
+export const DEFAULT_AGENTCOIN_URL = "https://testnet.agentcoinhq.com";
 const env = globalThis.process?.env ?? {};
 
 export const BASE_SEPOLIA_ESCROW = Object.freeze({

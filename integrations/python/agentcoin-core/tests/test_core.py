@@ -155,6 +155,7 @@ def test_wait_for_verdict_survives_a_timed_out_poll():
 
 def test_service_url_default_and_env_override():
     from agentcoin_core import BASE_SEPOLIA, DEFAULT_AGENTCOIN_URL, agentcoin_url, from_env
+    assert DEFAULT_AGENTCOIN_URL == "https://testnet.agentcoinhq.com"
     assert BASE_SEPOLIA["router_url"] == DEFAULT_AGENTCOIN_URL == agentcoin_url({})
     assert agentcoin_url({"AGENTCOIN_URL": "https://svc.example/", "AGENTCOIN_BASE_URL": "https://old.example"}) == "https://svc.example"
     assert agentcoin_url({"AGENTCOIN_BASE_URL": "https://old.example"}) == "https://old.example"

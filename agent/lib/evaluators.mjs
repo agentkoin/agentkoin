@@ -104,3 +104,15 @@ export function shouldAwaitJobIndex(indexReady, inFlight) {
   return !indexReady && inFlight != null;
 }
 
+
+/** Bug fix (x402 #4324): GET /v1/evaluators `list` was built from the staker index but never triggered a refresh of it
+ *  (only `all` / the per-address route did, in the background), so a new staker was missing from `list` until a later
+ *  request; and a list built while a refresh finished was cached 60 s with the pre-refresh stakers. */
+export function listNeedsFreshScan({ indexReady, scanAtMs, ttlMs, now }) {
+  return !!indexReady && now - scanAtMs >= ttlMs;
+}
+
+/** A cached list is reusable only if the index was ready, it is under 60 s old, and no refresh finished since it was built. */
+export function evaluatorListCacheValid({ indexReady, cached, now, generation, maxAgeMs = 60_000 }) {
+  return !!indexReady && !!cached && cached.generation === generation && now - cached.at < maxAgeMs;
+}

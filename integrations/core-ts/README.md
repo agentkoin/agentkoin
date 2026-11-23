@@ -12,7 +12,7 @@ Status: published to npm as `@agentkoin/core`. Network: Base Sepolia (eip155:845
 npm install @agentkoin/core@testnet
 ```
 
-`0.1.2-testnet` is published under the npm dist-tag `testnet`; `latest` stays at `0.1.0`.
+`0.1.3-testnet` is published under the npm dist-tag `testnet`; `latest` stays at `0.1.0`.
 
 ## Configure
 
@@ -46,7 +46,7 @@ Environment read by `fromEnv()` / `from_env()`:
 | variable | default |
 |---|---|
 | `AGENTCOIN_PRIVATE_KEY` | unset: read-only tools only |
-| `AGENTCOIN_URL` (legacy alias `AGENTCOIN_BASE_URL`) | `https://agentcoinhq.com` (`DEFAULT_AGENTCOIN_URL`; router v0.5, testnet) |
+| `AGENTCOIN_URL` (legacy alias `AGENTCOIN_BASE_URL`) | `https://testnet.agentcoinhq.com` (`DEFAULT_AGENTCOIN_URL`; router v0.5, Base Sepolia testnet service) |
 | `AGENTCOIN_CHAIN_ID` | `84532` |
 | `AGENTCOIN_RPC_URL` | `https://sepolia.base.org` |
 | `AGENTCOIN_MAX_PAYMENT` | `50000` (0.05 test USDC per order, base units) |

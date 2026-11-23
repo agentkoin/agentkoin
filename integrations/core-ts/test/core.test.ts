@@ -165,6 +165,7 @@ test("waitForVerdict keeps polling after a failed order read", async () => {
 
 test("service URL: DEFAULT_AGENTCOIN_URL, AGENTCOIN_URL override, legacy AGENTCOIN_BASE_URL", async () => {
   const { DEFAULT_AGENTCOIN_URL, agentcoinUrl } = await import("../src/index.ts");
+  assert.equal(DEFAULT_AGENTCOIN_URL, "https://testnet.agentcoinhq.com");
   assert.equal(BASE_SEPOLIA.routerUrl, DEFAULT_AGENTCOIN_URL);
   assert.equal(agentcoinUrl({}), DEFAULT_AGENTCOIN_URL);
   assert.equal(agentcoinUrl({ AGENTCOIN_URL: "https://svc.example/", AGENTCOIN_BASE_URL: "https://old.example" }), "https://svc.example");

@@ -17,7 +17,7 @@ import { keccak256, toBytes, getAddress, parseEventLogs, isHex, erc20Abi as erc2
 import { privateKeyToAccount } from "viem/accounts";
 import { contracts, wallet, send, sendIdempotent, read, publicClient, assertChain, rawLogsChunked } from "../lib/chain.mjs";
 import { loadStakeScanCache, saveStakeScanCache, freshness, DEFAULT_STAKE_SCAN_TTL_MS } from "../lib/stake-scan-cache.mjs";
-import { knownEvaluators, evaluatorCandidates, evaluatorRow, SELECTION_TEXT, accumulateTrackRecords, shouldCacheEvaluatorList, shouldAwaitJobIndex } from "../lib/evaluators.mjs";
+import { knownEvaluators, evaluatorCandidates, evaluatorRow, SELECTION_TEXT, accumulateTrackRecords, shouldCacheEvaluatorList, shouldAwaitJobIndex, listNeedsFreshScan, evaluatorListCacheValid } from "../lib/evaluators.mjs";
 import { ProfileStore, CanaryQueue, handleProfile, handleCanary, fullRow, onboardingBlock, stakeStatus, foldStakeEvents } from "../lib/evaluator-onboarding.mjs";
 import { SITE_ROUTES, sitePageHtml, sitePageMachine, negotiate, linkHeader, liveTiles } from "./site.mjs";
 import { wantsHtml, landingHtml, privacyHtml, privacyDraftHtml, risksHtml, SITE, readBrand, BRAND_FILES, readJob, JOB_FILES, readFont, FONT_FILES, receiptJob } from "./landing.mjs";
@@ -786,6 +786,7 @@ export function createApp(opts = {}) {
   let fullCache = null;
   let evIndexReady = false;
   let evIndexInFlight = null;
+  let evGeneration = 0; // bumped whenever a refresh completes; a list built under an older generation is never cached
   // Cold-start fix: the last completed scan is persisted in stateDir and served at boot while a single-flight
   // background refresh runs. No cache file => old behaviour (the first request awaits the live scan).
   const scanCacheFile = path.join(cfg.stateDir, "stake-scan-cache.json");
@@ -857,6 +858,7 @@ export function createApp(opts = {}) {
         scanAtMs = nowMs();
         scanSource = "live";
         scanFailed = false;
+        evGeneration++;
         evList = null; // drop any pre-index snapshot so the next list includes track records
         fullCache = null;
         persistScan();
@@ -870,7 +872,12 @@ export function createApp(opts = {}) {
   async function evaluatorList() {
     if (opts.activeEvaluators) return opts.activeEvaluators(); // tests: offline selectable list (no RPC)
     if (shouldAwaitJobIndex(evIndexReady, evIndexInFlight)) await evIndexInFlight.catch(() => {});
-    if (shouldCacheEvaluatorList(evIndexReady) && evList && Date.now() - evList.at < 60_000) return evList.v;
+    if (listNeedsFreshScan({ indexReady: evIndexReady, scanAtMs, ttlMs: scanTtlMs, now: nowMs() })) {
+      // single-flight, TTL-gated; wait (bounded) so a newly staked evaluator is in `list`, not only in `all`
+      await Promise.race([refreshEvaluatorIndex().catch(() => {}), new Promise((r) => setTimeout(r, 8000).unref?.())]);
+    }
+    if (evaluatorListCacheValid({ indexReady: evIndexReady, cached: evList, now: Date.now(), generation: evGeneration })) return evList.v;
+    const gen = evGeneration;
     const c = contracts();
     const def = defaultEvaluator();
     const rows = await Promise.all(
@@ -880,7 +887,7 @@ export function createApp(opts = {}) {
       }),
     );
     const v = rows.filter((r) => r.active);
-    if (shouldCacheEvaluatorList(evIndexReady)) evList = { at: Date.now(), v };
+    if (shouldCacheEvaluatorList(evIndexReady) && gen === evGeneration) evList = { at: Date.now(), v, generation: gen };
     return v;
   }
   async function evaluatorsBlock(ev = null) {
@@ -1590,7 +1597,7 @@ export function createApp(opts = {}) {
   };
   const llms = () => netHide(`# AgentKoin (Base Sepolia testnet)
 
-> Formerly AgentCoin. Ticker AGK. Escrow + staked-evaluator settlement for agent-to-agent payments in test USDC. testnet: ${TESTNET}. No real value.
+> Formerly AgentCoin. Escrow + staked-evaluator settlement for agent-to-agent payments in test USDC. testnet: ${TESTNET}. No real value.
 
 - Network: Base Sepolia (eip155:${CHAIN_ID}); token: Circle test USDC ${contracts().usdc.address}
 - Protocol fee: read live from /v1/quote (on-chain JobEscrow.currentConfig)
@@ -1675,7 +1682,7 @@ export function createApp(opts = {}) {
     info: {
       title: TESTNET ? "AgentKoin testnet service: index, router, escrow" : "AgentKoin service: index, router, escrow",
       version: VERSION,
-      description: "Formerly AgentCoin. Ticker AGK. Base Sepolia testnet only; test USDC; no real value. Unclaimed index listings mirror public metadata.",
+      description: "Formerly AgentCoin. Base Sepolia testnet only; test USDC; no real value. Unclaimed index listings mirror public metadata.",
       contact: { url: "https://github.com/stos-technologies/agentcoin" },
       "x-logo": { url: "https://agentcoinhq.com/icon.png", altText: "AgentKoin" },
       "x-icon": "https://agentcoinhq.com/icon.png",
@@ -1994,7 +2001,7 @@ export function createApp(opts = {}) {
         // HEAD gets the same headers as GET (Node drops the body on HEAD).
         if (negotiate(req.headers.accept, u.searchParams.get("format")) === "md" && !u.searchParams.get("format")?.includes("json")) { const m = sitePageMachine("/agents", { base: URL_("").replace(/\/$/, ""), fees: exchange.fees(), links, version: VERSION, alt: BRAND_ALT }, "md"); return send_(res, 200, m.body, m.type, { vary: "Accept", link: linkHeader(URL_("").replace(/\/$/, "")) }); }
         if (wantsHtml(req.headers.accept, u.searchParams.get("format"))) return send_(res, 200, landingHtml({ links, version: VERSION, alt: BRAND_ALT, ...landingLive() }), "text/html; charset=utf-8", { vary: "Accept", link: linkHeader(URL_("").replace(/\/$/, "")) });
-        return json(res, 200, { service: TESTNET ? "AgentKoin testnet service" : "AgentKoin service", version: VERSION, network: NETWORK, chainId: CHAIN_ID, links, index: router.stats(), paidEndpoints: [{ url: links.notarize, method: "POST", price: cfg.price.toString(), asset: TESTNET ? "test USDC (6 decimals)" : "USDC (6 decimals)" }], formerly: "AgentCoin", ticker: "AGK" }, { vary: "Accept", link: linkHeader(URL_("").replace(/\/$/, "")) });
+        return json(res, 200, { service: TESTNET ? "AgentKoin testnet service" : "AgentKoin service", version: VERSION, network: NETWORK, chainId: CHAIN_ID, links, index: router.stats(), paidEndpoints: [{ url: links.notarize, method: "POST", price: cfg.price.toString(), asset: TESTNET ? "test USDC (6 decimals)" : "USDC (6 decimals)" }], formerly: "AgentCoin" }, { vary: "Accept", link: linkHeader(URL_("").replace(/\/$/, "")) });
       }
       if (req.method === "GET") {
         if (p === "/healthz") return json(res, 200, { ok: true });
