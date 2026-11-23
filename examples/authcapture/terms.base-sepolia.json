@@ -10,7 +10,7 @@
       "evaluator": "eip155:84532:0x000f3e27EAf5d2C1A30F4fE50FF1bcC4A78f124A",
       "evaluatorRegistry": "eip155:84532:0x30576DE005df028D1947C56dEcc85a2a5612036a",
       "criteria": {
-        "uri": "https://raw.githubusercontent.com/stos-technologies/agentcoin/main/examples/authcapture/criteria.json",
+        "uri": "https://raw.githubusercontent.com/agentkoin/agentkoin/main/examples/authcapture/criteria.json",
         "localPath": "examples/authcapture/criteria.json",
         "sha256": "0x7d8c12562de007ddb6b631031b22719aa45d560fb14f3ada92b4b15d0844d49d"
       },

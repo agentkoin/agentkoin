@@ -69,7 +69,7 @@ export const sample = {
     terms: {
       evaluator: `eip155:${CHAIN_ID}:${EVALUATOR}`,
       evaluatorRegistry: `eip155:${CHAIN_ID}:${REGISTRY}`,
-      criteria: { uri: "https://raw.githubusercontent.com/stos-technologies/agentcoin/main/examples/authcapture/criteria.json", localPath: "examples/authcapture/criteria.json", sha256: criteriaSha256 },
+      criteria: { uri: "https://raw.githubusercontent.com/agentkoin/agentkoin/main/examples/authcapture/criteria.json", localPath: "examples/authcapture/criteria.json", sha256: criteriaSha256 },
       requiredChecks: required.length,
       payoutBps: TABLE,
       submitBy: SUBMIT_BY,
