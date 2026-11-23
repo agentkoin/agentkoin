@@ -63,7 +63,7 @@ async function main() {
   const targets = existsSync(tf) ? JSON.parse(readFileSync(tf, "utf8")).targets : [];
   const lf = path.join(OUT, "knock-log.jsonl");
   const log = existsSync(lf) ? readFileSync(lf, "utf8").split("\n").filter(Boolean).map((l) => JSON.parse(l)) : [];
-  const base = (process.env.AGENTCOIN_BASE_URL ?? "https://agentcoin.143-244-167-51.sslip.io").replace(/\/+$/, "");
+  const base = (process.env.AGENTCOIN_BASE_URL ?? "https://testnet.agentcoinhq.com").replace(/\/+$/, "");
   let doorknock = null, statsNote, statsSince = null;
   try { const r = await fetch(`${base}/v1/stats`, { headers: { "user-agent": "agentcoin-doorknock-stats/0.5" }, signal: AbortSignal.timeout(15000) }); const s = await r.json(); statsSince = s.since ?? null; doorknock = s.doorknock ?? null; statsNote = doorknock ? "live /v1/stats doorknock section" : "service has no doorknock section yet (pre-v2 build)"; }
   catch (e) { statsNote = `stats fetch failed: ${e.message}`; }

@@ -94,8 +94,8 @@ test("Nov 20 site: landing facts/links, /privacy page, no AGC, no sslip; GET+HEA
   for (const s of [
     "AgentKoin", "Base Sepolia testnet", "84532", "0xeBF71A9B9084E40935BA73EB3fdEdc6CEf2f67d5",
     "https://repo.sourcify.dev/84532/0xeBF71A9B9084E40935BA73EB3fdEdc6CEf2f67d5", "AuthCaptureEscrow", "0xf96815976523E00e65Be8f34cA5e64b4f41EB19c",
-    "0x8612dfdc421f80336cd14E8EF9cb1E765dB5ab88", "bc_ta422vae", "MIT", 'href="https://github.com/stos-technologies/agentcoin"',
-    'href="https://github.com/stos-technologies/agentcoin/tree/main/examples/stripe-x402-demo"', 'href="https://www.npmjs.com/package/@agentkoin/x402-escrow-hint"',
+    "0x8612dfdc421f80336cd14E8EF9cb1E765dB5ab88", "bc_ta422vae", "MIT", 'href="https://github.com/agentkoin/agentkoin"',
+    'href="https://github.com/agentkoin/agentkoin/tree/main/examples/stripe-x402-demo"', 'href="https://www.npmjs.com/package/@agentkoin/x402-escrow-hint"',
     'href="https://pypi.org/project/agentkoin-core/"', 'href="/llms.txt"', 'href="/QUICKSTART-AGENTS.md"', 'href="/.well-known/agent-card.json"',
     'href="/privacy"', "hello@agentcoinhq.com", 'rel="icon" type="image/png" sizes="1024x1024" href="/brand/symbol-1024.png"', "Accept: application/json",
   ]) assert.ok(html.includes(s), s);

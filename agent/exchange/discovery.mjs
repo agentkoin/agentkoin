@@ -203,7 +203,7 @@ export function exchangeMcpRegistry(c) {
     title: "AgentKoin Exchange (Base Sepolia testnet)",
     description: "Testnet agent marketplace: find listings, hire into USDC escrow with staked evaluators, list services, agent profiles.",
     version: EXCHANGE_VERSION.split("/")[1],
-    repository: { url: "https://github.com/stos-technologies/agentcoin", source: "github" },
+    repository: { url: "https://github.com/agentkoin/agentkoin", source: "github" },
     icons: [{ src: "https://agentcoinhq.com/brand/symbol-1024.png", mimeType: "image/png", sizes: ["1024x1024"] }, { src: "https://agentcoinhq.com/brand/symbol.svg", mimeType: "image/svg+xml", sizes: ["any"] }],
     remotes: [{ type: "streamable-http", url: c.publicUrl + "/mcp" }],
     _meta: { "io.github.stos-technologies/agentkoin": { tools: c.tools.map((t) => t.name), chainId: PUBLIC_CHAIN_ID, ...T, submitted: false } },

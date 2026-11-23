@@ -49,10 +49,10 @@ function checkFooter(f, { serviceId, verified }) {
   assert.equal(f.get_your_score_url, `${PUB}/v1/services`);
   assert.equal(f.how_to_route.llms_txt, `${PUB}/llms.txt`);
   assert.equal(f.how_to_route.mcp.url, `${PUB}/mcp`);
-  assert.ok(f.how_to_route.plugins.length >= 8 && f.how_to_route.plugins.every((p) => p.published === false && p.localPath && p.localPathBase === "https://github.com/stos-technologies/agentcoin" && !("install" in p)));
+  assert.ok(f.how_to_route.plugins.length >= 8 && f.how_to_route.plugins.every((p) => p.published === false && p.localPath && p.localPathBase === "https://github.com/agentkoin/agentkoin" && !("install" in p)));
   assert.doesNotMatch(JSON.stringify(f.how_to_route.plugins), /not publicly hosted/i);
   const urls = JSON.stringify(f).match(/https?:\/\/[^"]+/g);
-  const SRC = "https://github.com/stos-technologies/agentcoin";
+  const SRC = "https://github.com/agentkoin/agentkoin";
   assert.ok(urls.every((u) => u.startsWith(PUB + "/") || u === SRC), "every URL is on our service or the source repository");
   assert.doesNotMatch(JSON.stringify(f), /you should|guarantee|\bplease\b|\bmust\b|best|trusted by/i);
 }

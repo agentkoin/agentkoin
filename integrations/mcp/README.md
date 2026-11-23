@@ -83,4 +83,4 @@ MIT, Copyright (c) 2026 STOS Technologies LLC.
 
 ## Source
 
-https://github.com/stos-technologies/agentcoin
+https://github.com/agentkoin/agentkoin

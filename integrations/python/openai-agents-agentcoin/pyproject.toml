@@ -9,8 +9,8 @@ authors = [{ name = "STOS Technologies LLC" }]
 dependencies = ["agentkoin-core>=0.1.0,<0.2", "openai-agents>=0.2"]
 
 [project.urls]
-Homepage = "https://github.com/stos-technologies/agentcoin"
-Repository = "https://github.com/stos-technologies/agentcoin"
+Homepage = "https://github.com/agentkoin/agentkoin"
+Repository = "https://github.com/agentkoin/agentkoin"
 
 [build-system]
 requires = ["hatchling"]

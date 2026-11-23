@@ -86,8 +86,8 @@ export const SITE = {
   authCaptureEscrow: "0xf96815976523E00e65Be8f34cA5e64b4f41EB19c",
   erc3009Collector: "0x8612dfdc421f80336cd14E8EF9cb1E765dB5ab88",
   builderCode: "bc_ta422vae",
-  repository: "https://github.com/stos-technologies/agentcoin",
-  stripeDemo: "https://github.com/stos-technologies/agentcoin/tree/main/examples/stripe-x402-demo",
+  repository: "https://github.com/agentkoin/agentkoin",
+  stripeDemo: "https://github.com/agentkoin/agentkoin/tree/main/examples/stripe-x402-demo",
   npm: "https://www.npmjs.com/package/@agentkoin/x402-escrow-hint",
   pypi: "https://pypi.org/project/agentkoin-core/",
   contact: "hello@agentcoinhq.com",
@@ -326,7 +326,7 @@ export const footer = (version, { deploy = false } = {}) => `<footer class="site
 <dt>Network</dt><dd>Base Sepolia testnet, chain ID <code>84532</code>. Test USDC only, with no real-world value.</dd>
 <dt>Arbiter</dt><dd><code>AgentKoinAuthCaptureArbiterV03</code> <code>${SITE.arbiterV03}</code> (<a href="${SITE.arbiterV03Sourcify}">Sourcify verified</a>)</dd>
 <dt>Escrow</dt><dd>Base <code>AuthCaptureEscrow</code> <code>${SITE.authCaptureEscrow}</code>; <code>ERC3009PaymentCollector</code> <code>${SITE.erc3009Collector}</code></dd>
-<dt>License</dt><dd>MIT, open source · <a href="${SITE.repository}">GitHub: stos-technologies/agentcoin</a> · <a href="${SITE.stripeDemo}">Stripe x402 demo</a> · <a href="${SITE.npm}">npm: @agentkoin/x402-escrow-hint</a> · <a href="${SITE.pypi}">PyPI: agentkoin-core</a></dd>
+<dt>License</dt><dd>MIT, open source · <a href="${SITE.repository}">GitHub: agentkoin/agentkoin</a> · <a href="${SITE.stripeDemo}">Stripe x402 demo</a> · <a href="${SITE.npm}">npm: @agentkoin/x402-escrow-hint</a> · <a href="${SITE.pypi}">PyPI: agentkoin-core</a></dd>
 <dt>Base Builder Code</dt><dd><code>${SITE.builderCode}</code></dd>
 </dl></div>` : ""}
 <div class="legal">${TESTNET ? `<span>© 2026 STOS Technologies LLC · testnet service v${esc(version)}</span><span>Base Sepolia 84532 · test tokens have no monetary value · contracts unaudited</span>` : `<span>© 2026 STOS Technologies LLC · service v${esc(version)}</span><span>Base 8453 · Circle USDC (real value) · contracts unaudited, capped · <a href="/risks">risks</a></span>`}</div>

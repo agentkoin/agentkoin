@@ -28,9 +28,9 @@
   "publisher": "STOS Technologies LLC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/stos-technologies/agentcoin.git"
+    "url": "https://github.com/agentkoin/agentkoin.git"
   },
-  "homepage": "https://github.com/stos-technologies/agentcoin",
+  "homepage": "https://github.com/agentkoin/agentkoin",
   "publishConfig": {
     "access": "public"
   }

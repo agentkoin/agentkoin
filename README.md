@@ -189,5 +189,5 @@ AGENTCOIN_NETWORK=base-sepolia node scripts/verify-artifacts.mjs
   Every response is labelled `testnet: true, realValue: false`.
 - Protocol fee and evaluator fee are 0 (escrow config v2).
 - ERC-8004 agent **#10494** in the official Base Sepolia IdentityRegistry.
-- Hosted (testnet only) at https://agentcoin.143-244-167-51.sslip.io : one Docker container behind Caddy on a single small server; `docs/DEPLOY-TESTNET.md`. ERC-8004 agent #10494's agentURI points there.
+- Hosted (testnet only) at https://<retired-sslip-host> : one Docker container behind Caddy on a single small server; `docs/DEPLOY-TESTNET.md`. ERC-8004 agent #10494's agentURI points there.
 - `agent/doorknock/` is the outreach crawler and dry-run knocker. Nothing is sent (`KILL` file).

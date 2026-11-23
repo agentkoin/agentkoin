@@ -1,5 +1,5 @@
 {
-  "$schema": "https://agentcoinhq.com/schemas/trust-manifest-0.1.json",
+  "$schema": "https://testnet.agentcoinhq.com/schemas/trust-manifest-0.1.json",
   "v": "agentcoin-trust/0.1",
   "issuer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
   "agent": {
@@ -8,8 +8,8 @@
   },
   "chainId": 84532,
   "network": "eip155:84532",
-  "issuedAt": "2026-11-19T20:04:31.254Z",
-  "snapshotBlock": "60984007",
+  "issuedAt": "2026-11-23T18:55:29.654Z",
+  "snapshotBlock": "62691301",
   "contracts": {
     "escrow": {
       "address": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
@@ -104,7 +104,7 @@
       "openJobs": 0,
       "unbondingEndsAt": "0",
       "slashedTotal": "1000000",
-      "snapshotBlock": "60984007"
+      "snapshotBlock": "62691301"
     },
     {
       "address": "0x000f3e27EAf5d2C1A30F4fE50FF1bcC4A78f124A",
@@ -115,7 +115,7 @@
       "openJobs": 0,
       "unbondingEndsAt": "0",
       "slashedTotal": "0",
-      "snapshotBlock": "60984007"
+      "snapshotBlock": "62691301"
     },
     {
       "address": "0x1164586D557a45e5234ed882506E205b2C00C298",
@@ -126,7 +126,7 @@
       "openJobs": 0,
       "unbondingEndsAt": "0",
       "slashedTotal": "0",
-      "snapshotBlock": "60984007"
+      "snapshotBlock": "62691301"
     },
     {
       "address": "0xB87b0d6AD3B17A8a1795d6640317c7997140d140",
@@ -137,7 +137,7 @@
       "openJobs": 0,
       "unbondingEndsAt": "0",
       "slashedTotal": "200000",
-      "snapshotBlock": "60984007"
+      "snapshotBlock": "62691301"
     }
   ],
   "sla": {
@@ -162,7 +162,7 @@
       "type": "evaluator-stake",
       "subject": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
       "contract": "0x30576DE005df028D1947C56dEcc85a2a5612036a",
-      "blockNumber": "60984007",
+      "blockNumber": "62691301",
       "claim": {
         "stake": "3000000",
         "active": true,
@@ -173,8 +173,8 @@
         "canonicalization": "RFC8785",
         "digest": "keccak256",
         "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
-        "signedDigest": "0x98386777a2c72f1fc8c6d50a71fff05f41fd0232ef3ef9a275d95aa60a9f6352",
-        "value": "0xd011dcd496c376baa30e104624268bfe80a213c99e909d97e672ab69e02ac1382e0660046d36d20273f2ec458f725001133c2c1a62767b5c6d7b9eb7015032a21c"
+        "signedDigest": "0x5c5e31deba3e404a9df3c53399eeb8f25c12377e52e4838a6b275e53b3431cbe",
+        "value": "0x6d7ed261f5da97fb186199a278606ce1681d1a9e771103dd6ff5172bdcf6a520725516beb365e96454032f80f128dc89576c4cf1da30241d69eaf9bf2346433f1b"
       }
     },
     {
@@ -183,7 +183,7 @@
       "type": "evaluator-stake",
       "subject": "0x000f3e27EAf5d2C1A30F4fE50FF1bcC4A78f124A",
       "contract": "0x30576DE005df028D1947C56dEcc85a2a5612036a",
-      "blockNumber": "60984007",
+      "blockNumber": "62691301",
       "claim": {
         "stake": "2000000",
         "active": true,
@@ -194,8 +194,8 @@
         "canonicalization": "RFC8785",
         "digest": "keccak256",
         "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
-        "signedDigest": "0xbdfc8e0c164de510f718774cbe231e9d23c454683bec3308b37f8d1e4ce5b0a9",
-        "value": "0x7ffd800a76b57b68379fc6fc44ea1e748727b022c81ad52973c00d4c42c682aa49e47a1849ea801a296b3dbcee86455afcb77f74358f8efa0e8a55a26e0c8d7b1b"
+        "signedDigest": "0x772d720c3aa60ef24bf207212e8843e00de895c1061cfb3ef9f5b2897b5ecd48",
+        "value": "0xd4092e00ee778814e1d2449c5ec2f7445a1fcdb720fcb151e3f5148c0cd134c15fc3bf73046b3b1eb62661f5df6bb69ec814502025c097f8a577f884f972e3091c"
       }
     },
     {
@@ -204,7 +204,7 @@
       "type": "evaluator-stake",
       "subject": "0x1164586D557a45e5234ed882506E205b2C00C298",
       "contract": "0x30576DE005df028D1947C56dEcc85a2a5612036a",
-      "blockNumber": "60984007",
+      "blockNumber": "62691301",
       "claim": {
         "stake": "2000000",
         "active": true,
@@ -215,8 +215,8 @@
         "canonicalization": "RFC8785",
         "digest": "keccak256",
         "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
-        "signedDigest": "0x8d4c7e8a6a6dd5c7a8b11236e5b5f9e8df050c276dfb29e2d0cc1bc58e2e3c8d",
-        "value": "0x00e00e0fa4d381d89c42b4311ad2e9f23adb514458bb5a3aeca8f240f100010330636527363440fb54c32714e6d495323e0259325767abe6b490e3762fea69a01b"
+        "signedDigest": "0xc4ac2ca60263cb07075008d4e9840148afc910efb1f694ef1cf2bab8d79dd41d",
+        "value": "0xc82b5b1bfaa6dbf5503d87adb39eceec8f50555f65cdb47a5436b0e105ac03931d8e809c74216faff58e91c4b8c90a207629332d9bef466731dc31f6a37019351b"
       }
     },
     {
@@ -225,7 +225,7 @@
       "type": "evaluator-stake",
       "subject": "0xB87b0d6AD3B17A8a1795d6640317c7997140d140",
       "contract": "0x30576DE005df028D1947C56dEcc85a2a5612036a",
-      "blockNumber": "60984007",
+      "blockNumber": "62691301",
       "claim": {
         "stake": "1800000",
         "active": false,
@@ -236,8 +236,8 @@
         "canonicalization": "RFC8785",
         "digest": "keccak256",
         "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
-        "signedDigest": "0x4caaf9e807bff5afbcf5a3ad0b1d7e06898ec1e797e02e60f91fd640288023be",
-        "value": "0x0c1c9cb91e4d7de24184fb5435430f07265f01bebf31a5479196a25145ea6cf25f91ab704de9a413818328f54b8fbcb8a414b7d55bd03541e09602ee9f88afd61b"
+        "signedDigest": "0x406ad14e2dc86f759cde3c5bb25902024ac909d1e0e50e3789a3c46fbdded85e",
+        "value": "0x0e2c1a606ea825abdb1ce46534c4890eb1aaef64d19fcf353d66e522ef61ad7c19a9d44bbdb9982ac05fa4c1751538c586e7a7900669a05d190e52a5c72866941b"
       }
     },
     {
@@ -245,7 +245,7 @@
       "chainId": 84532,
       "type": "contract-code",
       "subject": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
-      "blockNumber": "60984007",
+      "blockNumber": "62691301",
       "claim": {
         "name": "escrow",
         "codeHash": "0x11bc5beacc8dca74745956ea8993ea5541cfe9533ae45ea0902fb755fe3641ee"
@@ -255,8 +255,8 @@
         "canonicalization": "RFC8785",
         "digest": "keccak256",
         "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
-        "signedDigest": "0x5d756f17cf5d80dce7b918e50f75525f8ee4f4f5a9fd02184b6136ac60f1cfdb",
-        "value": "0x4922e9fd169d30b4477bf614f5edf6937f91561d24f075281744c7f18b72cba74ae0eaff90d06e76f22d2c0e77e5f8306c7b9d255a1f644bfd4f0e52d6f690731b"
+        "signedDigest": "0xd2c69749a9ea221e64d3ec7e14e5a9a368f15f818fe784b42cc07ef8e5c94064",
+        "value": "0x32cfa0fc2539dfa38670ba467bb97095ff27dbe63e1c70cc06d958f683cc9d61723eba06d1bd2c48f55d9949ddd9c3ff0238aa2604763948f9ced1a637cae0261c"
       }
     },
     {
@@ -264,7 +264,7 @@
       "chainId": 84532,
       "type": "contract-code",
       "subject": "0x30576DE005df028D1947C56dEcc85a2a5612036a",
-      "blockNumber": "60984007",
+      "blockNumber": "62691301",
       "claim": {
         "name": "evaluatorRegistry",
         "codeHash": "0xc248c0e267e26f05aac6b885fd584c4813d7f55966fe9c3686809f212e565b8f"
@@ -274,8 +274,8 @@
         "canonicalization": "RFC8785",
         "digest": "keccak256",
         "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
-        "signedDigest": "0xff334aae38bbd0d5f5326cbf5f71d3d68a2a95057d3ad7b812082b8ebf67e157",
-        "value": "0xecbaee786c3ed3bdf094a0f2e5b21242b7b6829e5188c8ab0dcf30ab51e56d974cc34f259c9249f6c8d15dc6810684363f9c5e69309526126f422a270f5909381b"
+        "signedDigest": "0x80ad0e7a88f6866859b521bc135fd7d7b94369b8c44a199fbbbc3d545b609d06",
+        "value": "0xa6b1287c19b7a85e263abd9f22f9ffa62d115a231c99867376c8988a6d39d32e7b99dcd647e1a6a549306cebcf7c3a25656ca6f5b7062efad9ada8bbfc98afdf1b"
       }
     },
     {
@@ -283,7 +283,7 @@
       "chainId": 84532,
       "type": "contract-code",
       "subject": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
-      "blockNumber": "60984007",
+      "blockNumber": "62691301",
       "claim": {
         "name": "token",
         "codeHash": "0xedc5281a85c0efecd49999a1ef668390c59b88702f2d4a07029d7f5d63059d6c"
@@ -293,8 +293,8 @@
         "canonicalization": "RFC8785",
         "digest": "keccak256",
         "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
-        "signedDigest": "0x471a16e44846476f4186e78174cb4984f400859646dabaad5d0a40ad4a0b3e18",
-        "value": "0x367740d1defbd26904c7478f72001a74ceaa6e23cbe959377de504673874e20e22279e1179c68ed059009929674d127d090b82492ec45af69fd5a3ead5a04edd1c"
+        "signedDigest": "0xd6cb79154e585f5bd3a35534f8ffd3d9a5f83a1e1e87469a83fe06398c174243",
+        "value": "0x4883ed1f46e5c539d4b8840a5ace7a3f57da7630998780b3ae069d07fa7d3b2603020cc50cb79ff8d06bf12695491402938c268a1e1cf72a2422987117bb80a41b"
       }
     },
     {
@@ -302,7 +302,7 @@
       "chainId": 84532,
       "type": "contract-code",
       "subject": "0x8004A818BFB912233c491871b3d84c89A494BD9e",
-      "blockNumber": "60984007",
+      "blockNumber": "62691301",
       "claim": {
         "name": "identityRegistry",
         "codeHash": "0xd0e45b1d89fa9b6cc7e97c1f155d64180e5c232aaccf9900ef9d4fd738c02b41"
@@ -312,8 +312,8 @@
         "canonicalization": "RFC8785",
         "digest": "keccak256",
         "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
-        "signedDigest": "0x0be8e44a36ec80d73433e3c4573185797d2fa18159774741c0eaa4a159f3301b",
-        "value": "0xcb90f9ba1da034770c3030063bf3ed63132d0876cc567b10bf3a54f0c3a418ff37ff82ab1d133ed7755691327a9578d0b40b01001c064849166ee97b4d60d0971b"
+        "signedDigest": "0xa838fc0cd4c55578a194852d898e625e3f1f06647876372bc5e2bf30dacc94b9",
+        "value": "0x1d20814cb2daba7b707fd228525ad54a0cbafd1f4db3095989056c46ef96f2896a0fa28abd2f7d0a2936f90fb28a4d1558fb817a691cf9cbf06805b5b2497dca1c"
       }
     },
     {
@@ -321,7 +321,7 @@
       "chainId": 84532,
       "type": "contract-code",
       "subject": "0x27803F8DBDAd0D6B0E719d2AB2eB7A31b5c53509",
-      "blockNumber": "60984007",
+      "blockNumber": "62691301",
       "claim": {
         "name": "evaluatorAdapter",
         "codeHash": "0x02e928f2c75a55986909c6b473412182e2ed7c7b77d0c0abdd8af1fcb5568e80"
@@ -331,8 +331,8 @@
         "canonicalization": "RFC8785",
         "digest": "keccak256",
         "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
-        "signedDigest": "0x684aed6a23835ce9a148c6c7152070ffb5f97daa51a7012b326036a90f0fcca7",
-        "value": "0x513a5377c3cb0a319bbd4460bb5f2bbf7be3e4c58befef4c6377cbaf07ce2ae443b3b5eb2abb34e251149eedb57047d40e42e84e153876d9aea26f5cd353023f1c"
+        "signedDigest": "0x29047a579d1baa6143560dc9596241f931075ff8bd3c3c5e76f40deb133d8186",
+        "value": "0xda1a15316fa68ecd749766ca5cbc65f34b2757e7c875990785bc45978f1f4f1531aeee8c9fd82d0e98ac555caa44d7129ef7f9fd11cc77db15f5d8be711bb44e1c"
       }
     },
     {
@@ -340,7 +340,7 @@
       "chainId": 84532,
       "type": "contract-code",
       "subject": "0x32174eFD01e600E621Cf3f0D19Ff694483B19b95",
-      "blockNumber": "60984007",
+      "blockNumber": "62691301",
       "claim": {
         "name": "depositRouteFactory",
         "codeHash": "0xe9f11acdd45c84aa23d6625d5892f0a4f0abf7155eb99c65adacc083f6d7f1d8"
@@ -350,32 +350,32 @@
         "canonicalization": "RFC8785",
         "digest": "keccak256",
         "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
-        "signedDigest": "0x8207e3dc74529a7a7a9ce4d22b224fe64a006f92e693d5be51abf9044dd80f36",
-        "value": "0x4693fd67e4d8dc256ef72c075329630519066b47214b946ca33f1d66a3cb4d22060211470f3f9e0cfa7da9196d2126361eeeb40f138e1433a3ab45565db060091c"
+        "signedDigest": "0xe460b2e40fe0006ac463d687fa061b18c56ef8e1d8236b17c1642643d3780366",
+        "value": "0xefe19b6f0bc3e6eaf4c7bce16e34d5b5f87ebcd0be71df02e0c1f9849c135c6d7a2b376b1bc5b0702a704543812be57ffe06ae9f777caaa1a6f8c350e16356a51b"
       }
     }
   ],
   "testnet": true,
   "realValue": false,
   "endpoints": {
-    "agentRegistration": "https://agentcoinhq.com/.well-known/agent-registration.json",
-    "agentCard": "https://agentcoinhq.com/.well-known/agent-card.json",
-    "quote": "https://agentcoinhq.com/v1/quote",
-    "mcp": "https://agentcoinhq.com/mcp",
+    "agentRegistration": "https://testnet.agentcoinhq.com/.well-known/agent-registration.json",
+    "agentCard": "https://testnet.agentcoinhq.com/.well-known/agent-card.json",
+    "quote": "https://testnet.agentcoinhq.com/v1/quote",
+    "mcp": "https://testnet.agentcoinhq.com/mcp",
     "mcpStdio": "stdio:node agent/mcp/server.mjs",
-    "notarize": "https://agentcoinhq.com/v1/notarize",
-    "quickstart": "https://agentcoinhq.com/QUICKSTART-AGENTS.md",
-    "llms": "https://agentcoinhq.com/llms.txt",
-    "stats": "https://agentcoinhq.com/v1/stats",
-    "evaluators": "https://agentcoinhq.com/v1/evaluators",
-    "evaluatorOnboarding": "https://agentcoinhq.com/v1/evaluators/onboarding",
-    "evaluatorProfile": "https://agentcoinhq.com/v1/evaluators/profile",
-    "evaluatorCanary": "https://agentcoinhq.com/v1/evaluators/canary",
-    "repository": "https://github.com/stos-technologies/agentcoin"
+    "notarize": "https://testnet.agentcoinhq.com/v1/notarize",
+    "quickstart": "https://testnet.agentcoinhq.com/QUICKSTART-AGENTS.md",
+    "llms": "https://testnet.agentcoinhq.com/llms.txt",
+    "stats": "https://testnet.agentcoinhq.com/v1/stats",
+    "evaluators": "https://testnet.agentcoinhq.com/v1/evaluators",
+    "evaluatorOnboarding": "https://testnet.agentcoinhq.com/v1/evaluators/onboarding",
+    "evaluatorProfile": "https://testnet.agentcoinhq.com/v1/evaluators/profile",
+    "evaluatorCanary": "https://testnet.agentcoinhq.com/v1/evaluators/canary",
+    "repository": "https://github.com/agentkoin/agentkoin"
   },
   "limitations": [
     "Base Sepolia (testnet) (chainId 84532) TESTNET deployment only; no mainnet deployment; test USDC has no value",
-    "HTTP endpoints hosted at https://agentcoinhq.com (testnet service; may move or stop)",
+    "HTTP endpoints hosted at https://testnet.agentcoinhq.com (testnet service; may move or stop)",
     "single keeper (k=1, deployer)",
     "contracts unaudited",
     "escrow arbitrator: none: JobEscrow.arbitrator() is address(0); challenge() reverts NoArbitrator, so a verdict cannot be overturned and finalize(jobId) executes it after challengeWindow",
@@ -391,7 +391,7 @@
     "canonicalization": "RFC8785",
     "digest": "keccak256",
     "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
-    "signedDigest": "0x52424970b6eda01b9d6a1a65b101816f36b170831535120b76648fe7b3aa80f1",
-    "value": "0x0c588e026d094a9f6a76957f3d52ac1ec091d04ad9f5790148e8713d96926485323d7317aa01377ea73d1deb20585c830b9a89c283da78b348fce482631b854e1c"
+    "signedDigest": "0xbf39d9563bc3fbc344ce8f801f966306aa0652ef57f951238dac956bc47f8b52",
+    "value": "0x2e148e8156c974f591d6cfe432ccabcc8320a9cfee73d3498929a65e79efb143247128758d605a19c9e8f9c33c2c69372b9708b7b7c304ba2fc66138d500a5c01b"
   }
 }

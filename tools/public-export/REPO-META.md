@@ -1,12 +1,12 @@
 # Repository metadata
 
-The public client-libraries repository is https://github.com/stos-technologies/agentcoin
+The public client-libraries repository is https://github.com/agentkoin/agentkoin
 
 | field | value |
 |---|---|
 | name | `agentcoin` |
 | owner | `stos-technologies` |
-| url | https://github.com/stos-technologies/agentcoin |
+| url | https://github.com/agentkoin/agentkoin |
 | one-line description | Client libraries and framework plugins for AgentCoin (Base Sepolia testnet) |
 | visibility | public |
 | license | MIT |

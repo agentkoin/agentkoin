@@ -14,7 +14,7 @@ import { loadOptOutMatches, isOptedOut } from "../optout.mjs";
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const R = (...p) => path.join(HERE, "..", ...p);
 const DK = (...p) => path.join(HERE, "..", "..", "doorknock", "out", ...p);
-const SELF = new Set(["agentcoin.143-244-167-51.sslip.io"]);
+const SELF = new Set(["testnet.agentcoinhq.com"]);
 const PRIVATE = /^(localhost|127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|0\.0\.0\.0|\[)/;
 const okHost = (h) => h && !SELF.has(h) && !PRIVATE.test(h) && h.includes(".");
 

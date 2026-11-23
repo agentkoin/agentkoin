@@ -27,7 +27,7 @@
   "devDependencies": { "typescript": "^5.9.3", "@types/node": "^22.0.0" },
   "keywords": ["agentkoin", "evaluator", "erc-8183", "base-sepolia", "base", "mainnet"],
   "author": "STOS Technologies LLC",
-  "repository": { "type": "git", "url": "git+https://github.com/stos-technologies/agentcoin.git" },
-  "homepage": "https://github.com/stos-technologies/agentcoin",
+  "repository": { "type": "git", "url": "git+https://github.com/agentkoin/agentkoin.git" },
+  "homepage": "https://github.com/agentkoin/agentkoin",
   "publishConfig": { "access": "public" }
 }

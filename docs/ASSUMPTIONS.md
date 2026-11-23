@@ -593,15 +593,15 @@ called `register()`, which assigned **agentId 10494** (tx
 `setAgentURI(10494, data:application/json;base64,…)` (tx
 `0xf10423237ba35ad1a3681370e77189a67a5dd369359413badb595bb3279e3626`, 1,387,267 gas). `tokenURI` equals the signed
 registration (rc). After hosting, `sepolia-v04.mjs uri` repointed it to
-`https://agentcoin.143-244-167-51.sslip.io/.well-known/agent-registration.json` (see "Hosted" below).
+`https://<retired-sslip-host>/.well-known/agent-registration.json` (see "Hosted" below).
 
 **Hosted (v0.4.0-sepolia).** The rc was verified on 127.0.0.1 only because the build box cannot open tunnels. Carter
-then offered his own DigitalOcean droplet `ai-agents-01` (143.244.167.51, Ubuntu 24.04), which also runs his other
+then offered his own DigitalOcean droplet `ai-agents-01` (Ubuntu 24.04), which also runs his other
 services. Deployment details are in `docs/DEPLOY-TESTNET.md`. In short:
 - SSH as root with a pinned ED25519 host key (`SHA256:vMe0jS51mfuImzVLOYDm6Jwgwhkc3Q7rfioM96h5EiE`, matched).
 - Additive changes only: a new container `agentcoin-testnet` (host network, `127.0.0.1:8402`), a root-only 0600 env
   file `/etc/agentcoin/testnet.env` holding the four service keys (relayer, provider, evaluator, operator; not the
-  deployer), a state dir `/var/lib/agentcoin`, and one new Caddy site block for `agentcoin.143-244-167-51.sslip.io`.
+  deployer), a state dir `/var/lib/agentcoin`, and one new Caddy site block for the retired sslip hostname.
 - The firewall is unchanged (80/443 were already open). The Let's Encrypt cert was issued over tls-alpn-01.
 - Caddy there runs with `admin off`, so `caddy reload` (which needs the admin API) could not apply the change, and a
   restart was out of scope. The config was applied with `SIGUSR1`, which Caddy documents as a reload from the config
@@ -612,7 +612,7 @@ services. Deployment details are in `docs/DEPLOY-TESTNET.md`. In short:
   172.30.0.1:8768 (501, same 356-byte body), and the same TLS cert fingerprint. No rollback was needed.
 - Only one instance runs the verdict/finalize loop: the build-box copy was stopped before the container started.
 
-ERC-8004 repoint: `setAgentURI(10494, "https://agentcoin.143-244-167-51.sslip.io/.well-known/agent-registration.json")`, tx
+ERC-8004 repoint: `setAgentURI(10494, "https://<retired-sslip-host>/.well-known/agent-registration.json")`, tx
 `0xad7c150d095570514fc0175a8d77c1ba961382daacfe2c33aae6fcd2bddaf848` (266,589 gas). Afterwards `tokenURI(10494)`
 returns that URL, and the served registration, card and trust manifest equal the signed files in `agent/artifacts/base-sepolia/`.
 
@@ -635,7 +635,7 @@ Paid call through the public URL (job 6, payer = deployer, gasless for the payer
 | Listing | Status / path | Blocker |
 |---|---|---|
 | ERC-8004 | Done (#10494) | none |
-| A2A card | Served at `https://agentcoin.143-244-167-51.sslip.io/.well-known/agent-card.json` | none |
+| A2A card | Served at `https://<retired-sslip-host>/.well-known/agent-card.json` | none |
 | x402 Bazaar | Indexed automatically when a payment settles through the **CDP facilitator** with `paymentPayload.resource` set, after CDP's crawler gets a 402 from a public URL. Read APIs are public. | CDP API keys (CDP account) |
 | x402.org facilitator | Testnet, no auth | its Bazaar listing is not documented as CDP-indexed |
 | Official MCP Registry | `mcp-publisher` with GitHub auth (namespace `io.github.<user>/*`) or DNS/HTTP domain proof; remote URL must be public. Template: `deploy/mcp-server.json` (remote URL filled in) | Carter's GitHub or a domain |

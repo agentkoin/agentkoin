@@ -78,7 +78,7 @@ async function main() {
   for (const c of candidates) { const e = cache.get(c.host); if (e) c.reach.a2a = a2aReach(e.card); }
   const top25 = JSON.parse(readFileSync(path.join(HERE, "..", "out", "top25.approved.json"), "utf8")).top25;
   const excludeOps = new Set(top25.flatMap((t) => [t.channel?.url, t.url]).filter(Boolean).map((u) => { try { return operatorOf(new URL(u).host); } catch { return null; } }).filter(Boolean));
-  const base = process.env.AGENTCOIN_BASE_URL ?? "https://agentcoin.143-244-167-51.sslip.io";
+  const base = process.env.AGENTCOIN_BASE_URL ?? "https://testnet.agentcoinhq.com";
 
   // reachability counts (unique operators, original 25 excluded)
   const byOp = new Map();

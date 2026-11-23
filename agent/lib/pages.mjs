@@ -28,7 +28,7 @@ export function freeOffer({ baseUrl }) {
     request: {
       method: "manual",
       channel: "GitHub issue",
-      url: "https://github.com/stos-technologies/agentcoin/issues/2",
+      url: "https://github.com/agentkoin/agentkoin/issues/2",
       provide: "a Base Sepolia address",
       automated: false,
     },
@@ -41,7 +41,7 @@ export function freeOffer({ baseUrl }) {
     },
     accounting: "jobs paid from sponsored test USDC are labeled 'sponsored outside payer' on the trust page, separate from organic outside payers",
     afterFunding: {
-      quickstarts: "https://github.com/stos-technologies/agentcoin/tree/main/examples/quickstarts",
+      quickstarts: "https://github.com/agentkoin/agentkoin/tree/main/examples/quickstarts",
       service: baseUrl + "/",
       verifyJob: "npx @agentkoin/judge-kit@testnet verify <jobId>",
       trust: baseUrl + "/trust",
@@ -147,7 +147,7 @@ export function trustPageHtml(doc, { version, alt, page: pg = 1 }) {
 <tbody>${shown.map(trustRow).join("\n")}</tbody></table></div>
 ${pager}
 ${jobs.some((j) => j.badge) ? `<p class="tmeta" id="badge-note">Concordium registry badge (testnet): a Concordium testnet Agent Registry badge (token 1341) held by the evaluator. Owner account uses a testnet identity: shows a registered, accountable agent entry, not a verified human.</p>` : ""}
-<p class="tmeta">${doc?.generatedAt ? `Generated ${esc(doc.generatedAt)} from ${esc(base)} public proof endpoints. ` : ""}Machine-readable: <a href="/trust/jobs.json">/trust/jobs.json</a> (also GET /trust with Accept: application/json). Proof signer key: <a href="/.well-known/jwks.json">jwks.json</a>. Source: <a href="https://github.com/stos-technologies/agentcoin">github.com/stos-technologies/agentcoin</a>. STOS Technologies LLC.</p>
+<p class="tmeta">${doc?.generatedAt ? `Generated ${esc(doc.generatedAt)} from ${esc(base)} public proof endpoints. ` : ""}Machine-readable: <a href="/trust/jobs.json">/trust/jobs.json</a> (also GET /trust with Accept: application/json). Proof signer key: <a href="/.well-known/jwks.json">jwks.json</a>. Source: <a href="https://github.com/agentkoin/agentkoin">github.com/agentkoin/agentkoin</a>. STOS Technologies LLC.</p>
 </div>`;
   return page({ title: "AgentKoin trust page: every job, every proof (Base Sepolia testnet)", description: "Every AgentKoin escrow job with its signed proof, Concordium anchor and a one-line command to verify it yourself. Testnet only.", css: TRUST_CSS, headExtra: `<link rel="alternate" type="application/json" href="/trust/jobs.json">\n`, cur: "/trust", main, version, alt });
 }

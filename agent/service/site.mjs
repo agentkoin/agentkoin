@@ -202,7 +202,7 @@ ${lastSettled(live)}
 </ul>
 <h2>Contact and code</h2>
 <ul class="links">
-<li><a href="${esc(SITE.repository)}">GitHub: stos-technologies/agentcoin</a></li>
+<li><a href="${esc(SITE.repository)}">GitHub: agentkoin/agentkoin</a></li>
 <li><a href="mailto:${SITE.contact}">${SITE.contact}</a></li>
 <li><a href="/privacy">Privacy</a></li>
 <li><a href="/terms">Terms of use (draft)</a></li>

@@ -87,8 +87,8 @@ for f in python/*/pyproject.toml; do grep -q 'authors = \[{ name = "STOS Technol
 for f in mcp/snippets/*; do node -e 'const fs=require("fs");const f=process.argv[1];fs.writeFileSync(f,fs.readFileSync(f,"utf8").split("/ABSOLUTE/PATH/agentcoin/integrations/").join("/ABSOLUTE/PATH/agentcoin-public/"))' "$f"; done
 # Guard: forbidden patterns. Public export must not contain the droplet IP, sslip hostname, or private paths.
 hits=$(rg -n --hidden -g '!.git' -g '!.gitignore' -g '!node_modules' -g '!.venv' -g '!package-lock.json' \
-  -e 'PRIVATE KEY' -e 'BEGIN OPENSSH' -e 'ssh-(ed25519|rsa)' -e '143\.244\.167\.51' -e '\.secrets' -e '/etc/agentcoin' \
+  -e 'PRIVATE KEY' -e 'BEGIN OPENSSH' -e 'ssh-(ed25519|rsa)' -e '14[3]\.244\.167\.5[1]' -e '\.secrets' -e '/etc/agentcoin' \
   -e 'testnet\.env' -e 'droplet' -e 'ai-agents-01' -e 'mnemonic' -e 'integrations/' -e '(?i)polyform' --pcre2 . || true)
-other=$(rg -n --hidden -g '!.git' -g '!node_modules' -g '!.venv' -g '!package-lock.json' -e 'sslip' -e '143-244-167-51' . || true)
+other=$(rg -n --hidden -g '!.git' -g '!node_modules' -g '!.venv' -g '!package-lock.json' -e 'sslip' -e '143-244-1[6]7-51' . || true)
 if [ -n "$hits$other" ]; then echo "FORBIDDEN PATTERN HITS:"; echo "$hits"; echo "$other"; exit 4; fi
 echo "export ok: $DEST (not committed; review, then commit locally)"

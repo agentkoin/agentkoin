@@ -5,7 +5,7 @@
   "description": "Testnet-only USDC escrow with staked evaluators: quotes, unsigned job txs, job status, evaluator reputation, attestation verification.",
   "version": "0.4.0",
   "repository": {
-    "url": "https://github.com/stos-technologies/agentcoin",
+    "url": "https://github.com/agentkoin/agentkoin",
     "source": "github"
   },
   "remotes": [

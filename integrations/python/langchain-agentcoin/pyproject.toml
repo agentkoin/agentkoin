@@ -12,8 +12,8 @@ dependencies = ["agentkoin-core>=0.1.0,<0.2", "langchain-core>=0.3"]
 test = ["langgraph>=0.2"]
 
 [project.urls]
-Homepage = "https://github.com/stos-technologies/agentcoin"
-Repository = "https://github.com/stos-technologies/agentcoin"
+Homepage = "https://github.com/agentkoin/agentkoin"
+Repository = "https://github.com/agentkoin/agentkoin"
 
 [build-system]
 requires = ["hatchling"]

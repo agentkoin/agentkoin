@@ -20,7 +20,7 @@ import { payExact } from "../x402/pay-client.mjs";
 
 if (NETWORK !== "base-sepolia") throw new Error("AGENTCOIN_NETWORK=base-sepolia required");
 const phase = process.argv[2];
-const BASE = process.argv[3] ?? "https://agentcoin.143-244-167-51.sslip.io";
+const BASE = process.argv[3] ?? "https://testnet.agentcoinhq.com";
 const OUT = path.join(ROOT, "deployments", "base-sepolia-v05-e2e.json");
 const st = existsSync(OUT) ? JSON.parse(readFileSync(OUT, "utf8")) : { network: NETWORK, chainId: CHAIN_ID, base: BASE, runs: [] };
 const J = (o) => JSON.stringify(o, (_, v) => (typeof v === "bigint" ? v.toString() : v), 2) + "\n";

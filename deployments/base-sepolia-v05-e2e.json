@@ -1,7 +1,7 @@
 {
   "network": "base-sepolia",
   "chainId": 84532,
-  "base": "https://agentcoin.143-244-167-51.sslip.io",
+  "base": "https://testnet.agentcoinhq.com",
   "runs": [
     {
       "phase": "score",
@@ -179,7 +179,7 @@
           "settleTx": "0xae5c7d1c576208cad9f94f10bf5c438239727f64333c4192ef6dd2751b32a233",
           "submitTx": "0xcfe01cab7a560eaa07e882b2ea177311e9c29026768445ed7b4cf25296d3f4ec",
           "verify": "keccak256(RFC8785(receipt)) == JobEscrow.getJob(jobId).deliverableHash; receiptSignature is EIP-191 by the operator over RFC8785(receipt)",
-          "status": "https://agentcoin.143-244-167-51.sslip.io/v1/notarize/8",
+          "status": "https://testnet.agentcoinhq.com/v1/notarize/8",
           "testnet": true,
           "realValue": false
         }
@@ -217,7 +217,7 @@
           "claimed listings rank ahead of unclaimed ties",
           "escrow orders name the claimant as provider"
         ],
-        "listing": "https://agentcoin.143-244-167-51.sslip.io/v1/services/svc_68a738771a0c44b5",
+        "listing": "https://testnet.agentcoinhq.com/v1/services/svc_68a738771a0c44b5",
         "testnet": true,
         "realValue": false,
         "_ms": 160

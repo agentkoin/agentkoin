@@ -190,7 +190,7 @@
     "uri-1793413424069": {
       "done": true,
       "agentId": "10494",
-      "uri": "https://agentcoin.143-244-167-51.sslip.io/.well-known/agent-registration.json",
+      "uri": "https://testnet.agentcoinhq.com/.well-known/agent-registration.json",
       "setAgentURITx": "0xad7c150d095570514fc0175a8d77c1ba961382daacfe2c33aae6fcd2bddaf848"
     },
     "uri-1794447209812": {

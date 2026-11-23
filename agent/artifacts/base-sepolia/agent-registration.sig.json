@@ -5,7 +5,7 @@
     "canonicalization": "RFC8785",
     "digest": "keccak256",
     "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
-    "signedDigest": "0xc2ec3816a977138cdcbc8d613b94fa0f93bfb720e262bb21097017b4dc41ad39",
-    "value": "0xfc92cc1d1c97555def265df7c329d33c99394aad3f4a75c8f10d85bdcf42786d24efc2a545897da7e13092ca7a2188dacbce80e3c981846dae8cf2a1a350cd171c"
+    "signedDigest": "0x845d60ad19347f480409fd143c315b0e81377a146eaeb6f405bb2dfdcd55d657",
+    "value": "0xc3ff9964ca4c7258dff9cec20377af5eb1944a9c80c2ec4c1e3fcd1065cc364a005d4ff0316fc0bee7a28f01f9643902bb419bec407e9743a119c59c500d12ee1b"
   }
 }

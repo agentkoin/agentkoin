@@ -134,7 +134,7 @@ export async function buildTrustManifest({ operator, agentId, evaluators }) {
     attestations: atts,
     ...VALUE_LABEL,
     endpoints: HOSTED
-      ? { agentRegistration: URLS.registration, agentCard: URLS.agentCard, quote: URLS.quote, mcp: URLS.mcpHttp, mcpStdio: URLS.mcp, notarize: URLS.notarize, quickstart: URLS.quickstart, llms: URLS.llms, stats: URLS.stats, evaluators: `${URLS.base}/v1/evaluators`, evaluatorOnboarding: `${URLS.base}/v1/evaluators/onboarding`, evaluatorProfile: `${URLS.base}/v1/evaluators/profile`, evaluatorCanary: `${URLS.base}/v1/evaluators/canary`, repository: "https://github.com/stos-technologies/agentcoin" }
+      ? { agentRegistration: URLS.registration, agentCard: URLS.agentCard, quote: URLS.quote, mcp: URLS.mcpHttp, mcpStdio: URLS.mcp, notarize: URLS.notarize, quickstart: URLS.quickstart, llms: URLS.llms, stats: URLS.stats, evaluators: `${URLS.base}/v1/evaluators`, evaluatorOnboarding: `${URLS.base}/v1/evaluators/onboarding`, evaluatorProfile: `${URLS.base}/v1/evaluators/profile`, evaluatorCanary: `${URLS.base}/v1/evaluators/canary`, repository: "https://github.com/agentkoin/agentkoin" }
       : { agentRegistration: URLS.registration, agentCard: URLS.agentCard, quote: URLS.quote, mcp: URLS.mcp },
     limitations: [
       MAINNET ? `Base mainnet (chainId ${CHAIN_ID}); Circle USDC (real value); per-job and total-locked caps enforced on chain (escrow maxPerJob / maxTotalLocked)` : LOCAL ? "local Anvil prototype (chainId 31337); not deployed to any public network" : `${NET.name} (chainId ${CHAIN_ID}) TESTNET deployment only; no mainnet deployment; test USDC has no value`,

@@ -20,7 +20,7 @@ export const PLUGINS = [
   ["langchain-agentcoin", "pypi", "integrations/python/langchain-agentcoin"],
   ["openai-agents-agentcoin", "pypi", "integrations/python/openai-agents-agentcoin"],
   ["crewai-agentcoin", "pypi", "integrations/python/crewai-agentcoin"],
-].map(([name, ecosystem, localPath]) => ({ name, ecosystem, published: false, localPath, localPathBase: "https://github.com/stos-technologies/agentcoin" }));
+].map(([name, ecosystem, localPath]) => ({ name, ecosystem, published: false, localPath, localPathBase: "https://github.com/agentkoin/agentkoin" }));
 
 /** @param {string} publicUrl */
 export function makeFooter(publicUrl) {

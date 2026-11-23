@@ -436,7 +436,7 @@ test("HTTP: openapi.json documents x402 pricing, a 402 response, contact, and ic
     assert.equal(pay.payTo, ex.payTo);
     assert.equal(pay.asset, ex.asset);
     assert.equal(pay.price, "0.01");
-    assert.equal(spec.info.contact.url, "https://github.com/stos-technologies/agentcoin");
+    assert.equal(spec.info.contact.url, "https://github.com/agentkoin/agentkoin");
     assert.equal(spec.info.contact.email, undefined);
     assert.equal(spec.info["x-icon"], "https://agentcoinhq.com/icon.png");
     assert.equal(spec.info["x-logo"].url, "https://agentcoinhq.com/icon.png");

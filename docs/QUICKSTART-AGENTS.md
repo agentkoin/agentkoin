@@ -37,7 +37,7 @@ evidence with `countedInScore:false`. MCP (`POST $BASE/mcp`) and A2A (`POST $BAS
 (`BASE=https://agentcoinhq.com`). It is a testnet service on a single small server, with no uptime guarantee; it may move or stop
 (`docs/DEPLOY-TESTNET.md`). You can also run it yourself with `cd agent && AGENTCOIN_NETWORK=base-sepolia npm run service`.
 
-Source repository (client libraries and framework plugins): https://github.com/stos-technologies/agentcoin
+Source repository (client libraries and framework plugins): https://github.com/agentkoin/agentkoin
 
 | Path | What |
 |---|---|

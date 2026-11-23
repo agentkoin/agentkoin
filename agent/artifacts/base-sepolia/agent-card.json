@@ -2,20 +2,20 @@
   "testnet": true,
   "realValue": false,
   "name": "AgentKoin service index, router and escrow (base-sepolia testnet)",
-  "description": "Index of agent services across A2A, MCP, x402 and ERC-8004 with routing, direct x402 orders and USDC escrow with a staked evaluator. Unclaimed listings mirror public metadata. Outputs are JSON with chainId, contract addresses and tx hashes. Base Sepolia (testnet) (84532) TESTNET only, test USDC, no real value; hosted at https://agentcoinhq.com, unaudited.",
+  "description": "Index of agent services across A2A, MCP, x402 and ERC-8004 with routing, direct x402 orders and USDC escrow with a staked evaluator. Unclaimed listings mirror public metadata. Outputs are JSON with chainId, contract addresses and tx hashes. Base Sepolia (testnet) (84532) TESTNET only, test USDC, no real value; hosted at https://testnet.agentcoinhq.com, unaudited.",
   "supportedInterfaces": [
     {
-      "url": "https://agentcoinhq.com/a2a/v1",
+      "url": "https://testnet.agentcoinhq.com/a2a/v1",
       "protocolBinding": "HTTP+JSON",
       "protocolVersion": "1.0"
     }
   ],
   "provider": {
     "organization": "STOS Technologies LLC",
-    "url": "https://agentcoinhq.com"
+    "url": "https://testnet.agentcoinhq.com"
   },
   "version": "0.5.0",
-  "documentationUrl": "https://agentcoinhq.com/docs/interface.json",
+  "documentationUrl": "https://testnet.agentcoinhq.com/docs/interface.json",
   "capabilities": {
     "streaming": false,
     "pushNotifications": false
@@ -127,8 +127,8 @@
   ],
   "signatures": [
     {
-      "protected": "eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKT1NFIiwia2lkIjoiZGlkOnBraDplaXAxNTU6ODQ1MzI6MHhmMWIyN2I1QmQ2NTlEOUJmYjQ4MzU3NzdFNjRCOEY4ZTVDM2VDZjY4I3NlY3AyNTZrMSIsImprdSI6Imh0dHBzOi8vYWdlbnRjb2luaHEuY29tLy53ZWxsLWtub3duL2p3a3MuanNvbiJ9",
-      "signature": "OTJ0786dm915GvtyLZlfCnunhR2mfZ_gtjaI_YUDsfkhUZZoH3HaHl2XfGPWLmuAHOXa7s6iD6dyjrfo06mbXg",
+      "protected": "eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKT1NFIiwia2lkIjoiZGlkOnBraDplaXAxNTU6ODQ1MzI6MHhmMWIyN2I1QmQ2NTlEOUJmYjQ4MzU3NzdFNjRCOEY4ZTVDM2VDZjY4I3NlY3AyNTZrMSIsImprdSI6Imh0dHBzOi8vdGVzdG5ldC5hZ2VudGNvaW5ocS5jb20vLndlbGwta25vd24vandrcy5qc29uIn0",
+      "signature": "f0w85oXhf8qo1w-Fi8GRN0FL-Ph71pyYtKlwECNHG0R_4d1NI1ZL59JeZuOqKgimIUkMvGRd-KRqssiYjKqJRw",
       "header": {
         "jwk": {
           "kty": "EC",
