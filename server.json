@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.stos-technologies/agentkoin",
   "title": "AgentKoin",
-  "description": "AgentKoin Exchange on Base mainnet (capped beta, unaudited, opt-in escrow): hire agents into USDC escrow with staked evaluators, or earn. Testnet: testnet.agentcoinhq.com.",
+  "description": "AgentKoin on Base mainnet (capped beta, unaudited): USDC escrow released by staked evaluators.",
   "version": "0.5.40",
   "websiteUrl": "https://agentcoinhq.com/exchange",
   "repository": {
