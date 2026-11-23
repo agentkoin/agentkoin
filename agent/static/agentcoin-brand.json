@@ -1,0 +1,112 @@
+{
+  "v": "agentcoin-brand/v1",
+  "vAlias": "agentkoin-brand/v1",
+  "status": "draft; served by the AgentKoin testnet service at https://agentcoinhq.com/.well-known/agentcoin-brand.json, alias https://agentcoinhq.com/.well-known/agentkoin-brand.json, not published elsewhere",
+  "name": "AgentKoin",
+  "ticker": "AGK",
+  "formerly": "AgentCoin",
+  "namePlaceholder": false,
+  "owner": "STOS Technologies LLC",
+  "mark": {
+    "text": "[#]",
+    "unicode": "[■]",
+    "alt": "AgentKoin mark: two heavy corner brackets, top-left and bottom-right, whose ends angle inward to grip a solid square at the center. The square is the payment; the brackets are the escrow holding it until a verdict.",
+    "description": "Geometry on a 256 grid: two L-brackets 32 units thick with 96-unit arms, outer corner radius 10, arm ends cut 18 units inward; centered 68-unit square, corner radius 3. Colors: brackets ink or paper, square accent.",
+    "svg": "https://agentcoinhq.com/brand/symbol.svg",
+    "svgMono": "https://agentcoinhq.com/brand/symbol-mono.svg"
+  },
+  "icons": [
+    {
+      "src": "https://agentcoinhq.com/brand/symbol.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "theme": "light"
+    },
+    {
+      "src": "https://agentcoinhq.com/brand/symbol-on-dark.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "theme": "dark"
+    },
+    {
+      "src": "https://agentcoinhq.com/brand/token-icon-256.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "256x256"
+      ]
+    },
+    {
+      "src": "https://agentcoinhq.com/favicon.ico",
+      "mimeType": "image/x-icon",
+      "sizes": [
+        "16x16",
+        "32x32",
+        "48x48"
+      ]
+    },
+    {
+      "src": "https://agentcoinhq.com/icon-512.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "512x512"
+      ]
+    },
+    {
+      "src": "https://agentcoinhq.com/apple-touch-icon.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "180x180"
+      ]
+    }
+  ],
+  "states": {
+    "held": {
+      "text": "[#]",
+      "meaning": "Payment held in escrow, awaiting verdict.",
+      "svg": "https://agentcoinhq.com/brand/states/state-held.svg"
+    },
+    "released": {
+      "text": "[ ]#",
+      "meaning": "Verdict Complete: payment released to the provider.",
+      "svg": "https://agentcoinhq.com/brand/states/state-released.svg"
+    },
+    "refunded": {
+      "text": "#[ ]",
+      "meaning": "Verdict Reject or expiry: payment refunded to the buyer.",
+      "svg": "https://agentcoinhq.com/brand/states/state-refunded.svg"
+    },
+    "partial": {
+      "text": "#[ ]#",
+      "meaning": "Verdict Partial: payout split between provider and buyer.",
+      "svg": "https://agentcoinhq.com/brand/states/state-partial.svg"
+    }
+  },
+  "colors": {
+    "ink": "#0E0F11",
+    "paper": "#F4F2EC",
+    "accent": "#FF5A1F"
+  },
+  "typography": {
+    "wordmark": "Geist SemiBold (SIL OFL 1.1), outlined",
+    "mono": "Geist Mono (SIL OFL 1.1)"
+  },
+  "usage": [
+    "Accent is only ever the held square; brackets are ink or paper.",
+    "No gradients, gold, shadows or outlines on the mark.",
+    "Minimum size 16 px (use favicon-16 pixel redraw); clear space = one square width on all sides."
+  ],
+  "lockup": {
+    "light": "https://agentcoinhq.com/brand/lockup/agentkoin-lockup-horizontal-light.svg",
+    "dark": "https://agentcoinhq.com/brand/lockup/agentkoin-lockup-horizontal-dark.svg",
+    "mono": "https://agentcoinhq.com/brand/lockup/agentkoin-lockup-horizontal-mono.svg"
+  },
+  "lockupLegacy": {
+    "light": "https://agentcoinhq.com/brand/lockup/lockup-horizontal-light.svg",
+    "dark": "https://agentcoinhq.com/brand/lockup/lockup-horizontal-dark.svg",
+    "mono": "https://agentcoinhq.com/brand/lockup/lockup-horizontal-mono.svg"
+  }
+}

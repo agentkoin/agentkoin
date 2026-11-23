@@ -1,0 +1,556 @@
+{
+  "network": "base-sepolia",
+  "chainId": 84532,
+  "fork": false,
+  "txs": [
+    {
+      "phase": "fund",
+      "label": "ETH deployer->provider (gas)",
+      "hash": "0xf671e2e7c3bf47cb4b17e2767b686bbb01a300eaaa97dc0f11dc39a9600dd422",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "block": "52040402",
+      "gasUsed": "21000",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1479",
+      "value": "30000000000000"
+    },
+    {
+      "phase": "fund",
+      "label": "ETH deployer->evaluator (gas)",
+      "hash": "0xb02f350edff0d074a107227180f51fbe273abfffbf51aaf8562c15df580c1f3e",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "block": "52040406",
+      "gasUsed": "21000",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1479",
+      "value": "20000000000000"
+    },
+    {
+      "phase": "fund",
+      "label": "USDC deployer->evaluator 2 (extra stake)",
+      "hash": "0x5b978cdbed7d55f65f3e8fa15d5d6aa9ad0c4e31471f8127d4c589d21e010074",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "block": "52040411",
+      "gasUsed": "45059",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1479"
+    },
+    {
+      "phase": "fund",
+      "label": "USDC evaluator approve registry 2",
+      "hash": "0x67c24a155c5b423df410d4b222173e51fbfcc79acc08d4eca7bb328f120be40d",
+      "from": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+      "block": "52040416",
+      "gasUsed": "55437",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1479"
+    },
+    {
+      "phase": "fund",
+      "label": "EvaluatorRegistry.stake(2) by evaluator",
+      "hash": "0x834adf1a7ee89fc251df98e214987d2b4433264ac5a9290e36e90d15f1c78637",
+      "from": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+      "block": "52040422",
+      "gasUsed": "62716",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1479"
+    },
+    {
+      "phase": "fund",
+      "label": "USDC deployer->provider 1 (challenge bond)",
+      "hash": "0x533029157b84eb0cb35f20ef48d7df99c7d85280affb89c418050e9c318de8ca",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "block": "52040428",
+      "gasUsed": "45059",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1479"
+    },
+    {
+      "phase": "dispute",
+      "label": "USDC client approve escrow 1",
+      "hash": "0xbd9af237f92504bc87642cd6f9aaec8acc394ffe41cceca1ac0acac6dda9be27",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "block": "52040442",
+      "gasUsed": "55437",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1479"
+    },
+    {
+      "phase": "dispute",
+      "label": "JobEscrow.createAndFund (dispute job)",
+      "hash": "0x2c9d844000bb9276cdf05f6c1de1555670bde5dc78e822c5d03858979193e116",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "block": "52040448",
+      "gasUsed": "301538",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "2105"
+    },
+    {
+      "phase": "dispute",
+      "label": "JobEscrow.submit",
+      "hash": "0xf6f644a044be648aeeae7327451c6b1ea397b0ac14e58d21dbf349f82171cefa",
+      "from": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+      "block": "52040453",
+      "gasUsed": "70540",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1479"
+    },
+    {
+      "phase": "dispute",
+      "label": "JobEscrow.verdict Reject 0",
+      "hash": "0x886b1ac8d7ecc1d22dd5d6d56a0fe7439a450e8bcf6b84591339078d4381681f",
+      "from": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+      "block": "52040457",
+      "gasUsed": "63506",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1420"
+    },
+    {
+      "phase": "dispute",
+      "label": "USDC provider approve escrow (bond+arb)",
+      "hash": "0x084a627188d2e32c9d1749d344c34239aadff0b96b1ec942eb38203d47009481",
+      "from": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+      "block": "52040462",
+      "gasUsed": "55437",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1413"
+    },
+    {
+      "phase": "dispute",
+      "label": "JobEscrow.challenge by provider",
+      "hash": "0x0933e360c9528905605d6c6acce7176d2fb61cc517c4ce4531601faaefbf5b47",
+      "from": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+      "block": "52040467",
+      "gasUsed": "336834",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1413"
+    },
+    {
+      "phase": "dispute",
+      "label": "MockArbitrator.giveRuling(disputeId, 10000)",
+      "hash": "0xf1bdceec23fe2d4f93b73e8a285c95972166d10fc5f83fbe53d43304b74b0617",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "block": "52040475",
+      "gasUsed": "245459",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1413"
+    },
+    {
+      "phase": "route",
+      "label": "EscrowDepositRouteFactory.deploy(offer)",
+      "hash": "0x0362a12cf5a20946fa708265db8f6391606472578c4e1a521e372d5c51e7a867",
+      "from": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+      "block": "52040489",
+      "gasUsed": "1182151",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1988"
+    },
+    {
+      "phase": "x402",
+      "label": "x402 settle: EscrowDepositRouteFactory.settle (EIP-3009 transferWithAuthorization + createAndFundFor)",
+      "hash": "0x23cbc6ccc24143a4d5bbdb872d96c56a51332fa4e46a1ef970648ca5ceedc2e2",
+      "from": "0x745528c4e0cbda5759175a660da06d0aaa72db7f",
+      "block": "52040511",
+      "gasUsed": "397151",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "3998"
+    },
+    {
+      "phase": "x402",
+      "label": "x402 provider JobEscrow.submit",
+      "hash": "0x2ab9d8648a111fc0e69391ef91bb9fe10b7d4c44e4b13ea3fa289167f44bab1f",
+      "from": "0x745528c4e0cbda5759175a660da06d0aaa72db7f",
+      "block": "52040515",
+      "gasUsed": "70540",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1413"
+    },
+    {
+      "phase": "x402",
+      "label": "JobEscrow.verdict Complete 10000 (x402 job)",
+      "hash": "0x87c436792ad6c9bfe5780df0aabdf81d2f151497af350cd1208f8cec1c3a5c1e",
+      "from": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+      "block": "52040523",
+      "gasUsed": "63508",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1511"
+    },
+    {
+      "phase": "adapter",
+      "label": "deploy MockERC8183Kernel (MOCK, test only)",
+      "hash": "0xe324018556c939a94603a7880338b1ff47fab05101f435ba0f2283015169f3b1",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "block": "52040534",
+      "gasUsed": "1504138",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "55446"
+    },
+    {
+      "phase": "adapter",
+      "label": "ERC8183EvaluatorAdapter.setConfig (testnet-short windows)",
+      "hash": "0xcffcbd88bf90cbc76305ed1d35ca49179e5e249c1a75fd7e6f278b2788877db6",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "block": "52040539",
+      "gasUsed": "103125",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1672"
+    },
+    {
+      "phase": "adapter",
+      "label": "Kernel.createJob (evaluator = adapter)",
+      "hash": "0xc9bb59de987fecdd77c9d8684ea84d5a2137ab1ba5592ea323b02960e3e518ee",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "block": "52040546",
+      "gasUsed": "212053",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "2192"
+    },
+    {
+      "phase": "adapter",
+      "label": "Kernel.setBudget 1",
+      "hash": "0x955354c2fee158ae661f7227c6095e0d2f394455e367e54fcd2fff31f5f454ed",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "block": "52040551",
+      "gasUsed": "54628",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1479"
+    },
+    {
+      "phase": "adapter",
+      "label": "USDC client approve kernel 1",
+      "hash": "0x2e180a782c255b871aee73155c49f414ec079311db32e06089984b0327672325",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "block": "52040557",
+      "gasUsed": "55437",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1479"
+    },
+    {
+      "phase": "adapter",
+      "label": "Kernel.fund",
+      "hash": "0x5cc7f8a7923b727d794a2d5bb3b9f925c9685a16fb858bf9b773bba699e156b9",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "block": "52040563",
+      "gasUsed": "104751",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1479"
+    },
+    {
+      "phase": "adapter",
+      "label": "Adapter.assign(kernel, job, evaluator)",
+      "hash": "0x7f31cb1b2dfa37fd6c3413d9a0dd819e9a42f08eef67f2ac184bfdffad521b79",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "block": "52040568",
+      "gasUsed": "247634",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1560"
+    },
+    {
+      "phase": "adapter",
+      "label": "Adapter.acceptAssignment (evaluator)",
+      "hash": "0x57091a1ad949d70317a190f03092de4430cfd487c4203495084c4eadbc0167f4",
+      "from": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+      "block": "52040573",
+      "gasUsed": "114661",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1479"
+    },
+    {
+      "phase": "adapter",
+      "label": "Kernel.submit (provider)",
+      "hash": "0x3161d41228cd394aa9f2325c622e82e639e43801dac71f005e7901d51034b634",
+      "from": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+      "block": "52040579",
+      "gasUsed": "36451",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1545"
+    },
+    {
+      "phase": "adapter",
+      "label": "Adapter.verdict 10000 (evaluator)",
+      "hash": "0x2c4c499b2b4efad9fd4d8c78462a8c9d40724fdd6aed150d2d22bbc200a9b4c4",
+      "from": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+      "block": "52040585",
+      "gasUsed": "114370",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1545"
+    },
+    {
+      "phase": "finalize",
+      "label": "JobEscrow.finalize (x402 job)",
+      "hash": "0x52e3cdd1129564cdaa671d07c8771519c30577255d0e17b434483c3d39dee77d",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "block": "52043834",
+      "gasUsed": "114346",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1280"
+    },
+    {
+      "phase": "finalize",
+      "label": "Adapter.finalize (-> kernel.complete)",
+      "hash": "0x1aa5b121166aec7a6d9ee90de84e68e13eb6514edafcd0f114706654d5e00f71",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "block": "52043841",
+      "gasUsed": "146162",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1280"
+    }
+  ],
+  "phases": {
+    "fund": {
+      "done": true,
+      "evaluatorStake": "4000000"
+    },
+    "dispute": {
+      "done": true,
+      "jobId": "3",
+      "disputeId": "1",
+      "amount": "1000000",
+      "challengeBond": "1000000",
+      "arbitrationFee": "500000",
+      "state": 8,
+      "payoutBps": 10000,
+      "evaluatorStakeBefore": "4000000",
+      "evaluatorStakeAfter": "3000000",
+      "usdcDeltaFromStart": {
+        "deployer": "-0.740000",
+        "provider": "1.240000",
+        "evaluator": "0.000000",
+        "mockArbitrator": "0.500000",
+        "escrow": "0.000000"
+      },
+      "usdcDeltaAtRuling": {
+        "deployer": "0.260000",
+        "provider": "2.740000",
+        "evaluator": "0.000000",
+        "mockArbitrator": "0.500000",
+        "escrow": "-2.500000"
+      },
+      "rulingEvents": [
+        {
+          "event": "Ruled",
+          "args": {
+            "jobId": "3",
+            "arbitrator": "0x3C4587eD99B1969581cA4f041FD9535a0D269736",
+            "verdictPayoutBps": 0,
+            "rulingPayoutBps": 10000,
+            "overturned": true
+          }
+        },
+        {
+          "event": "Reimbursed",
+          "args": {
+            "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+            "jobId": "3",
+            "to": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+            "amount": "500000",
+            "slasher": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D"
+          }
+        },
+        {
+          "event": "ArbitrationFeeReimbursed",
+          "args": {
+            "jobId": "3",
+            "challenger": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+            "from": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+            "amount": "500000"
+          }
+        },
+        {
+          "event": "Slashed",
+          "args": {
+            "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+            "jobId": "3",
+            "reason": 2,
+            "amount": "500000",
+            "harmedParty": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+            "toHarmedParty": "250000",
+            "toTreasury": "250000",
+            "slasher": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D"
+          }
+        },
+        {
+          "event": "Slashed",
+          "args": {
+            "jobId": "3",
+            "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+            "reason": 2,
+            "amount": "500000"
+          }
+        },
+        {
+          "event": "ChallengeBondDistributed",
+          "args": {
+            "jobId": "3",
+            "challenger": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+            "toChallenger": "1000000",
+            "toCounterparty": "0",
+            "toTreasury": "0"
+          }
+        },
+        {
+          "event": "PaymentReleased",
+          "args": {
+            "jobId": "3",
+            "provider": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+            "net": "990000",
+            "fee": "10000"
+          }
+        },
+        {
+          "event": "ArbitrationFeePaid",
+          "args": {
+            "jobId": "3",
+            "challenger": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+            "arbitrator": "0x3C4587eD99B1969581cA4f041FD9535a0D269736",
+            "fee": "500000"
+          }
+        },
+        {
+          "event": "ExposureReleased",
+          "args": {
+            "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+            "jobId": "3",
+            "amount": "1000000",
+            "totalExposure": "0"
+          }
+        },
+        {
+          "event": "Settled",
+          "args": {
+            "jobId": "3",
+            "payoutBps": 10000
+          }
+        }
+      ]
+    },
+    "route": {
+      "done": true,
+      "route": "0xaf9AE89AdA6f06645166b1aa20845c4e054a4Ffa",
+      "predicted": "0xaf9AE89AdA6f06645166b1aa20845c4e054a4Ffa",
+      "offer": {
+        "provider": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+        "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "amount": "1000000",
+        "deadlineSeconds": "3600",
+        "specHash": "0x40d7d0bdc27b24c4fad9a08f9d49074a051e3f30db87cbab807dc75ff8c6d7a8"
+      },
+      "sweepTo": "0xac3bFF013bABD1F8B671b4838Cd54aA98bd3B460",
+      "block": "52040489"
+    },
+    "x402": {
+      "done": true,
+      "jobId": "4",
+      "payer": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "client": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "resource": {
+        "resource": "agentcoin-demo",
+        "jobId": "4",
+        "payload": {
+          "n": 4,
+          "servedAt": "2026-10-30T03:12:51.441Z"
+        },
+        "deliverableHash": "0x9705bd2d78116238d889ebb7dc1bb6d235cc0c056b205d4dd8e64201dd4960a7"
+      },
+      "paymentResponse": {
+        "success": true,
+        "transaction": "0x23cbc6ccc24143a4d5bbdb872d96c56a51332fa4e46a1ef970648ca5ceedc2e2",
+        "network": "eip155:84532",
+        "payer": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "amount": "1000000",
+        "extensions": {
+          "agentcoin": {
+            "scheme": "exact",
+            "jobId": "4",
+            "escrowContract": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+            "submitTx": "0x2ab9d8648a111fc0e69391ef91bb9fe10b7d4c44e4b13ea3fa289167f44bab1f",
+            "deliverableHash": "0x9705bd2d78116238d889ebb7dc1bb6d235cc0c056b205d4dd8e64201dd4960a7",
+            "note": "funds held in escrow until evaluator verdict + challenge window"
+          }
+        }
+      },
+      "usdcDeltaAtSettle": {
+        "deployer": "-1.000000",
+        "provider": "0.000000",
+        "evaluator": "0.000000",
+        "route": "0.000000",
+        "escrow": "1.000000"
+      },
+      "verdictAt": "1793329973",
+      "finalizableAfter": "1793330573"
+    },
+    "adapterKernel": {
+      "address": "0x79c40413556ab795f9d64d745b7c591e4a888e64",
+      "deployTx": "0xe324018556c939a94603a7880338b1ff47fab05101f435ba0f2283015169f3b1",
+      "block": "52040534",
+      "gasUsed": "1504138",
+      "constructorArgs": {
+        "token": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "treasury": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "platformFeeBP": 100,
+        "evaluatorFeeBP": 50
+      }
+    },
+    "adapter": {
+      "done": true,
+      "kernel": "0x79c40413556ab795f9d64d745b7c591e4a888e64",
+      "kernelJobId": "1",
+      "adapterJobId": "1",
+      "configVersion": 2,
+      "config": {
+        "evalWindow": "3600",
+        "challengeWindow": "600",
+        "arbitrationTimeout": "3600",
+        "expiryMargin": "600",
+        "minChallengeBond": "1000000",
+        "challengeBondBps": 500,
+        "missedVerdictSlashBps": 1000,
+        "wrongVerdictSlashBps": 2500,
+        "failedChallengeEvaluatorShareBps": 5000,
+        "completeThresholdBps": 5000
+      },
+      "requiredExpiryDuration": "8400",
+      "expiredAt": "1793339276",
+      "verdictAt": "1793329985",
+      "finalizableAfter": "1793330585",
+      "usdcBefore": {
+        "deployer": "12270000",
+        "provider": "3225000",
+        "evaluator": "5000",
+        "kernel": "0"
+      }
+    },
+    "finalize": {
+      "done": true,
+      "x402Job": {
+        "state": 8,
+        "payoutBps": 10000,
+        "usdcDelta": {
+          "deployer": "0.010000",
+          "provider": "0.985000",
+          "evaluator": "0.005000",
+          "kernel": "0.000000",
+          "escrow": "-1.000000"
+        }
+      },
+      "adapterJob": {
+        "state": 5,
+        "kernelStatus": 3,
+        "usdcDelta": {
+          "deployer": "0.010000",
+          "provider": "0.985000",
+          "evaluator": "0.005000",
+          "kernel": "-1.000000",
+          "escrow": "0.000000"
+        }
+      },
+      "evaluatorInfo": {
+        "stake": "3000000",
+        "exposure": "0",
+        "openJobs": 0,
+        "unbondingEndsAt": "0",
+        "slashedTotal": "1000000"
+      }
+    }
+  }
+}

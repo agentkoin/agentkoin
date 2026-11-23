@@ -1,0 +1,32 @@
+out/
+cache/
+broadcast/
+node_modules/
+.env
+*.log
+/demo/.state/
+deployments/local.json
+agent/node_modules/
+# throwaway local keys (never commit, never fund on a real network)
+agent/.keys/
+
+# throwaway testnet deployer key (never commit)
+.secrets/
+deployments/fork-*.json
+
+# agent event-log cache (public RPC getLogs results)
+agent/.cache/
+
+# public testnet service state (jobs, anonymous stats)
+agent/.state/
+agent/doorknock/out/knock-log.jsonl
+agent/router/data/
+
+# integrations (local, unpublished)
+integrations/**/dist/
+integrations/**/*.tsbuildinfo
+integrations/python/.venv/
+integrations/**/__pycache__/
+integrations/**/.pytest_cache/
+integrations/**/*.egg-info/
+integrations/out/*.local.json

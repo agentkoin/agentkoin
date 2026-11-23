@@ -1,0 +1,9 @@
+{
+  "amount": 1000000,
+  "chainId": 84532,
+  "clientUsdcBefore": 16000000,
+  "finalizableAfter": 1793328621,
+  "jobA": 1,
+  "jobB": 2,
+  "providerUsdcBefore": 0
+}

@@ -1,0 +1,302 @@
+{
+  "$schema": "http://127.0.0.1:4020/schemas/trust-manifest-0.1.json",
+  "v": "agentcoin-trust/0.1",
+  "issuer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+  "agent": {
+    "agentRegistry": "eip155:31337:0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+    "agentId": "1"
+  },
+  "chainId": 31337,
+  "network": "eip155:31337",
+  "issuedAt": "2026-10-26T17:17:49.899Z",
+  "snapshotBlock": "7",
+  "contracts": {
+    "escrow": {
+      "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      "codeHash": "0x3f8e84d5309bfb1db2ebb772828d770a26a358dcbbaea37307369719208d76b3"
+    },
+    "evaluatorRegistry": {
+      "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      "codeHash": "0x7086dbde8a866530d971bc751757cf54f3dc6110f9da9297bb92febb5542f52e"
+    },
+    "token": {
+      "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      "codeHash": "0x07c3a75681bdf7d10be72ee42915a13a0dc52aa70c4d64968962f8a26f868ebc",
+      "symbol": "mUSDC",
+      "decimals": 6,
+      "note": "MockUSDC test token, not Circle USDC"
+    },
+    "arbitrator": {
+      "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      "codeHash": "0xc369b936337f4553ca4f0d47ac5de4db9dcaf5127501cca0d46aabc2284d52d1",
+      "kind": "MockArbitrator (owner-ruled stub for Kleros/UMA)"
+    },
+    "identityRegistry": {
+      "address": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+      "codeHash": "0x5fdae579efaa82c5039fcd9116877a687e1badbca2b074217c0218aaa3ad937a",
+      "kind": "MockIdentityRegistry (ERC-8004 subset, local)"
+    },
+    "evaluatorAdapter": {
+      "address": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+      "codeHash": "0x439dd536dca1e4d88fa4f6b3b652efb8ccf6c68b8b292319b31b918952ad4e57",
+      "kind": "ERC8183EvaluatorAdapter (staked evaluator for external ERC-8183 kernels)"
+    },
+    "depositRouteFactory": {
+      "address": "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
+      "codeHash": "0x69a2294763760fc117d4f05b2480abfc155634cedaf8e5009be9ee0ee087779b",
+      "kind": "EscrowDepositRouteFactory (x402 exact payTo routes)"
+    },
+    "treasury": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+  },
+  "fees": {
+    "feeBps": 100,
+    "chargedOn": "provider payout (settlement or instant release); 0 on reject or refund",
+    "evaluatorFeeBps": 50,
+    "evaluatorFeeChargedOn": "provider gross on settled Complete/Partial when the verdict stands",
+    "arbitrationFee": "500000",
+    "arbitrationFeeModel": "challenger pays bond + quoted arbitration cost; both held by the contract until the ruling; on a ruling the cost goes to the arbitrator and the losing side reimburses it if the ruling is material; on a stale dispute both are refunded to the challenger",
+    "buyerBond": "none"
+  },
+  "escrowConfig": {
+    "version": 1,
+    "instantThreshold": "1000000",
+    "minChallengeBond": "1000000",
+    "evalWindow": "86400",
+    "challengeWindow": "172800",
+    "arbitrationTimeout": "2592000",
+    "challengeBondBps": "500",
+    "missedVerdictSlashBps": "1000",
+    "wrongVerdictSlashBps": "2500",
+    "materialDiffBps": "2000",
+    "feeBps": "100",
+    "failedChallengeEvaluatorShareBps": "5000",
+    "instantBondCoverBps": "10000",
+    "evaluatorFeeBps": "50"
+  },
+  "adapterConfig": {
+    "version": 1,
+    "evalWindow": "86400",
+    "challengeWindow": "86400",
+    "arbitrationTimeout": "604800",
+    "expiryMargin": "3600",
+    "minChallengeBond": "1000000",
+    "challengeBondBps": "500",
+    "missedVerdictSlashBps": "1000",
+    "wrongVerdictSlashBps": "2500",
+    "failedChallengeEvaluatorShareBps": "5000",
+    "completeThresholdBps": "5000",
+    "requiredExpiryDuration": "781200"
+  },
+  "registryConfig": {
+    "minStake": "100000000",
+    "unbondingPeriod": "604800",
+    "exposureMultiplier": "5",
+    "slashHarmedShareBps": "5000",
+    "treasury": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "slasherTimelockSeconds": "172800"
+  },
+  "evaluators": [
+    {
+      "address": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+      "active": true,
+      "stake": "200000000",
+      "exposure": "0",
+      "availableExposure": "1000000000",
+      "openJobs": 0,
+      "unbondingEndsAt": "0",
+      "slashedTotal": "0",
+      "snapshotBlock": "7"
+    }
+  ],
+  "sla": {
+    "quoteP95Ms": null,
+    "note": "not measured"
+  },
+  "disputeRules": [
+    {
+      "path": "specs/SPEC-v0.md",
+      "sha256": "0xbe66b2d4865d06a260bfd5b94e3cf218ccca2833f15012897763adea628752bb"
+    },
+    {
+      "path": "docs/ASSUMPTIONS.md",
+      "sha256": "0xdd7e643b7910ae0764872ac141c5b4830cd66deb04131a3a3af953e6361df733"
+    }
+  ],
+  "audits": [],
+  "attestations": [
+    {
+      "v": "agentcoin-attestation/0.1",
+      "chainId": 31337,
+      "type": "evaluator-stake",
+      "subject": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+      "contract": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      "blockNumber": "7",
+      "claim": {
+        "stake": "200000000",
+        "active": true,
+        "slashedTotal": "0"
+      },
+      "signature": {
+        "scheme": "eip191",
+        "canonicalization": "RFC8785",
+        "digest": "keccak256",
+        "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+        "signedDigest": "0xd6bc90e7e0d0994b714ee843c87a645ec9df757c2fb176557c510aeccab4b01c",
+        "value": "0xf56ee4c112433907b2e2a88770a3be8373812396f9d4152692b0510ad446c207331b4c86667033fb2445167215ec36960fc9edf3fa7c69a9dacb1342ee58a2b21c"
+      }
+    },
+    {
+      "v": "agentcoin-attestation/0.1",
+      "chainId": 31337,
+      "type": "contract-code",
+      "subject": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      "blockNumber": "7",
+      "claim": {
+        "name": "escrow",
+        "codeHash": "0x3f8e84d5309bfb1db2ebb772828d770a26a358dcbbaea37307369719208d76b3"
+      },
+      "signature": {
+        "scheme": "eip191",
+        "canonicalization": "RFC8785",
+        "digest": "keccak256",
+        "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+        "signedDigest": "0x3c5a02d7f876a4c4c8806bf1a373948383d841ce3d7f1435f4bb1ffffa4fbc81",
+        "value": "0x21f2bbe87fad6b9210669e0d75d148d38b3a99bfebbdc51f47a6e6c1e5ee6c4860a3cc3969b0ce1a0f714b24326650e55f9360e1c740a8a2f80cfef2843b8feb1c"
+      }
+    },
+    {
+      "v": "agentcoin-attestation/0.1",
+      "chainId": 31337,
+      "type": "contract-code",
+      "subject": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      "blockNumber": "7",
+      "claim": {
+        "name": "evaluatorRegistry",
+        "codeHash": "0x7086dbde8a866530d971bc751757cf54f3dc6110f9da9297bb92febb5542f52e"
+      },
+      "signature": {
+        "scheme": "eip191",
+        "canonicalization": "RFC8785",
+        "digest": "keccak256",
+        "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+        "signedDigest": "0x3d0ec0022b63467c21738dd3bef7cc9ebbf790b6a07c4fd34691fb7cc5d3f680",
+        "value": "0xdddb1c281ac14cd0d51a6a36efaa10934a51698f0595fd96a06a4c4a6a9bf2c946adabf0ee8b0e3de93601ab26470538b58a1ca675036f6481972388054d10f01b"
+      }
+    },
+    {
+      "v": "agentcoin-attestation/0.1",
+      "chainId": 31337,
+      "type": "contract-code",
+      "subject": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      "blockNumber": "7",
+      "claim": {
+        "name": "token",
+        "codeHash": "0x07c3a75681bdf7d10be72ee42915a13a0dc52aa70c4d64968962f8a26f868ebc"
+      },
+      "signature": {
+        "scheme": "eip191",
+        "canonicalization": "RFC8785",
+        "digest": "keccak256",
+        "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+        "signedDigest": "0xaf8bd8badfbbedbd86301a1b653c4ab584c2df7dd171b9f34c664f7d253f9c1f",
+        "value": "0xa1e0343e218484a0d6013b32d520c02e081edcd055f3e590d19176337998aa57742b5d13fbe8393510da3da745da28c2243f0d0c508ef993202d2c3931c4ced81b"
+      }
+    },
+    {
+      "v": "agentcoin-attestation/0.1",
+      "chainId": 31337,
+      "type": "contract-code",
+      "subject": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      "blockNumber": "7",
+      "claim": {
+        "name": "arbitrator",
+        "codeHash": "0xc369b936337f4553ca4f0d47ac5de4db9dcaf5127501cca0d46aabc2284d52d1"
+      },
+      "signature": {
+        "scheme": "eip191",
+        "canonicalization": "RFC8785",
+        "digest": "keccak256",
+        "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+        "signedDigest": "0xee3b2060e60cd995508596a43b65db835ad86393f82e52abc1866eba5e2101e0",
+        "value": "0x891f00dc37d09a1bfa74f08cc8f53ded1050d1f711a37def15f7361aa41a67aa21313d35a2c8a414385d518fffdb40dcebdf90b08afbdc62d1916b374079779f1b"
+      }
+    },
+    {
+      "v": "agentcoin-attestation/0.1",
+      "chainId": 31337,
+      "type": "contract-code",
+      "subject": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+      "blockNumber": "7",
+      "claim": {
+        "name": "identityRegistry",
+        "codeHash": "0x5fdae579efaa82c5039fcd9116877a687e1badbca2b074217c0218aaa3ad937a"
+      },
+      "signature": {
+        "scheme": "eip191",
+        "canonicalization": "RFC8785",
+        "digest": "keccak256",
+        "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+        "signedDigest": "0xfb551807425aeb54ecd14ddbe708907b28cee830dab7b417b3e1a7800e2192db",
+        "value": "0x8ec441bb8fb40d93486ff08056d3daccca122f84eb3b27c20d2d8cc966d2c5e32cd5bbf7ae162f30657da671de2a343cda9dfb27afac9e51170f6d839acacbd31b"
+      }
+    },
+    {
+      "v": "agentcoin-attestation/0.1",
+      "chainId": 31337,
+      "type": "contract-code",
+      "subject": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+      "blockNumber": "7",
+      "claim": {
+        "name": "evaluatorAdapter",
+        "codeHash": "0x439dd536dca1e4d88fa4f6b3b652efb8ccf6c68b8b292319b31b918952ad4e57"
+      },
+      "signature": {
+        "scheme": "eip191",
+        "canonicalization": "RFC8785",
+        "digest": "keccak256",
+        "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+        "signedDigest": "0x59c965114281cc23848cfc3e025421624584a2b11f0cbfcda3c101074cdd8cfe",
+        "value": "0x8c4c73e9ea9af132b0894080231cc973990470a44058f34b7732b587aeccbc7d60d1c912d1191b89c1d817e80d53b8e7f22d86ad986657a94f13cffb9cd0c0eb1c"
+      }
+    },
+    {
+      "v": "agentcoin-attestation/0.1",
+      "chainId": 31337,
+      "type": "contract-code",
+      "subject": "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
+      "blockNumber": "7",
+      "claim": {
+        "name": "depositRouteFactory",
+        "codeHash": "0x69a2294763760fc117d4f05b2480abfc155634cedaf8e5009be9ee0ee087779b"
+      },
+      "signature": {
+        "scheme": "eip191",
+        "canonicalization": "RFC8785",
+        "digest": "keccak256",
+        "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+        "signedDigest": "0x180a1474011059538930b07fa9c6cb2ac04e0eb6187b00101f39c3f8e08b6d81",
+        "value": "0xf71dfd8649e83c2c4a89b4ccaf407374ee25233f55659275572b31490a4c68852027884b0eb5b9cbce92768b65bc9bffcb15054395b003924295220fd7066b1d1b"
+      }
+    }
+  ],
+  "endpoints": {
+    "agentRegistration": "http://127.0.0.1:4020/.well-known/agent-registration.json",
+    "agentCard": "http://127.0.0.1:4020/.well-known/agent-card.json",
+    "quote": "http://127.0.0.1:4020/v1/quote",
+    "mcp": "stdio:node agent/mcp/server.mjs"
+  },
+  "limitations": [
+    "local Anvil prototype (chainId 31337); not deployed to any public network",
+    "contracts unaudited",
+    "arbitrator is an owner-controlled mock",
+    "throwaway operator key"
+  ],
+  "signature": {
+    "scheme": "eip191",
+    "canonicalization": "RFC8785",
+    "digest": "keccak256",
+    "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+    "signedDigest": "0x09823474d9bca5d9930a980532b48dc4d92c810be53a03afd4300a496a521c3c",
+    "value": "0x9a1bfa09213bfe80807a0d246a6e06a7dfe6a49e3b51622ca5e054a7c6212771343a966fe6caa953a1a9dc6c7a55e23cdc1f17fde24746a10bff06beb1b677791b"
+  }
+}

@@ -1,0 +1,18 @@
+# Fly.io (needs a Fly account; free allowances vary and may require a card, which is out of scope).
+app = "agentcoin-testnet"
+primary_region = "iad"
+[build]
+  dockerfile = "deploy/Dockerfile"
+[env]
+  AGENTCOIN_HOSTED = "1"
+  AGENTCOIN_BASE_URL = "https://agentcoin-testnet.fly.dev"
+[http_service]
+  internal_port = 8402
+  force_https = true
+  auto_stop_machines = "stop"
+  min_machines_running = 0
+[[http_service.checks]]
+  path = "/healthz"
+  interval = "30s"
+  timeout = "5s"
+# secrets: fly secrets set AGENTCOIN_RELAYER_KEY=... AGENTCOIN_PROVIDER_KEY=... AGENTCOIN_EVALUATOR_KEY=... AGENTCOIN_OPERATOR_KEY=...

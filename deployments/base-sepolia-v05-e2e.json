@@ -1,0 +1,324 @@
+{
+  "network": "base-sepolia",
+  "chainId": 84532,
+  "base": "https://agentcoin.143-244-167-51.sslip.io",
+  "runs": [
+    {
+      "phase": "score",
+      "at": "2026-11-01T04:50:57.746Z",
+      "serviceId": "svc_4c3c948ad42dc519",
+      "signatureValid": true,
+      "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+      "evidenceRootMatches": true,
+      "score": {
+        "v": "agentcoin-score/v1",
+        "chainId": 84532,
+        "serviceId": "svc_4c3c948ad42dc519",
+        "deliveredAfterPayRate": null,
+        "p50Ms": 82,
+        "disputeRate": null,
+        "independentBuyers": 0,
+        "n": 0,
+        "excludedAgentcoinOrders": 0,
+        "probes": 2,
+        "evidenceRoot": "0x11fda17229a0a3e213239bd70835062fd023f27dd94dd09b8356760e60a6a30b",
+        "updatedAt": "2026-11-01T04:47:31.028Z",
+        "testnet": true,
+        "realValue": false,
+        "method": "deliveredAfterPayRate = delivered / paid over external orders; AgentCoin-originated orders are listed in evidence with countedInScore=false; p50Ms over probes and external order latencies"
+      },
+      "evidenceTypes": {
+        "probe": 2
+      },
+      "orders": []
+    },
+    {
+      "phase": "direct",
+      "at": "2026-11-01T04:51:06.061Z",
+      "serviceId": "svc_4c3c948ad42dc519",
+      "orderId": "ord_21fa2af29cdb6095",
+      "origin": "agentcoin",
+      "payTo": "0x6A32bC3Bb5eA1dc814f14E29e6f026535129A84f",
+      "paymentTx": "0x11d44d251e2580d153f1ea03c92417570b6331ec9c8ae3013bea2a761890608c",
+      "paymentResponse": {
+        "success": true,
+        "transaction": "0x11d44d251e2580d153f1ea03c92417570b6331ec9c8ae3013bea2a761890608c",
+        "network": "eip155:84532",
+        "payer": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "jobId": "7",
+        "testnet": true,
+        "realValue": false
+      },
+      "verdict": "delivered",
+      "status": "settled",
+      "payment": {
+        "ok": true,
+        "txHash": "0x11d44d251e2580d153f1ea03c92417570b6331ec9c8ae3013bea2a761890608c",
+        "blockNumber": "52933977",
+        "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "to": "0x6A32bC3Bb5eA1dc814f14E29e6f026535129A84f",
+        "value": "10000",
+        "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "network": "eip155:84532"
+      },
+      "countedInScore": false,
+      "deliveryRecordSigner": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+      "deliveryRecordValid": true,
+      "scoreEvidenceRoot": "0x96ca3b38f34bb57351b14bf2885d2139dc1acb5820b5b103c37380bff7fe50b5",
+      "excludedAgentcoinOrders": 1
+    },
+    {
+      "phase": "escrow",
+      "at": "2026-11-01T04:55:42.157Z",
+      "serviceId": "svc_4c3c948ad42dc519",
+      "orderId": "ord_c9858a3b9c90d98f",
+      "origin": "agentcoin",
+      "jobId": "8",
+      "txs": [
+        {
+          "label": "USDC.approve(escrow, amount)",
+          "hash": "0xcd3ae9b151f0d1bba1e0852c2e24be85bc1a76b598ffa39c9c0fded690c0ca2a",
+          "costWei": "332550000092"
+        },
+        {
+          "label": "JobEscrow.createAndFundFor(client, provider, evaluator, amount, deadline, specHash)",
+          "hash": "0xae5c7d1c576208cad9f94f10bf5c438239727f64333c4192ef6dd2751b32a233",
+          "costWei": "1504260000153"
+        }
+      ],
+      "escrow": {
+        "chainId": 84532,
+        "contract": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+        "token": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "client": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "provider": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+        "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "amount": "10000",
+        "deadline": "1793512270",
+        "specHash": "0x6b4542f5b8f5c0e6a332f4fed6c1f840db2e26fa2840a194664bee75c49504db"
+      },
+      "quote": {
+        "chainId": 84532,
+        "network": "eip155:84532",
+        "networkName": "base-sepolia",
+        "testnet": true,
+        "realValue": false,
+        "blockNumber": "52934009",
+        "contracts": {
+          "escrow": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+          "evaluatorRegistry": "0x30576DE005df028D1947C56dEcc85a2a5612036a",
+          "token": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+          "arbitrator": "0x3C4587eD99B1969581cA4f041FD9535a0D269736",
+          "identityRegistry": "0x8004A818BFB912233c491871b3d84c89A494BD9e",
+          "evaluatorAdapter": "0x27803F8DBDAd0D6B0E719d2AB2eB7A31b5c53509",
+          "depositRouteFactory": "0x32174eFD01e600E621Cf3f0D19Ff694483B19b95"
+        },
+        "unit": "USDC base units (6 decimals)",
+        "amount": "10000",
+        "providerBond": "0",
+        "feeBps": 0,
+        "feeAtFullPayout": "0",
+        "providerNetAtFullPayout": "10000",
+        "feeChargedOn": "payout to provider only; 0 on reject/refund",
+        "evaluatorFeeBps": 0,
+        "evaluatorFeeAtFullPayout": "0",
+        "evaluatorFeeChargedOn": "provider gross on settled Complete/Partial when the verdict stands; 0 on reject, overturn, instant release",
+        "challengeBond": "1000000",
+        "arbitrationFee": "500000",
+        "challengeUpfrontTotal": "1500000",
+        "arbitrationFeeModel": "challenger pays bond + quoted arbitration cost; both held by the contract until the ruling; on a ruling the cost goes to the arbitrator and the losing side reimburses it if the ruling is material; on a stale dispute both are refunded to the challenger",
+        "instantThreshold": "1000000",
+        "instantBondCoverBps": 10000,
+        "instantEligible": false,
+        "requiredProviderBondForInstant": "10000",
+        "evalWindowSeconds": 3600,
+        "challengeWindowSeconds": 600,
+        "configVersion": 2,
+        "evaluatorMinStake": "2000000",
+        "exposureMultiplier": 5,
+        "erc8183Adapter": {
+          "challengeBond": "1000000",
+          "arbitrationFee": "500000",
+          "requiredExpiryDurationSeconds": "8400",
+          "minKernelExpiry": "1793517070",
+          "minKernelExpiryRule": "kernel job expiredAt >= assign/accept time + evalWindow + challengeWindow + arbitrationTimeout + expiryMargin; assign and acceptAssignment revert ExpiryTooSoon otherwise",
+          "configVersion": 2
+        }
+      },
+      "receiptStatus": "funded",
+      "sellerCall": {
+        "status": 200,
+        "ms": 962,
+        "body": {
+          "receipt": {
+            "v": "agentcoin-notary/v1",
+            "chainId": 84532,
+            "escrow": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+            "jobId": "8",
+            "client": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+            "digest": "0x287698dbdb266af69739b86c3415068931f75585dfac21eafd99f59688834225",
+            "digestKind": "sha256 (client-supplied)",
+            "note": "router e2e escrow",
+            "settleTx": "0xae5c7d1c576208cad9f94f10bf5c438239727f64333c4192ef6dd2751b32a233",
+            "settleBlock": "52934023",
+            "notarizedAt": 1793508673,
+            "notarizedAtIso": "2026-11-01T04:51:13.000Z",
+            "testnet": true,
+            "realValue": false
+          },
+          "receiptSignature": {
+            "scheme": "eip191",
+            "canonicalization": "RFC8785",
+            "digest": "keccak256",
+            "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+            "signedDigest": "0x211a86a9394e4be9694d6cfb3adfc2920fa88f3c9a5e535ce7f7cc9147238968",
+            "value": "0x99cc35583eec814a159f34c47d88067a5ac8ad077c86edf4ef18e3edc05628aa58ceafe2478084dabdc1fb5c533b5b1be07c5d336db86d0dc066493a7be15aee1b"
+          },
+          "deliverableHash": "0x211a86a9394e4be9694d6cfb3adfc2920fa88f3c9a5e535ce7f7cc9147238968",
+          "jobId": "8",
+          "settleTx": "0xae5c7d1c576208cad9f94f10bf5c438239727f64333c4192ef6dd2751b32a233",
+          "submitTx": "0xcfe01cab7a560eaa07e882b2ea177311e9c29026768445ed7b4cf25296d3f4ec",
+          "verify": "keccak256(RFC8785(receipt)) == JobEscrow.getJob(jobId).deliverableHash; receiptSignature is EIP-191 by the operator over RFC8785(receipt)",
+          "status": "https://agentcoin.143-244-167-51.sslip.io/v1/notarize/8",
+          "testnet": true,
+          "realValue": false
+        }
+      },
+      "final": {
+        "verdict": "complete",
+        "status": "verdict",
+        "deliverableHash": "0x211a86a9394e4be9694d6cfb3adfc2920fa88f3c9a5e535ce7f7cc9147238968",
+        "jobState": null,
+        "deliveryRecordValid": true
+      }
+    },
+    {
+      "phase": "claim",
+      "at": "2026-11-01T04:56:05.679Z",
+      "submitted": {
+        "id": "svc_68a738771a0c44b5",
+        "status": "unchanged",
+        "protocol": "erc8004",
+        "statusBefore": "unclaimed",
+        "ms": 453
+      },
+      "claimCalls": 1,
+      "verify": {
+        "serviceId": "svc_68a738771a0c44b5",
+        "status": "claimed",
+        "claimProof": {
+          "method": "eip712",
+          "basis": "erc8004Owner",
+          "claimant": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+          "verifiedAt": "2026-11-01T04:56:05.245Z"
+        },
+        "effects": [
+          "status=claimed in search and route results",
+          "claimed listings rank ahead of unclaimed ties",
+          "escrow orders name the claimant as provider"
+        ],
+        "listing": "https://agentcoin.143-244-167-51.sslip.io/v1/services/svc_68a738771a0c44b5",
+        "testnet": true,
+        "realValue": false,
+        "_ms": 160
+      },
+      "statusAfter": "claimed"
+    },
+    {
+      "phase": "score",
+      "at": "2026-11-01T04:56:12.701Z",
+      "serviceId": "svc_4c3c948ad42dc519",
+      "signatureValid": true,
+      "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+      "evidenceRootMatches": true,
+      "score": {
+        "v": "agentcoin-score/v1",
+        "chainId": 84532,
+        "serviceId": "svc_4c3c948ad42dc519",
+        "deliveredAfterPayRate": null,
+        "p50Ms": 82,
+        "disputeRate": null,
+        "independentBuyers": 0,
+        "n": 0,
+        "excludedAgentcoinOrders": 2,
+        "probes": 2,
+        "evidenceRoot": "0x2b5a1ce55906c384ec481fcb86b0f01a3daa2e7a19f8380ecdb14485ca879715",
+        "updatedAt": "2026-11-01T04:53:32.804Z",
+        "testnet": true,
+        "realValue": false,
+        "method": "deliveredAfterPayRate = delivered / paid over external orders; AgentCoin-originated orders are listed in evidence with countedInScore=false; p50Ms over probes and external order latencies"
+      },
+      "evidenceTypes": {
+        "order": 2,
+        "probe": 2
+      },
+      "orders": [
+        {
+          "type": "order",
+          "orderId": "ord_21fa2af29cdb6095",
+          "mode": "direct",
+          "paymentTx": "0x11d44d251e2580d153f1ea03c92417570b6331ec9c8ae3013bea2a761890608c",
+          "jobId": null,
+          "deliverableHash": "0x5167785002a3f5e9b613166a957e74b856e5e221c9d8079ec3fa37a676c7318c",
+          "verdict": "delivered",
+          "origin": "agentcoin",
+          "countedInScore": false
+        },
+        {
+          "type": "order",
+          "orderId": "ord_c9858a3b9c90d98f",
+          "mode": "escrow",
+          "paymentTx": "0xae5c7d1c576208cad9f94f10bf5c438239727f64333c4192ef6dd2751b32a233",
+          "jobId": "8",
+          "deliverableHash": "0x211a86a9394e4be9694d6cfb3adfc2920fa88f3c9a5e535ce7f7cc9147238968",
+          "verdict": "complete",
+          "origin": "agentcoin",
+          "countedInScore": false
+        }
+      ]
+    },
+    {
+      "phase": "optout",
+      "at": "2026-11-01T04:56:30Z",
+      "match": "svc_68a738771a0c44b5",
+      "response": {
+        "ok": true,
+        "match": "svc_68a738771a0c44b5",
+        "matchKind": "service",
+        "delisted": [
+          "svc_68a738771a0c44b5"
+        ],
+        "effect": "no AgentCoin door-knocker messages will be sent to this match; matching index listings are removed now and excluded from future imports",
+        "testnet": true,
+        "realValue": false
+      },
+      "after": {
+        "GET /v1/services/{id}": 404,
+        "search hits": 0,
+        "resubmit POST /v1/services": 409
+      },
+      "note": "own ERC-8004 listing (#10494) used so no third-party listing was delisted"
+    },
+    {
+      "phase": "p95",
+      "at": "2026-11-01T04:48Z",
+      "route": "POST /v1/route from the box over public HTTPS, 100 requests, 25 distinct tasks",
+      "clientMs": {
+        "p50": 868.4,
+        "p95": 1170.6,
+        "max": 1358.8
+      },
+      "serverTookMs": {
+        "p50": 458,
+        "p95": 674,
+        "max": 911
+      }
+    }
+  ],
+  "deploy": {
+    "image": "agentcoin-testnet:0.5.0",
+    "container": "agentcoin-testnet",
+    "rollback": "agentcoin-testnet-28b6682 (stopped)",
+    "commit": "v0.5.0-sepolia"
+  }
+}

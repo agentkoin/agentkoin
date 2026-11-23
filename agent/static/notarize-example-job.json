@@ -1,0 +1,25 @@
+{
+  "jobId": "19",
+  "status": "settled",
+  "receipt": {
+    "v": "agentcoin-notary/v1",
+    "chainId": 84532,
+    "escrow": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+    "jobId": "19",
+    "client": "0x600D4d4A0FeeF7877ACCb91351fFe2AA66CF18cb",
+    "digest": "0xe7bb21a038ebd02ea16a4569ff30c99f2dc77ffb46c4bb14d445b6723d1d1785",
+    "digestKind": "sha256 (client-supplied)",
+    "note": "STOS-operated demo buyer stos-demo-buyer-1 (testnet, no real value)",
+    "settleTx": "0x066f518353514b0e70abe9e5bf7c00b78a866a24e2edbdff497785a003f07e2e",
+    "settleBlock": "58077148",
+    "notarizedAt": 1794537298,
+    "notarizedAtIso": "2026-11-13T02:34:58.000Z",
+    "testnet": true,
+    "realValue": false
+  },
+  "deliverableHash": "0xf1823d22bbc72884b8f07ffd76d9d33d28cc4be83a599865e7aed37191dc86f5",
+  "settleTx": "0x066f518353514b0e70abe9e5bf7c00b78a866a24e2edbdff497785a003f07e2e",
+  "submitTx": "0xaee05302859948eac70360ab6bacb1747b01c2965acd785c02fbfc36db142025",
+  "verdictTx": "0xbca15f1fbed7ec64da8aaa14c73255d32ded0bbb3b6aac7b326758f3e4756787",
+  "finalizeTx": "0x7e717643ddafd67f769ef51c808c14945b55ef4cd9e5c00559669df9053d4023"
+}

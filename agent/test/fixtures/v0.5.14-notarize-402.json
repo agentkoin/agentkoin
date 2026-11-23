@@ -1,0 +1,353 @@
+{
+  "x402Version": 2,
+  "error": "PAYMENT-SIGNATURE header is required",
+  "resource": {
+    "url": "https://agentcoinhq.com/v1/notarize",
+    "description": "Timestamp notary: returns a signed receipt for a SHA-256 digest; the receipt hash is anchored on Base Sepolia as the escrow deliverable hash. Payment held in escrow until evaluator verdict.",
+    "mimeType": "application/json",
+    "serviceName": "AgentCoin",
+    "tags": [
+      "escrow",
+      "notary",
+      "timestamp",
+      "usdc",
+      "testnet"
+    ],
+    "iconUrl": "https://agentcoinhq.com/icon.png"
+  },
+  "accepts": [
+    {
+      "scheme": "exact",
+      "network": "eip155:84532",
+      "amount": "10000",
+      "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+      "payTo": "0x6A32bC3Bb5eA1dc814f14E29e6f026535129A84f",
+      "maxTimeoutSeconds": 300,
+      "extra": {
+        "name": "USDC",
+        "version": "2",
+        "assetTransferMethod": "eip3009",
+        "responseSchemaHash": "sha256:1f66a3f25ebe5a9e7167a150bf6a3d3a808e0042206c5491516425821c2f4586",
+        "responseSchemaUrl": "https://agentcoinhq.com/v1/notarize/schema.json",
+        "agentcoin": {
+          "payToKind": "EscrowDepositRoute (CREATE2, offer-bound); settle opens an escrow job with client = authorization.from",
+          "depositRouteFactory": "0x32174eFD01e600E621Cf3f0D19Ff694483B19b95",
+          "escrowContract": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+          "offer": {
+            "provider": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+            "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+            "amount": "10000",
+            "deadlineSeconds": 3600,
+            "specHash": "0x6b4542f5b8f5c0e6a332f4fed6c1f840db2e26fa2840a194664bee75c49504db"
+          },
+          "evaluatorStake": "3000000",
+          "evaluatorActive": true,
+          "feeBps": 0,
+          "evaluatorFeeBps": 0,
+          "spec": "agentcoin-notary/v1: JSON receipt {v, digest, note, jobId, client, settleTx, notarizedAt, chainId}; deliverableHash = keccak256(RFC8785(receipt))",
+          "relayerPaysGas": true,
+          "trustManifestUrl": "https://agentcoinhq.com/.well-known/agentcoin-trust.json"
+        }
+      }
+    },
+    {
+      "scheme": "agentcoin-escrow",
+      "network": "eip155:84532",
+      "amount": "10000",
+      "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+      "payTo": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+      "maxTimeoutSeconds": 300,
+      "extra": {
+        "responseSchemaHash": "sha256:1f66a3f25ebe5a9e7167a150bf6a3d3a808e0042206c5491516425821c2f4586",
+        "responseSchemaUrl": "https://agentcoinhq.com/v1/notarize/schema.json",
+        "escrowContract": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+        "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "specHash": "0x6b4542f5b8f5c0e6a332f4fed6c1f840db2e26fa2840a194664bee75c49504db",
+        "spec": "agentcoin-notary/v1: JSON receipt {v, digest, note, jobId, client, settleTx, notarizedAt, chainId}; deliverableHash = keccak256(RFC8785(receipt))",
+        "deadlineSeconds": 3600,
+        "schemeSpec": "payer calls escrowContract.createAndFund(provider=payTo, evaluator, amount>=price, deadline, specHash) itself (pays own gas); PAYMENT-SIGNATURE payload = {jobId, txHash}"
+      }
+    },
+    {
+      "scheme": "agentcoin-swap",
+      "network": "eip155:84532",
+      "amount": "9883",
+      "asset": "0x808456652fdb597867f38412077A9182bf77359F",
+      "payTo": "0x6258D112bf27006287253424a1fa877C607B564a",
+      "maxTimeoutSeconds": 300,
+      "extra": {
+        "name": "EURC",
+        "version": "2",
+        "assetTransferMethod": "eip3009-receiveWithAuthorization",
+        "responseSchemaHash": "sha256:1f66a3f25ebe5a9e7167a150bf6a3d3a808e0042206c5491516425821c2f4586",
+        "responseSchemaUrl": "https://agentcoinhq.com/v1/notarize/schema.json",
+        "quote": {
+          "quoteId": "0xc9a4622863b9dfbdae0403c987c346b610093b6df641ee4f22254e60384b52b5",
+          "tokenOut": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+          "tokenOutSymbol": "USDC",
+          "minOut": "10000",
+          "quotedIn": "9833",
+          "rate": "1.01698362",
+          "rateUnit": "USDC per EURC",
+          "slippageBps": 50,
+          "expiry": 1794748480,
+          "expiresAt": "2026-11-15T13:14:40.000Z",
+          "rateSource": "uniswap-v3-quoterv2",
+          "pool": "0x43047A302cD99DDb32E32B2886B40935b60aD2C1",
+          "poolFee": 500
+        },
+        "settlement": {
+          "settler": "0x6258D112bf27006287253424a1fa877C607B564a",
+          "router": "0x94cC0AaC535CCDB3C01d6787D6413C739ae12bc4",
+          "routerKind": "uniswap-v3",
+          "escrowContract": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+          "provider": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+          "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+          "deadlineSeconds": 3600,
+          "specHash": "0x6b4542f5b8f5c0e6a332f4fed6c1f840db2e26fa2840a194664bee75c49504db",
+          "onSwapFailure": "tokenIn returned to buyer in the same transaction"
+        },
+        "nonce": {
+          "kind": "CrossCurrencySettler.quoteHash",
+          "type": "AgentCoinQuote(uint256 chainId,address settler,address router,address buyer,address tokenIn,address tokenOut,uint256 amountIn,uint256 minOut,uint24 poolFee,uint64 expiry,bytes32 quoteId,address recipient,address escrow,address evaluator,uint64 deadlineSeconds,bytes32 specHash)",
+          "encoding": "keccak256(abi.encode(typehash, chainId, settler, router, buyer, tokenIn, tokenOut, amountIn, minOut, poolFee, expiry, quoteId, recipient, escrow, evaluator, deadlineSeconds, specHash))",
+          "buyer": "authorization.from"
+        },
+        "quoteUrl": "https://agentcoinhq.com/v1/quote",
+        "schemeSpec": "buyer signs EIP-3009 ReceiveWithAuthorization(from=buyer, to=payTo, value=amount, validAfter, validBefore, nonce=quoteHash); PAYMENT-SIGNATURE payload = {quoteId, authorization:{from,to,value,validAfter,validBefore,nonce}, signature}; relayer calls settler.settle (pays gas)"
+      }
+    }
+  ],
+  "extensions": {
+    "bazaar": {
+      "info": {
+        "input": {
+          "type": "http",
+          "method": "POST",
+          "bodyType": "json",
+          "body": {
+            "sha256": "0xabababababababababababababababababababababababababababababababab",
+            "note": "base-sepolia testnet"
+          }
+        },
+        "output": {
+          "type": "json",
+          "example": {
+            "receipt": {
+              "v": "agentcoin-notary/v1",
+              "chainId": 84532,
+              "escrow": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+              "jobId": "19",
+              "client": "0x600D4d4A0FeeF7877ACCb91351fFe2AA66CF18cb",
+              "digest": "0xe7bb21a038ebd02ea16a4569ff30c99f2dc77ffb46c4bb14d445b6723d1d1785",
+              "digestKind": "sha256 (client-supplied)",
+              "note": "STOS-operated demo buyer stos-demo-buyer-1 (testnet, no real value)",
+              "settleTx": "0x066f518353514b0e70abe9e5bf7c00b78a866a24e2edbdff497785a003f07e2e",
+              "settleBlock": "58077148",
+              "notarizedAt": 1794537298,
+              "notarizedAtIso": "2026-11-13T02:34:58.000Z",
+              "testnet": true,
+              "realValue": false
+            },
+            "receiptSignature": {
+              "scheme": "eip191",
+              "canonicalization": "RFC8785",
+              "digest": "keccak256",
+              "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+              "signedDigest": "0xf1823d22bbc72884b8f07ffd76d9d33d28cc4be83a599865e7aed37191dc86f5",
+              "value": "0x113c3112c7af13939613e1e427883ea7aa3d3626cda9de0763615bb1dc82495b76ec53aaed7977b72c2f07f7bb87baf288dacfdc7c67f42f7ed70f13dcdb4be71c"
+            },
+            "deliverableHash": "0xf1823d22bbc72884b8f07ffd76d9d33d28cc4be83a599865e7aed37191dc86f5",
+            "jobId": "19",
+            "settleTx": "0x066f518353514b0e70abe9e5bf7c00b78a866a24e2edbdff497785a003f07e2e",
+            "submitTx": "0xaee05302859948eac70360ab6bacb1747b01c2965acd785c02fbfc36db142025",
+            "verify": "keccak256(RFC8785(receipt)) == JobEscrow.getJob(jobId).deliverableHash; receiptSignature is EIP-191 by the operator over RFC8785(receipt)",
+            "status": "https://agentcoinhq.com/v1/notarize/19"
+          }
+        }
+      },
+      "schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "http"
+              },
+              "method": {
+                "type": "string",
+                "enum": [
+                  "POST",
+                  "PUT",
+                  "PATCH"
+                ]
+              },
+              "bodyType": {
+                "type": "string",
+                "enum": [
+                  "json",
+                  "form-data",
+                  "text"
+                ]
+              },
+              "body": {
+                "properties": {
+                  "sha256": {
+                    "type": "string",
+                    "pattern": "^0x[0-9a-fA-F]{64}$"
+                  },
+                  "note": {
+                    "type": "string",
+                    "maxLength": 200
+                  }
+                }
+              }
+            },
+            "required": [
+              "type",
+              "method",
+              "bodyType",
+              "body"
+            ],
+            "additionalProperties": false
+          },
+          "output": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "example": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          }
+        },
+        "required": [
+          "input"
+        ]
+      }
+    },
+    "agentcoin-escrow": {
+      "info": {
+        "v": "agentcoin-escrow-hint/v1",
+        "escrowAvailable": true,
+        "network": "eip155:84532",
+        "chainId": 84532,
+        "testnet": true,
+        "realValue": false,
+        "router": {
+          "url": "https://agentcoinhq.com",
+          "orders": "https://agentcoinhq.com/v1/orders",
+          "llmsTxt": "https://agentcoinhq.com/llms.txt",
+          "serviceId": "svc_962928f654d2a8a1",
+          "listing": "https://agentcoinhq.com/v1/services/svc_962928f654d2a8a1",
+          "reputation": "https://agentcoinhq.com/v1/reputation/svc_962928f654d2a8a1",
+          "orderBody": {
+            "serviceId": "svc_962928f654d2a8a1",
+            "mode": "escrow",
+            "buyer": "<client address>"
+          }
+        },
+        "escrow": {
+          "contract": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+          "token": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+          "provider": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+          "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+          "specHash": "0x6b4542f5b8f5c0e6a332f4fed6c1f840db2e26fa2840a194664bee75c49504db",
+          "deadlineSeconds": 3600,
+          "funding": "JobEscrow.createAndFundFor(client, provider, evaluator, amount, deadline, specHash) after USDC.approve(contract, amount)",
+          "x402Scheme": "agentcoin-escrow",
+          "evaluatorModel": {
+            "registry": "0x30576DE005df028D1947C56dEcc85a2a5612036a",
+            "minStake": "2000000",
+            "verdict": "evaluator calls verdict(jobId, Complete|Reject|Partial, payoutBps, reasonHash) on a Submitted job",
+            "evalWindowSeconds": 3600,
+            "challenge": "client or provider may challenge a verdict within challengeWindowSeconds (600) with a bond plus arbitration fee; testnet arbitrator is MockArbitrator",
+            "challengeWindowSeconds": 600
+          },
+          "payout": "after challengeWindowSeconds, finalize(jobId) pays provider amount * payoutBps / 10000 minus protocol and evaluator fees",
+          "refunds": [
+            {
+              "condition": "job Funded, deadline reached, no deliverable submitted",
+              "call": "claimRefund(jobId) or cancel(jobId)",
+              "caller": "anyone (claimRefund); client (cancel)",
+              "refund": "amount (100%)"
+            },
+            {
+              "condition": "job Funded, provider has not accepted or submitted",
+              "call": "cancel(jobId)",
+              "caller": "client",
+              "refund": "amount (100%)"
+            },
+            {
+              "condition": "job Submitted, no verdict within evalWindowSeconds (3600)",
+              "call": "timeoutRelease(jobId)",
+              "caller": "anyone",
+              "refund": "amount (100%); evaluator stake slashed"
+            },
+            {
+              "condition": "verdict Reject (payoutBps 0) or Partial, challengeWindowSeconds (600) elapsed",
+              "call": "finalize(jobId)",
+              "caller": "anyone",
+              "refund": "amount * (10000 - payoutBps) / 10000"
+            }
+          ],
+          "instantRelease": "if amount <= instantThreshold and the provider bond covers amount * instantBondCoverBps, submit releases payment without a verdict; then only the client may challenge"
+        }
+      },
+      "schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "required": [
+          "v",
+          "escrowAvailable",
+          "network",
+          "chainId",
+          "router",
+          "escrow"
+        ],
+        "properties": {
+          "v": {
+            "const": "agentcoin-escrow-hint/v1"
+          },
+          "escrowAvailable": {
+            "type": "boolean"
+          },
+          "network": {
+            "const": "eip155:84532"
+          },
+          "chainId": {
+            "const": 84532
+          },
+          "router": {
+            "type": "object",
+            "required": [
+              "url",
+              "orders"
+            ]
+          },
+          "escrow": {
+            "type": "object",
+            "required": [
+              "contract",
+              "token",
+              "provider",
+              "refunds"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "exampleUrl": "https://agentcoinhq.com/v1/notarize/example",
+  "responseSchemaUrl": "https://agentcoinhq.com/v1/notarize/schema.json",
+  "testnet": true,
+  "realValue": false
+}

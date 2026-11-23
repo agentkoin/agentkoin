@@ -1,0 +1,104 @@
+{
+  "name": "AgentCoin Evaluator Escrow (local prototype)",
+  "description": "USDC escrow for agent jobs with a staked evaluator. Outputs are JSON with chainId, contract addresses and tx hashes. Local Anvil (31337) prototype, unaudited.",
+  "supportedInterfaces": [
+    {
+      "url": "http://127.0.0.1:4020/a2a/v1",
+      "protocolBinding": "HTTP+JSON",
+      "protocolVersion": "1.0"
+    }
+  ],
+  "provider": {
+    "organization": "AgentCoin (local prototype)",
+    "url": "http://127.0.0.1:4020"
+  },
+  "version": "0.1.0",
+  "documentationUrl": "http://127.0.0.1:4020/docs/interface.json",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "defaultInputModes": [
+    "application/json"
+  ],
+  "defaultOutputModes": [
+    "application/json"
+  ],
+  "skills": [
+    {
+      "id": "quote",
+      "name": "Quote",
+      "description": "Fee, challenge bond, instant-release eligibility and evaluator capacity for an amount. USDC 6-decimal integer strings.",
+      "tags": [
+        "escrow",
+        "quote",
+        "usdc"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    },
+    {
+      "id": "get_job_status",
+      "name": "Job status",
+      "description": "Job state, outcome, deadlines and event tx hashes for a jobId.",
+      "tags": [
+        "escrow",
+        "status"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    },
+    {
+      "id": "get_evaluator_reputation",
+      "name": "Evaluator reputation",
+      "description": "Raw counts (verdicts, disputes lost, missed verdicts, slashes), stake and volume with tx-hash evidence.",
+      "tags": [
+        "reputation",
+        "evaluator"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    },
+    {
+      "id": "verify_attestation",
+      "name": "Verify attestation",
+      "description": "Check signature and on-chain claims of a trust manifest, attestation, agent card or registration.",
+      "tags": [
+        "verification",
+        "attestation"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    }
+  ],
+  "signatures": [
+    {
+      "protected": "eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKT1NFIiwia2lkIjoiZGlkOnBraDplaXAxNTU6MzEzMzc6MHhmMWIyN2I1QmQ2NTlEOUJmYjQ4MzU3NzdFNjRCOEY4ZTVDM2VDZjY4I3NlY3AyNTZrMSIsImprdSI6Imh0dHA6Ly8xMjcuMC4wLjE6NDAyMC8ud2VsbC1rbm93bi9qd2tzLmpzb24ifQ",
+      "signature": "8q1uyDNWOnooiIOs2jmUce0zog_UijRrvr5Y3_kektJzpit4LEF2TsN8_F5aaeN_YIk5BUPpMDch6neC5S5_xQ",
+      "header": {
+        "jwk": {
+          "kty": "EC",
+          "crv": "secp256k1",
+          "x": "H9AZ5LXWLGcmzeee_fMzT0buL796E0PScmnWLWmimMY",
+          "y": "eiiihsk4x228rikzOgCtBkdXcdCIfTTRkguvI7qqgoQ"
+        }
+      }
+    }
+  ]
+}

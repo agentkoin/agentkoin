@@ -1,0 +1,21 @@
+# Render Blueprint (free web service). Needs a Render account (Carter's) connected to a Git repo with this code.
+services:
+  - type: web
+    name: agentcoin-testnet
+    runtime: docker
+    plan: free
+    dockerfilePath: ./deploy/Dockerfile
+    healthCheckPath: /healthz
+    envVars:
+      - key: AGENTCOIN_HOSTED
+        value: "1"
+      - key: AGENTCOIN_BASE_URL
+        sync: false # e.g. https://agentcoin-testnet.onrender.com
+      - key: AGENTCOIN_RELAYER_KEY
+        sync: false
+      - key: AGENTCOIN_PROVIDER_KEY
+        sync: false
+      - key: AGENTCOIN_EVALUATOR_KEY
+        sync: false
+      - key: AGENTCOIN_OPERATOR_KEY
+        sync: false

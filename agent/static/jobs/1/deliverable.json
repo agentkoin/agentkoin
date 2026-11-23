@@ -1,0 +1,1 @@
+{"amount":"1000000","asset":"0x036CbD53842c5426634e7929541eC2318f3dCF7e","assetSymbol":"USDC","chainId":84532,"escrow":"0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D","evaluator":"0xB87b0d6AD3B17A8a1795d6640317c7997140d140","jobLabel":"bbv-job1","network":"eip155:84532","schema":"agentcoin.job-deliverable/v1"}

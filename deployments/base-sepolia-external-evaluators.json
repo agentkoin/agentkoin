@@ -1,0 +1,38 @@
+{
+  "chainId": 84532,
+  "evaluators": {
+    "0xB87b0d6AD3B17A8a1795d6640317c7997140d140": {
+      "funding": [
+        {
+          "label": "USDC deployer -> evaluator",
+          "hash": "0x03c016872bffa5e1abd8c2aeb5d6b4d9a316a52a0aca17ffc139668ae29153da",
+          "block": "59360585",
+          "status": "success",
+          "amount": "2000000"
+        },
+        {
+          "label": "ETH deployer -> evaluator",
+          "hash": "0x30201b12dc14fa8bb3eafa9cbc9fa9599d40187fbd754479fc51f95d84ee78ef",
+          "block": "59360588",
+          "status": "success",
+          "amountWei": "30000000000000"
+        }
+      ],
+      "fundedFrom": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "balancesAfter": {
+        "eth": "30000000000000",
+        "usdc": "2000000"
+      },
+      "operator": "babyblueviper1",
+      "independent": true,
+      "keysFile": "https://api.babyblueviper.com/.well-known/invinoveritas-checker-keys.json",
+      "checks": {
+        "eip191BindingRecovers": true,
+        "ed25519BindingVerifies": true,
+        "eoa": true,
+        "checkedAt": "2026-11-15 8:50 PM ET"
+      },
+      "tag": "agent/static/evaluators.json role=independent, live from v0.5.18 (image sha256:c112302d125c178224f29f0647bcab5fb92fc2424582e24ce1bd5188eaef4e1d); /v1/evaluators lists it once isActive on registry 0x30576DE005df028D1947C56dEcc85a2a5612036a (not staked as of 9:00 PM ET)"
+    }
+  }
+}

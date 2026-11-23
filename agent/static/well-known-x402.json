@@ -1,0 +1,164 @@
+{
+ "version": 1,
+ "resources": [
+  {
+   "url": "https://agentcoinhq.com/v1/notarize",
+   "type": "http",
+   "description": "Timestamp notary: returns a signed receipt for a SHA-256 digest; the receipt hash is anchored on Base Sepolia as the escrow deliverable hash. Payment held in escrow until evaluator verdict.",
+   "accepts": [
+    {
+     "scheme": "exact",
+     "network": "eip155:84532",
+     "amount": "10000",
+     "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+     "payTo": "0x6A32bC3Bb5eA1dc814f14E29e6f026535129A84f",
+     "maxTimeoutSeconds": 300,
+     "extra": {
+      "name": "USDC",
+      "version": "2",
+      "assetTransferMethod": "eip3009",
+      "agentcoin": {
+       "payToKind": "EscrowDepositRoute (CREATE2, offer-bound); settle opens an escrow job with client = authorization.from",
+       "depositRouteFactory": "0x32174eFD01e600E621Cf3f0D19Ff694483B19b95",
+       "escrowContract": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+       "offer": {
+        "provider": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+        "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "amount": "10000",
+        "deadlineSeconds": 3600,
+        "specHash": "0x6b4542f5b8f5c0e6a332f4fed6c1f840db2e26fa2840a194664bee75c49504db"
+       },
+       "evaluatorStake": "3000000",
+       "evaluatorActive": true,
+       "feeBps": 0,
+       "evaluatorFeeBps": 0,
+       "spec": "agentcoin-notary/v1: JSON receipt {v, digest, note, jobId, client, settleTx, notarizedAt, chainId}; deliverableHash = keccak256(RFC8785(receipt))",
+       "relayerPaysGas": true,
+       "trustManifestUrl": "https://agentcoinhq.com/.well-known/agentcoin-trust.json"
+      }
+     }
+    },
+    {
+     "scheme": "agentcoin-escrow",
+     "network": "eip155:84532",
+     "amount": "10000",
+     "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+     "payTo": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+     "maxTimeoutSeconds": 300,
+     "extra": {
+      "escrowContract": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+      "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+      "specHash": "0x6b4542f5b8f5c0e6a332f4fed6c1f840db2e26fa2840a194664bee75c49504db",
+      "spec": "agentcoin-notary/v1: JSON receipt {v, digest, note, jobId, client, settleTx, notarizedAt, chainId}; deliverableHash = keccak256(RFC8785(receipt))",
+      "deadlineSeconds": 3600,
+      "schemeSpec": "payer calls escrowContract.createAndFund(provider=payTo, evaluator, amount>=price, deadline, specHash) itself (pays own gas); PAYMENT-SIGNATURE payload = {jobId, txHash}"
+     }
+    }
+   ],
+   "metadata": {
+    "provider": "AgentCoin (STOS Technologies LLC)",
+    "category": "infrastructure",
+    "tags": [
+     "escrow",
+     "notary",
+     "timestamp",
+     "usdc",
+     "testnet"
+    ]
+   },
+   "extensions": {
+    "bazaar": {
+     "info": {
+      "input": {
+       "type": "http",
+       "method": "POST",
+       "bodyType": "json",
+       "body": {
+        "sha256": "0xabababababababababababababababababababababababababababababababab",
+        "note": "base-sepolia testnet"
+       }
+      },
+      "output": {
+       "type": "json",
+       "example": {
+        "receipt": {
+         "v": "agentcoin-notary/v1"
+        },
+        "deliverableHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "submitTx": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "jobId": "1"
+       }
+      }
+     },
+     "schema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+       "input": {
+        "type": "object",
+        "properties": {
+         "type": {
+          "type": "string",
+          "const": "http"
+         },
+         "method": {
+          "type": "string",
+          "enum": [
+           "POST",
+           "PUT",
+           "PATCH"
+          ]
+         },
+         "bodyType": {
+          "type": "string",
+          "enum": [
+           "json",
+           "form-data",
+           "text"
+          ]
+         },
+         "body": {
+          "properties": {
+           "sha256": {
+            "type": "string",
+            "pattern": "^0x[0-9a-fA-F]{64}$"
+           },
+           "note": {
+            "type": "string",
+            "maxLength": 200
+           }
+          }
+         }
+        },
+        "required": [
+         "type",
+         "method",
+         "bodyType",
+         "body"
+        ],
+        "additionalProperties": false
+       },
+       "output": {
+        "type": "object",
+        "properties": {
+         "type": {
+          "type": "string"
+         },
+         "example": {
+          "type": "object"
+         }
+        },
+        "required": [
+         "type"
+        ]
+       }
+      },
+      "required": [
+       "input"
+      ]
+     }
+    }
+   }
+  }
+ ]
+}

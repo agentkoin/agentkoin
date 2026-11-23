@@ -1,0 +1,192 @@
+{
+  "network": "base-sepolia",
+  "chainId": 84532,
+  "task": "AD-011 test evaluators",
+  "registry": "0x30576DE005df028D1947C56dEcc85a2a5612036a",
+  "usdc": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+  "minStake": "2000000",
+  "evaluators": {
+    "a": {
+      "address": "0x000f3e27EAf5d2C1A30F4fE50FF1bcC4A78f124A",
+      "label": "test evaluator A (testnet demo)",
+      "keyFile": ".secrets/testnet-test-evaluator-a.key"
+    },
+    "b": {
+      "address": "0x1164586D557a45e5234ed882506E205b2C00C298",
+      "label": "test evaluator B (testnet demo)",
+      "keyFile": ".secrets/testnet-test-evaluator-b.key"
+    }
+  },
+  "txs": [
+    {
+      "label": "ETH deployer->test evaluator A (gas)",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "hash": "0xc960a5d38fe4edf9aebbe0bab788fe1ec07e19bba35185b65496ca80348d3f4e",
+      "block": "59182378",
+      "gasUsed": "21000",
+      "status": "success"
+    },
+    {
+      "label": "USDC deployer->test evaluator A (minStake)",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "hash": "0x9fdbc4be49c62bfcf8bbcb4c08a4f15e280a8765bf7586cb757099b4a3d7968c",
+      "block": "59182382",
+      "gasUsed": "62147",
+      "status": "success"
+    },
+    {
+      "label": "USDC test evaluator A approve registry",
+      "from": "0x000f3e27EAf5d2C1A30F4fE50FF1bcC4A78f124A",
+      "hash": "0x2ea139302f7d3a1ba170636a517d400b714fc7d7234672df34f7937f8172888e",
+      "block": "59182385",
+      "gasUsed": "55437",
+      "status": "success"
+    },
+    {
+      "label": "EvaluatorRegistry.stake(minStake) by test evaluator A",
+      "from": "0x000f3e27EAf5d2C1A30F4fE50FF1bcC4A78f124A",
+      "hash": "0x17304a4cc284acab2ab7dd1334502b4cd6944cb59936f3a23f513ca8108750ae",
+      "block": "59182389",
+      "gasUsed": "75016",
+      "status": "success"
+    },
+    {
+      "label": "ETH deployer->test evaluator B (gas)",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "hash": "0x2751409c66e7c4a1bd5bd1f065f83db2f32c12496835531c7e28436ea64cf786",
+      "block": "59182393",
+      "gasUsed": "21000",
+      "status": "success"
+    },
+    {
+      "label": "USDC deployer->test evaluator B (minStake)",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "hash": "0x555b50fcf1b0d61a465c7ba21fd0de0245b1679fb4481ec7aa77abc8f4acb291",
+      "block": "59182397",
+      "gasUsed": "62147",
+      "status": "success"
+    },
+    {
+      "label": "USDC test evaluator B approve registry",
+      "from": "0x1164586D557a45e5234ed882506E205b2C00C298",
+      "hash": "0x351b5529e818a6d569f7e86abffc1b677aaea858898b5dfb45e01710b9a3c58c",
+      "block": "59182400",
+      "gasUsed": "55437",
+      "status": "success"
+    },
+    {
+      "label": "EvaluatorRegistry.stake(minStake) by test evaluator B",
+      "from": "0x1164586D557a45e5234ed882506E205b2C00C298",
+      "hash": "0x957fe42f0563c826f73e95080004158e48356ca462b5312b5bec472a49fefbc2",
+      "block": "59182403",
+      "gasUsed": "75016",
+      "status": "success"
+    }
+  ],
+  "adminLevers": {
+    "task": "AD-011 (b): arbitrator -> address(0), treasury -> 0x...dEaD on deployer-owned escrows",
+    "escrows": {
+      "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D": {
+        "name": "JobEscrow (USDC)",
+        "before": {
+          "owner": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+          "treasury": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+          "arbitrator": "0x3C4587eD99B1969581cA4f041FD9535a0D269736",
+          "jobCount": "26"
+        },
+        "txs": [
+          {
+            "fn": "setArbitrator",
+            "arg": "0x0000000000000000000000000000000000000000",
+            "hash": "0xa9ebab53e6a30ae873bcf0017bb4b744a82904e0fcc3af884d65247f4200ee34",
+            "block": "59208192",
+            "status": "success"
+          },
+          {
+            "fn": "setTreasury",
+            "arg": "0x000000000000000000000000000000000000dEaD",
+            "hash": "0xaf12f7f72bbe4911a3379278d4ce286f9e71e72ebae249294de9e6b5ce26197e",
+            "block": "59208196",
+            "status": "success"
+          }
+        ],
+        "after": {
+          "owner": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+          "treasury": "0x000000000000000000000000000000000000dEaD",
+          "arbitrator": "0x0000000000000000000000000000000000000000",
+          "jobCount": "26"
+        }
+      },
+      "0x17349D60efD6469Fd399F807c644Ce0a92798516": {
+        "name": "JobEscrow (EURC)",
+        "before": {
+          "owner": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+          "treasury": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+          "arbitrator": "0x3C4587eD99B1969581cA4f041FD9535a0D269736",
+          "jobCount": "0"
+        },
+        "txs": [
+          {
+            "fn": "setArbitrator",
+            "arg": "0x0000000000000000000000000000000000000000",
+            "hash": "0xccce8a44c5d002e9530157547428a2f372f32568588b9312a38b5050bb7c56f8",
+            "block": "59208203",
+            "status": "success"
+          },
+          {
+            "fn": "setTreasury",
+            "arg": "0x000000000000000000000000000000000000dEaD",
+            "hash": "0x682fefc9c4bfc5a08bbe79bee868c97132dba2c1edc63a4064118ffc4a34cd39",
+            "block": "59208207",
+            "status": "success"
+          }
+        ],
+        "after": {
+          "owner": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+          "treasury": "0x000000000000000000000000000000000000dEaD",
+          "arbitrator": "0x0000000000000000000000000000000000000000",
+          "jobCount": "0"
+        }
+      }
+    }
+  },
+  "liveEvaluatorJobs": {
+    "task": "AD-011 (a): one live verdict per test evaluator, STOS demo buyers only, evaluators in containers agentcoin-evaluator-a/-b (image agentcoin-testnet:0.5.17)",
+    "jobs": [
+      {
+        "jobId": 27,
+        "evaluator": "0x000f3e27EAf5d2C1A30F4fE50FF1bcC4A78f124A",
+        "container": "agentcoin-evaluator-a",
+        "buyer": "stos-demo-buyer-2 0x0b47dc4d735d37f38Cb74b74A52927DafdeDF388",
+        "path": "x402 exact via relayer",
+        "settleTx": "0x68340950e18a6d4df8adc27079582bed1a1d518a033e33dd9ccdad8484e10c7a",
+        "submitTx": "0x25f181d7d7608c076c0f4cb7df76f1addfd31f021493fc5985f56843a40c4538",
+        "verdictTx": "0x8acf1745f4e7eeca50c02c71a7e3418207f9dcb4c0ca284243dbc3d877ef2947",
+        "outcome": "Complete",
+        "finalizeTx": "0x9a8ea1f0bd9520b9109e2f494b75cce56935f600dee0d944c3a91629bd3a00c8",
+        "finalizedBy": "service relayer (permissionless finalize after challengeWindow)"
+      },
+      {
+        "jobId": 28,
+        "evaluator": "0x1164586D557a45e5234ed882506E205b2C00C298",
+        "container": "agentcoin-evaluator-b",
+        "buyer": "stos-demo-buyer-3 0xA6400ccE36C97Ad47f65047fB3DfCBc345c114bc",
+        "path": "self-submitted by the buyer (no relayer)",
+        "settleTx": "0x6503de70367b12559834dbdce7bcacf750a1d5ce3e604c36fa794d8483ff443c",
+        "submitTx": "0x9ffbf77f18a7de245cd67e3d85cffdc69eb7ef679c719a958d4381238cf2d536",
+        "verdictTx": "0xc549ef357b78515dbc5cf0a6f2633ae97a5297f78ea691e737f5583c715ccc42",
+        "outcome": "Complete",
+        "finalizeTx": "0xae51fa9a55d439414deb971805e761395b0edfa095fbd3ff11ecb452db9c62b9",
+        "finalizedBy": "service relayer (permissionless finalize after challengeWindow)"
+      }
+    ]
+  },
+  "trustManifest": {
+    "resignedAt": "2026-11-15",
+    "mode": "ONLY=trust-manifest (registration, agent card, jwks not re-signed)",
+    "fileSha256": "da75d03f2a313a70d1e5ecf39e00d055d586cc66d2781c27ea9ef71c490807ef",
+    "servedSha256": "3149055d8805b54e45f810a6be6d4a97667c0ce8bb6a7f34d312a11a41050ff2",
+    "verify": "58/58",
+    "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68"
+  }
+}

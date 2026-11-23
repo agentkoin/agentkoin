@@ -1,0 +1,38 @@
+{
+  "chainId": 8453,
+  "deployBlock": 61301618,
+  "deployer": "0xd53D68F294c0F680d8cDD4fDF08B4e8ea115Fe00",
+  "depositRouteFactory": "0x8d2814028E8A5a49Aa2e89B8BAC61Cc22E167d40",
+  "escrow": "0xB647158dE59588e1070d616BDB31459d610CE885",
+  "escrowArbitrator": "0x0000000000000000000000000000000000000000",
+  "evaluatorFeeBps": 0,
+  "feeBps": 0,
+  "feeRecipientSafe": "0xD1831bd7a12d853570b20DD7d03c280158DD0474",
+  "keeperThreshold": 2,
+  "keepers": [
+    "0xb300C82e88560a854D109aAdc83702D32580D2e5",
+    "0xa9d34898B6EbFd084b3B47320c92C4AaF16d2586"
+  ],
+  "maxPerJob": 50000000,
+  "maxTotalLocked": 500000000,
+  "minStake": 10000000,
+  "ownerSafe": "0xE26B5fC9499f3aD1cec80d81D9ec8E5f2c743d76",
+  "pauserSafe": "0x76a111907017e43b3633e91D6516EE3322C1b010",
+  "pendingSafeActions": "None required. Disputes are off at launch (escrow.arbitrator = 0). To enable later: OWNER_SAFE uma.setArbitrable(escrow,true) then escrow.setArbitrator(uma). No acceptOwnership needed: owners set in constructors.",
+  "recoveryVault": "0x31561E0DF1B1af25BfF9CBcba5a5813B594BFbcD",
+  "registry": "0x180278C990d65a1301fE311623FEeC808d5768E0",
+  "umaArbitratorAdapter": "0xdf71A3e951d52d17138B281Edc183A6952C77CFC",
+  "umaOracle": "0x2aBf1Bd76655de80eDB3086114315Eec75AF500c",
+  "usdc": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  "erc8004": {
+    "identityRegistry": "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432",
+    "reputationRegistry": "0x8004BAa17C55a88189AE136b182e5fdA19dE9b63",
+    "source": "https://github.com/erc-8004/erc-8004-contracts (README, Base Mainnet)",
+    "agentId": "1227468",
+    "owner": "0x54010ea16fc75EDc5Fa171690F03708bE7057334",
+    "agentURI": "https://agentcoinhq.com/.well-known/agent-registration.json",
+    "registerTx": "0xf1e1bae8aacd32b430a9ef1f50156c8e8f91aa8f155c23f174a4f44d2c5374bc",
+    "registerBlock": 61318374
+  },
+  "identityRegistry": "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432"
+}

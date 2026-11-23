@@ -1,0 +1,1483 @@
+{
+  "v": "agentcoin-mcp-tools/0.3",
+  "server": {
+    "name": "agentcoin-base-sepolia",
+    "version": "0.4.0",
+    "transport": "stdio",
+    "command": "node",
+    "args": [
+      "agent/mcp/server.mjs"
+    ],
+    "cwd": "<repo root>",
+    "env": {
+      "AGENTCOIN_NETWORK": "base-sepolia"
+    },
+    "hosted": false
+  },
+  "network": {
+    "name": "base-sepolia",
+    "chainId": 84532,
+    "caip2": "eip155:84532",
+    "testnet": true,
+    "defaultRpc": "https://sepolia.base.org"
+  },
+  "contracts": {
+    "escrow": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+    "evaluatorRegistry": "0x30576DE005df028D1947C56dEcc85a2a5612036a",
+    "token": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+    "arbitrator": "0x3C4587eD99B1969581cA4f041FD9535a0D269736",
+    "evaluatorAdapter": "0x27803F8DBDAd0D6B0E719d2AB2eB7A31b5c53509",
+    "depositRouteFactory": "0x32174eFD01e600E621Cf3f0D19Ff694483B19b95",
+    "recoveryVault": "0xac3bFF013bABD1F8B671b4838Cd54aA98bd3B460",
+    "identityRegistry": "0x8004A818BFB912233c491871b3d84c89A494BD9e"
+  },
+  "units": {
+    "token": "USDC base units (6 decimals), decimal strings",
+    "time": "seconds"
+  },
+  "signing": "open_job returns unsigned EIP-1559 transactions (approve, createAndFund); the caller signs and broadcasts. Server-side signing (demoSign) is disabled outside the local network.",
+  "tools": [
+    {
+      "name": "quote",
+      "title": "Quote escrow terms",
+      "description": "Returns protocol fee, evaluator fee, provider net, challenge bond, arbitration fee, instant-release eligibility, windows and config version for an escrow amount, plus ERC-8183 adapter bond, arbitration cost and minimum kernel expiry; optionally evaluator stake and capacity. Read-only.",
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "USDC base units (6 decimals), decimal string"
+          },
+          "providerBond": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "USDC base units (6 decimals), decimal string"
+          },
+          "evaluator": {
+            "type": "string",
+            "pattern": "^0x[0-9a-fA-F]{40}$"
+          }
+        },
+        "required": [
+          "amount"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "chainId": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "network": {
+            "type": "string"
+          },
+          "networkName": {
+            "type": "string"
+          },
+          "testnet": {
+            "type": "boolean"
+          },
+          "localDevnet": {
+            "type": "boolean"
+          },
+          "realValue": {
+            "type": "boolean"
+          },
+          "blockNumber": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "unsigned integer, decimal string"
+          },
+          "contracts": {
+            "type": "object",
+            "properties": {
+              "escrow": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "evaluatorRegistry": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "token": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "arbitrator": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "identityRegistry": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^0x[0-9a-fA-F]{40}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "evaluatorAdapter": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "depositRouteFactory": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              }
+            },
+            "required": [
+              "escrow",
+              "evaluatorRegistry",
+              "token",
+              "arbitrator",
+              "identityRegistry",
+              "evaluatorAdapter",
+              "depositRouteFactory"
+            ],
+            "additionalProperties": false
+          },
+          "unit": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "USDC base units (6 decimals), decimal string"
+          },
+          "providerBond": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "USDC base units (6 decimals), decimal string"
+          },
+          "feeBps": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "feeChargedOn": {
+            "type": "string"
+          },
+          "instantBondCoverBps": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "exposureMultiplier": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "feeAtFullPayout": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "USDC base units (6 decimals), decimal string"
+          },
+          "providerNetAtFullPayout": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "USDC base units (6 decimals), decimal string"
+          },
+          "evaluatorFeeBps": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "evaluatorFeeAtFullPayout": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "USDC base units (6 decimals), decimal string"
+          },
+          "evaluatorFeeChargedOn": {
+            "type": "string"
+          },
+          "challengeBond": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "USDC base units (6 decimals), decimal string"
+          },
+          "arbitrationFee": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "USDC base units (6 decimals), decimal string"
+          },
+          "challengeUpfrontTotal": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "challengeBond + arbitrationFee, pulled from the challenger"
+          },
+          "arbitrationFeeModel": {
+            "type": "string"
+          },
+          "instantThreshold": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "USDC base units (6 decimals), decimal string"
+          },
+          "instantEligible": {
+            "type": "boolean"
+          },
+          "requiredProviderBondForInstant": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9]+$",
+                "description": "USDC base units (6 decimals), decimal string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "null when amount > instantThreshold"
+          },
+          "evalWindowSeconds": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "challengeWindowSeconds": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "configVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "evaluatorMinStake": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "USDC base units (6 decimals), decimal string"
+          },
+          "erc8183Adapter": {
+            "type": "object",
+            "properties": {
+              "challengeBond": {
+                "type": "string",
+                "pattern": "^[0-9]+$",
+                "description": "USDC base units (6 decimals), decimal string"
+              },
+              "arbitrationFee": {
+                "type": "string",
+                "pattern": "^[0-9]+$",
+                "description": "USDC base units (6 decimals), decimal string"
+              },
+              "requiredExpiryDurationSeconds": {
+                "type": "string",
+                "pattern": "^[0-9]+$",
+                "description": "evalWindow + challengeWindow + arbitrationTimeout + expiryMargin"
+              },
+              "minKernelExpiry": {
+                "type": "string",
+                "pattern": "^[0-9]+$",
+                "description": "unix seconds; a kernel job must expire at or after this to be assignable now"
+              },
+              "minKernelExpiryRule": {
+                "type": "string"
+              },
+              "configVersion": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "challengeBond",
+              "arbitrationFee",
+              "requiredExpiryDurationSeconds",
+              "minKernelExpiry",
+              "minKernelExpiryRule",
+              "configVersion"
+            ],
+            "additionalProperties": false
+          },
+          "evaluator": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "active": {
+                "type": "boolean"
+              },
+              "stake": {
+                "type": "string",
+                "pattern": "^[0-9]+$",
+                "description": "USDC base units (6 decimals), decimal string"
+              },
+              "availableExposure": {
+                "type": "string",
+                "pattern": "^[0-9]+$",
+                "description": "USDC base units (6 decimals), decimal string"
+              }
+            },
+            "required": [
+              "address",
+              "active",
+              "stake",
+              "availableExposure"
+            ],
+            "additionalProperties": {}
+          },
+          "evaluatorCanTakeAmount": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "chainId",
+          "network",
+          "blockNumber",
+          "contracts",
+          "unit",
+          "amount",
+          "providerBond",
+          "feeBps",
+          "feeChargedOn",
+          "instantBondCoverBps",
+          "exposureMultiplier",
+          "feeAtFullPayout",
+          "providerNetAtFullPayout",
+          "evaluatorFeeBps",
+          "evaluatorFeeAtFullPayout",
+          "evaluatorFeeChargedOn",
+          "challengeBond",
+          "arbitrationFee",
+          "challengeUpfrontTotal",
+          "arbitrationFeeModel",
+          "instantThreshold",
+          "instantEligible",
+          "requiredProviderBondForInstant",
+          "evalWindowSeconds",
+          "challengeWindowSeconds",
+          "configVersion",
+          "evaluatorMinStake",
+          "erc8183Adapter"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "open_job",
+      "title": "Build escrow job transactions",
+      "description": "Builds unsigned EIP-1559 transactions (USDC approve, then escrow createAndFund) for the given client, provider, evaluator, amount, deadline and spec. Nothing is signed or sent; the client signs and broadcasts. Returns calldata, nonces and the absolute deadline.",
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "client": {
+            "description": "address that signs and pays; required unless demoSign",
+            "type": "string",
+            "pattern": "^0x[0-9a-fA-F]{40}$"
+          },
+          "provider": {
+            "type": "string",
+            "pattern": "^0x[0-9a-fA-F]{40}$"
+          },
+          "evaluator": {
+            "type": "string",
+            "pattern": "^0x[0-9a-fA-F]{40}$"
+          },
+          "amount": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "USDC base units (6 decimals), decimal string"
+          },
+          "deadlineSeconds": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991,
+            "description": "seconds from the latest block until the submission deadline"
+          },
+          "specHash": {
+            "description": "keccak256 of the job spec; required unless spec is given",
+            "type": "string",
+            "pattern": "^0x[0-9a-fA-F]{64}$"
+          },
+          "spec": {
+            "description": "job spec text; hashed with keccak256 if specHash is absent",
+            "type": "string",
+            "maxLength": 10000
+          },
+          "demoSign": {
+            "description": "sign and send with the server key; accepted only when the server runs with AGENTCOIN_DEMO_SIGN=1 (local demo)",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "provider",
+          "evaluator",
+          "amount",
+          "deadlineSeconds"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "chainId": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "network": {
+            "type": "string"
+          },
+          "networkName": {
+            "type": "string"
+          },
+          "testnet": {
+            "type": "boolean"
+          },
+          "localDevnet": {
+            "type": "boolean"
+          },
+          "realValue": {
+            "type": "boolean"
+          },
+          "blockNumber": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "unsigned integer, decimal string"
+          },
+          "contracts": {
+            "type": "object",
+            "properties": {
+              "escrow": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "evaluatorRegistry": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "token": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "arbitrator": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "identityRegistry": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^0x[0-9a-fA-F]{40}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "evaluatorAdapter": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "depositRouteFactory": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              }
+            },
+            "required": [
+              "escrow",
+              "evaluatorRegistry",
+              "token",
+              "arbitrator",
+              "identityRegistry",
+              "evaluatorAdapter",
+              "depositRouteFactory"
+            ],
+            "additionalProperties": false
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "unsigned",
+              "demo-signed"
+            ]
+          },
+          "client": {
+            "type": "string",
+            "pattern": "^0x[0-9a-fA-F]{40}$"
+          },
+          "provider": {
+            "type": "string",
+            "pattern": "^0x[0-9a-fA-F]{40}$"
+          },
+          "evaluator": {
+            "type": "string",
+            "pattern": "^0x[0-9a-fA-F]{40}$"
+          },
+          "amount": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "USDC base units (6 decimals), decimal string"
+          },
+          "specHash": {
+            "type": "string",
+            "pattern": "^0x[0-9a-fA-F]{64}$"
+          },
+          "deadline": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "absolute unix time encoded in the createAndFund calldata"
+          },
+          "transactions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "step": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "label": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string",
+                  "const": "eip1559"
+                },
+                "chainId": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "from": {
+                  "type": "string",
+                  "pattern": "^0x[0-9a-fA-F]{40}$"
+                },
+                "to": {
+                  "type": "string",
+                  "pattern": "^0x[0-9a-fA-F]{40}$"
+                },
+                "data": {
+                  "type": "string",
+                  "pattern": "^0x[0-9a-fA-F]*$"
+                },
+                "value": {
+                  "type": "string",
+                  "pattern": "^[0-9]+$",
+                  "description": "unsigned integer, decimal string"
+                },
+                "nonce": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "gas": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^[0-9]+$",
+                      "description": "unsigned integer, decimal string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "estimate; null when it depends on a prior step"
+                },
+                "maxFeePerGas": {
+                  "type": "string",
+                  "pattern": "^[0-9]+$",
+                  "description": "unsigned integer, decimal string"
+                },
+                "maxPriorityFeePerGas": {
+                  "type": "string",
+                  "pattern": "^[0-9]+$",
+                  "description": "unsigned integer, decimal string"
+                }
+              },
+              "required": [
+                "step",
+                "label",
+                "type",
+                "chainId",
+                "from",
+                "to",
+                "data",
+                "value",
+                "nonce",
+                "gas",
+                "maxFeePerGas",
+                "maxPriorityFeePerGas"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "expectedJobId": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "jobCount+1 at build time; differs if another job is created first"
+          },
+          "jobId": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "unsigned integer, decimal string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "txHashes": {
+            "type": "object",
+            "properties": {
+              "approve": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{64}$"
+              },
+              "createAndFund": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{64}$"
+              }
+            },
+            "required": [
+              "approve",
+              "createAndFund"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "chainId",
+          "network",
+          "blockNumber",
+          "contracts",
+          "mode",
+          "client",
+          "provider",
+          "evaluator",
+          "amount",
+          "specHash",
+          "deadline",
+          "transactions",
+          "expectedJobId"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "get_job_status",
+      "title": "Get escrow job status",
+      "description": "Returns state, outcome, payoutBps, parties, amounts, bonds, deadlines (verdict and challenge), dispute record and the tx hash of every event for a jobId. Read-only.",
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "unsigned integer, decimal string"
+          }
+        },
+        "required": [
+          "jobId"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "chainId": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "network": {
+            "type": "string"
+          },
+          "networkName": {
+            "type": "string"
+          },
+          "testnet": {
+            "type": "boolean"
+          },
+          "localDevnet": {
+            "type": "boolean"
+          },
+          "realValue": {
+            "type": "boolean"
+          },
+          "blockNumber": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "unsigned integer, decimal string"
+          },
+          "contracts": {
+            "type": "object",
+            "properties": {
+              "escrow": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "evaluatorRegistry": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "token": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "arbitrator": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "identityRegistry": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^0x[0-9a-fA-F]{40}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "evaluatorAdapter": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "depositRouteFactory": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              }
+            },
+            "required": [
+              "escrow",
+              "evaluatorRegistry",
+              "token",
+              "arbitrator",
+              "identityRegistry",
+              "evaluatorAdapter",
+              "depositRouteFactory"
+            ],
+            "additionalProperties": false
+          },
+          "jobId": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "unsigned integer, decimal string"
+          },
+          "exists": {
+            "type": "boolean"
+          },
+          "state": {
+            "type": "string"
+          },
+          "outcome": {
+            "type": "string"
+          },
+          "client": {
+            "type": "string",
+            "pattern": "^0x[0-9a-fA-F]{40}$"
+          },
+          "provider": {
+            "type": "string",
+            "pattern": "^0x[0-9a-fA-F]{40}$"
+          },
+          "evaluator": {
+            "type": "string",
+            "pattern": "^0x[0-9a-fA-F]{40}$"
+          },
+          "amount": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "USDC base units (6 decimals), decimal string"
+          },
+          "providerBond": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "USDC base units (6 decimals), decimal string"
+          },
+          "payoutBps": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "instant": {
+            "type": "boolean"
+          },
+          "accepted": {
+            "type": "boolean"
+          },
+          "configVersion": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "deadline": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "unsigned integer, decimal string"
+          },
+          "submittedAt": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "unsigned integer, decimal string"
+          },
+          "verdictAt": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "unsigned integer, decimal string"
+          },
+          "disputedAt": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "unsigned integer, decimal string"
+          },
+          "specHash": {
+            "type": "string",
+            "pattern": "^0x[0-9a-fA-F]{64}$"
+          },
+          "deliverableHash": {
+            "type": "string",
+            "pattern": "^0x[0-9a-fA-F]{64}$"
+          },
+          "reasonHash": {
+            "type": "string",
+            "pattern": "^0x[0-9a-fA-F]{64}$"
+          },
+          "verdictDeadline": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9]+$",
+                "description": "unsigned integer, decimal string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "challengeDeadline": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9]+$",
+                "description": "unsigned integer, decimal string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "slashBase": {
+            "description": "registry minStake pinned at fund; slash amounts are bps of this",
+            "type": "string",
+            "pattern": "^[0-9]+$"
+          },
+          "dispute": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "challenger": {
+                    "type": "string",
+                    "pattern": "^0x[0-9a-fA-F]{40}$"
+                  },
+                  "arbitrator": {
+                    "type": "string",
+                    "pattern": "^0x[0-9a-fA-F]{40}$"
+                  },
+                  "bond": {
+                    "type": "string",
+                    "pattern": "^[0-9]+$",
+                    "description": "USDC base units (6 decimals), decimal string"
+                  },
+                  "arbitrationFee": {
+                    "type": "string",
+                    "pattern": "^[0-9]+$",
+                    "description": "USDC base units (6 decimals), decimal string"
+                  }
+                },
+                "required": [
+                  "challenger",
+                  "arbitrator",
+                  "bond",
+                  "arbitrationFee"
+                ],
+                "additionalProperties": {}
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "event": {
+                  "type": "string"
+                },
+                "txHash": {
+                  "type": "string",
+                  "pattern": "^0x[0-9a-fA-F]{64}$"
+                },
+                "blockNumber": {
+                  "type": "string",
+                  "pattern": "^[0-9]+$",
+                  "description": "unsigned integer, decimal string"
+                }
+              },
+              "required": [
+                "event",
+                "txHash",
+                "blockNumber"
+              ],
+              "additionalProperties": {}
+            }
+          }
+        },
+        "required": [
+          "chainId",
+          "network",
+          "blockNumber",
+          "contracts",
+          "jobId",
+          "exists"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "get_evaluator_reputation",
+      "title": "Get evaluator reputation",
+      "description": "Raw counts derived from escrow and registry events for an evaluator: jobs assigned, verdicts by outcome, disputes, verdicts overturned, missed verdicts, slashes; plus stake, volume, avg time to verdict and tx-hash evidence. No score. Read-only.",
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "evaluator": {
+            "type": "string",
+            "pattern": "^0x[0-9a-fA-F]{40}$"
+          }
+        },
+        "required": [
+          "evaluator"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "chainId": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "network": {
+            "type": "string"
+          },
+          "networkName": {
+            "type": "string"
+          },
+          "testnet": {
+            "type": "boolean"
+          },
+          "localDevnet": {
+            "type": "boolean"
+          },
+          "realValue": {
+            "type": "boolean"
+          },
+          "blockNumber": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "unsigned integer, decimal string"
+          },
+          "contracts": {
+            "type": "object",
+            "properties": {
+              "escrow": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "evaluatorRegistry": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "token": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "arbitrator": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "identityRegistry": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^0x[0-9a-fA-F]{40}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "evaluatorAdapter": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "depositRouteFactory": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              }
+            },
+            "required": [
+              "escrow",
+              "evaluatorRegistry",
+              "token",
+              "arbitrator",
+              "identityRegistry",
+              "evaluatorAdapter",
+              "depositRouteFactory"
+            ],
+            "additionalProperties": false
+          },
+          "evaluator": {
+            "type": "string",
+            "pattern": "^0x[0-9a-fA-F]{40}$"
+          },
+          "indexedFromBlock": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "unsigned integer, decimal string"
+          },
+          "indexedToBlock": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "unsigned integer, decimal string"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "counts": {
+            "type": "object",
+            "properties": {
+              "jobsAssigned": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "verdicts": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "verdictsByOutcome": {
+                "type": "object",
+                "properties": {
+                  "Complete": {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  },
+                  "Reject": {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  },
+                  "Partial": {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "Complete",
+                  "Reject",
+                  "Partial"
+                ],
+                "additionalProperties": false
+              },
+              "jobsCompleted": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "jobsDisputed": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "disputesLost": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "verdictsOverturned": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "missedVerdicts": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "adapter": {
+                "type": "object",
+                "properties": {
+                  "jobsAccepted": {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  },
+                  "verdicts": {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  },
+                  "verdictsOverturned": {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  },
+                  "missedVerdicts": {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "jobsAccepted",
+                  "verdicts",
+                  "verdictsOverturned",
+                  "missedVerdicts"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "jobsAssigned",
+              "verdicts",
+              "verdictsByOutcome",
+              "jobsCompleted",
+              "jobsDisputed",
+              "disputesLost",
+              "verdictsOverturned",
+              "missedVerdicts",
+              "adapter"
+            ],
+            "additionalProperties": false
+          },
+          "totalVolume": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "USDC base units (6 decimals), decimal string"
+          },
+          "currentStake": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "USDC base units (6 decimals), decimal string"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "slashedTotal": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "USDC base units (6 decimals), decimal string"
+          },
+          "avgTimeToVerdictSeconds": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9]+$",
+                "description": "unsigned integer, decimal string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "evidence": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "event": {
+                        "type": "string"
+                      },
+                      "txHash": {
+                        "type": "string",
+                        "pattern": "^0x[0-9a-fA-F]{64}$"
+                      },
+                      "blockNumber": {
+                        "type": "string",
+                        "pattern": "^[0-9]+$",
+                        "description": "unsigned integer, decimal string"
+                      }
+                    },
+                    "required": [
+                      "event",
+                      "txHash",
+                      "blockNumber"
+                    ],
+                    "additionalProperties": {}
+                  }
+                },
+                {
+                  "type": "object",
+                  "propertyNames": {
+                    "type": "string"
+                  },
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "event": {
+                          "type": "string"
+                        },
+                        "txHash": {
+                          "type": "string",
+                          "pattern": "^0x[0-9a-fA-F]{64}$"
+                        },
+                        "blockNumber": {
+                          "type": "string",
+                          "pattern": "^[0-9]+$",
+                          "description": "unsigned integer, decimal string"
+                        }
+                      },
+                      "required": [
+                        "event",
+                        "txHash",
+                        "blockNumber"
+                      ],
+                      "additionalProperties": {}
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "required": [
+          "chainId",
+          "network",
+          "blockNumber",
+          "contracts",
+          "evaluator",
+          "indexedFromBlock",
+          "indexedToBlock",
+          "unit",
+          "counts",
+          "totalVolume",
+          "currentStake",
+          "active",
+          "slashedTotal",
+          "avgTimeToVerdictSeconds",
+          "evidence"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "verify_attestation",
+      "title": "Verify attestation or signed artifact",
+      "description": "Verifies a trust manifest, single attestation, A2A agent card (JWS ES256K) or {document, signature} ERC-8004 registration: signature, signer, and on-chain claims (code hashes, config, stakes at block, agent owner). Returns each check. Read-only.",
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false
+      },
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "document": {
+            "anyOf": [
+              {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {}
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "description": "JSON object or JSON string"
+          },
+          "expectedSigner": {
+            "type": "string",
+            "pattern": "^0x[0-9a-fA-F]{40}$"
+          }
+        },
+        "required": [
+          "document"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "chainId": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "network": {
+            "type": "string"
+          },
+          "networkName": {
+            "type": "string"
+          },
+          "testnet": {
+            "type": "boolean"
+          },
+          "localDevnet": {
+            "type": "boolean"
+          },
+          "realValue": {
+            "type": "boolean"
+          },
+          "blockNumber": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "unsigned integer, decimal string"
+          },
+          "contracts": {
+            "type": "object",
+            "properties": {
+              "escrow": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "evaluatorRegistry": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "token": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "arbitrator": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "identityRegistry": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^0x[0-9a-fA-F]{40}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "evaluatorAdapter": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              "depositRouteFactory": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              }
+            },
+            "required": [
+              "escrow",
+              "evaluatorRegistry",
+              "token",
+              "arbitrator",
+              "identityRegistry",
+              "evaluatorAdapter",
+              "depositRouteFactory"
+            ],
+            "additionalProperties": false
+          },
+          "kind": {
+            "type": "string"
+          },
+          "valid": {
+            "type": "boolean"
+          },
+          "signer": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "checks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "check": {
+                  "type": "string"
+                },
+                "pass": {
+                  "type": "boolean"
+                },
+                "detail": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "check",
+                "pass",
+                "detail"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "chainId",
+          "network",
+          "blockNumber",
+          "contracts",
+          "kind",
+          "valid",
+          "signer",
+          "checks"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false
+      }
+    }
+  ]
+}

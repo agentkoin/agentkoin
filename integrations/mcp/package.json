@@ -1,0 +1,42 @@
+{
+  "name": "@agentkoin/mcp",
+  "version": "0.1.1-testnet",
+  "type": "module",
+  "description": "Local stdio MCP server exposing AgentKoin (formerly AgentCoin) tools with a local testnet wallet. Base Sepolia testnet only.",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "agentkoin-mcp": "dist/bin.js",
+    "agentcoin-mcp": "dist/bin.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "snippets",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.20.0",
+    "@agentkoin/core": "0.1.2-testnet"
+  },
+  "author": "STOS Technologies LLC",
+  "publisher": "STOS Technologies LLC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stos-technologies/agentcoin.git"
+  },
+  "homepage": "https://github.com/stos-technologies/agentcoin",
+  "publishConfig": {
+    "access": "public"
+  }
+}

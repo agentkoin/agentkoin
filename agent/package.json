@@ -1,0 +1,36 @@
+{
+  "name": "agentcoin-agent-local",
+  "version": "0.4.0",
+  "private": true,
+  "type": "module",
+  "description": "Agent-facing prototype: MCP server (stdio), x402 endpoint (127.0.0.1), signed artifacts. Local Anvil (31337) or Base Sepolia testnet (84532) only. Not published.",
+  "scripts": {
+    "keys": "node scripts/gen-keys.mjs",
+    "sign": "node scripts/sign-artifacts.mjs",
+    "verify": "node scripts/verify-artifacts.mjs",
+    "mcp": "node mcp/server.mjs",
+    "x402": "node x402/server.mjs",
+    "demo": "node demo/run-demo.mjs",
+    "test": "node --test test/",
+    "service": "node service/app.mjs",
+    "service:e2e": "node service/e2e-local.mjs",
+    "doorknock:crawl": "node doorknock/crawl.mjs",
+    "doorknock:dry-run": "node --import ./doorknock/no-net.mjs doorknock/knock.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "@x402/extensions": "^2.31.0",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "better-sqlite3": "11.10.0",
+    "canonicalize": "^4.0.0",
+    "viem": "^2.57.11",
+    "zod": "^4.6.7"
+  },
+  "optionalDependencies": {
+    "@concordium/web-sdk": "^12.0.3"
+  }
+}

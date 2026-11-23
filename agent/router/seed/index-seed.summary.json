@@ -1,0 +1,41 @@
+{
+  "v": "agentcoin-index-seed/0.1",
+  "builtAt": "2026-11-01T04:29:33.685Z",
+  "testnet": true,
+  "realValue": false,
+  "inputs": {
+    "x402Bazaar": {
+      "url": "https://api.cdp.coinbase.com/platform/v2/x402/discovery/resources",
+      "fetchedAt": "2026-11-01T04:25:22.129Z",
+      "resources": 28144
+    },
+    "a2aCards": {
+      "file": "doorknock/out/v2/probe-cache.json",
+      "fetchedAt": "2026-10-31T03:33:31.636Z",
+      "cards": 629
+    },
+    "mcpRegistry": {
+      "files": [
+        "doorknock/out/targets.json",
+        "doorknock/out/v2/candidates.json"
+      ],
+      "remotes": 1062
+    },
+    "erc8004": {
+      "hosts": 30
+    }
+  },
+  "counts": {
+    "services": 4826,
+    "withSkills": 3675,
+    "byProtocol": {
+      "x402": 3118,
+      "a2a": 629,
+      "mcp": 1061,
+      "erc8004": 18
+    },
+    "skills": 35309,
+    "operators": 4127,
+    "excludedOptedOut": 0
+  }
+}

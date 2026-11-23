@@ -1,0 +1,258 @@
+{
+  "$schema": "https://agentcoinhq.com/schemas/trust-manifest-0.1.json",
+  "v": "agentcoin-trust/0.1",
+  "issuer": "0x54010ea16fc75EDc5Fa171690F03708bE7057334",
+  "agent": {
+    "agentRegistry": "eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432",
+    "agentId": "1227468"
+  },
+  "chainId": 8453,
+  "network": "eip155:8453",
+  "issuedAt": "2026-11-23T17:14:34.956Z",
+  "snapshotBlock": "61318495",
+  "contracts": {
+    "escrow": {
+      "address": "0xB647158dE59588e1070d616BDB31459d610CE885",
+      "codeHash": "0xf930ea72307697753ec4017693542ae09a437d9dcb85966c1a5342fb63470bb4"
+    },
+    "evaluatorRegistry": {
+      "address": "0x180278C990d65a1301fE311623FEeC808d5768E0",
+      "codeHash": "0x5359dda8aadf3f120ee9a3540fb66337a2e75fb76b4b0426bdadee75efad4d79"
+    },
+    "token": {
+      "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "codeHash": "0xa6705a10bb756b5dea144591118be77d7af0c3eee3bf2dfe2583dcb0364fefab",
+      "symbol": "USDC",
+      "decimals": 6,
+      "note": "Circle USDC on Base; proxy contract, codeHash is of the proxy"
+    },
+    "arbitrator": {
+      "address": "0x0000000000000000000000000000000000000000",
+      "codeHash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+      "kind": "none: JobEscrow.arbitrator() is address(0); challenge() reverts NoArbitrator, so a verdict cannot be overturned and finalize(jobId) executes it after challengeWindow"
+    },
+    "identityRegistry": {
+      "address": "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432",
+      "codeHash": "0xd0e45b1d89fa9b6cc7e97c1f155d64180e5c232aaccf9900ef9d4fd738c02b41",
+      "kind": "ERC-8004 IdentityRegistry (official erc-8004-contracts deployment; upgradeable proxy, codeHash is of the proxy)"
+    },
+    "depositRouteFactory": {
+      "address": "0x8d2814028E8A5a49Aa2e89B8BAC61Cc22E167d40",
+      "codeHash": "0x60c9504ff233711174e685b8f207ee0b8548f09fe3b4b099191528d1a7ad2859",
+      "kind": "EscrowDepositRouteFactory (x402 exact payTo routes)"
+    },
+    "treasury": "0xD1831bd7a12d853570b20DD7d03c280158DD0474"
+  },
+  "fees": {
+    "feeBps": 0,
+    "chargedOn": "provider payout (settlement or instant release); 0 on reject or refund",
+    "evaluatorFeeBps": 0,
+    "evaluatorFeeChargedOn": "provider gross on settled Complete/Partial when the verdict stands",
+    "arbitrationFeeModel": "none: JobEscrow.arbitrator() is address(0); challenge() reverts NoArbitrator, so a verdict cannot be overturned and finalize(jobId) executes it after challengeWindow",
+    "buyerBond": "none"
+  },
+  "escrowConfig": {
+    "version": 1,
+    "instantThreshold": "1000000",
+    "minChallengeBond": "1000000",
+    "evalWindow": "86400",
+    "challengeWindow": "172800",
+    "arbitrationTimeout": "2592000",
+    "challengeBondBps": "500",
+    "missedVerdictSlashBps": "1000",
+    "wrongVerdictSlashBps": "2500",
+    "materialDiffBps": "2000",
+    "feeBps": "0",
+    "failedChallengeEvaluatorShareBps": "5000",
+    "instantBondCoverBps": "10000",
+    "evaluatorFeeBps": "0"
+  },
+  "registryConfig": {
+    "minStake": "10000000",
+    "unbondingPeriod": "604800",
+    "exposureMultiplier": "5",
+    "slashHarmedShareBps": "5000",
+    "treasury": "0xD1831bd7a12d853570b20DD7d03c280158DD0474",
+    "slasherTimelockSeconds": "172800"
+  },
+  "evaluators": [
+    {
+      "address": "0x956B2045C80CcD5708b1D3B2C40c449b051e0094",
+      "active": true,
+      "stake": "10000000",
+      "exposure": "0",
+      "availableExposure": "50000000",
+      "openJobs": 0,
+      "unbondingEndsAt": "0",
+      "slashedTotal": "0",
+      "snapshotBlock": "61318495"
+    }
+  ],
+  "sla": {
+    "quoteP95Ms": null,
+    "note": "not measured"
+  },
+  "disputeRules": [
+    {
+      "path": "specs/SPEC-v0.md",
+      "sha256": "0xbe66b2d4865d06a260bfd5b94e3cf218ccca2833f15012897763adea628752bb"
+    },
+    {
+      "path": "docs/ASSUMPTIONS.md",
+      "sha256": "0x6c8b2340157156bd7a89dacd3dc524762429747448776e506df58b1991717df4"
+    }
+  ],
+  "audits": [],
+  "attestations": [
+    {
+      "v": "agentcoin-attestation/0.1",
+      "chainId": 8453,
+      "type": "evaluator-stake",
+      "subject": "0x956B2045C80CcD5708b1D3B2C40c449b051e0094",
+      "contract": "0x180278C990d65a1301fE311623FEeC808d5768E0",
+      "blockNumber": "61318495",
+      "claim": {
+        "stake": "10000000",
+        "active": true,
+        "slashedTotal": "0"
+      },
+      "signature": {
+        "scheme": "eip191",
+        "canonicalization": "RFC8785",
+        "digest": "keccak256",
+        "signer": "0x54010ea16fc75EDc5Fa171690F03708bE7057334",
+        "signedDigest": "0xe659ba8f8e1d0d8c13d906806eb95c7d0ff643dda3bb62130b360e14e5dad383",
+        "value": "0x97d832e673a2929aeb84bccbdf4bbcc3a5d12389860db9a0ee78fcba86f3bedc74c00be1f2c0e07a25acc873331686b1844bdb803c33be843f0afa78ea0a99c01b"
+      }
+    },
+    {
+      "v": "agentcoin-attestation/0.1",
+      "chainId": 8453,
+      "type": "contract-code",
+      "subject": "0xB647158dE59588e1070d616BDB31459d610CE885",
+      "blockNumber": "61318495",
+      "claim": {
+        "name": "escrow",
+        "codeHash": "0xf930ea72307697753ec4017693542ae09a437d9dcb85966c1a5342fb63470bb4"
+      },
+      "signature": {
+        "scheme": "eip191",
+        "canonicalization": "RFC8785",
+        "digest": "keccak256",
+        "signer": "0x54010ea16fc75EDc5Fa171690F03708bE7057334",
+        "signedDigest": "0xf0fa040cf2928b8c96674aaf191586aa084ff038c640113f394baf37bf8f4077",
+        "value": "0x52a35461d8d1f77fd9a7560ddbb6dcaf7ae026210f3530cc370404e4cbafb84b5d44394cb67dbbc399f058fd1b049c5b018cf5c17d6658efb294164dccc7193c1c"
+      }
+    },
+    {
+      "v": "agentcoin-attestation/0.1",
+      "chainId": 8453,
+      "type": "contract-code",
+      "subject": "0x180278C990d65a1301fE311623FEeC808d5768E0",
+      "blockNumber": "61318495",
+      "claim": {
+        "name": "evaluatorRegistry",
+        "codeHash": "0x5359dda8aadf3f120ee9a3540fb66337a2e75fb76b4b0426bdadee75efad4d79"
+      },
+      "signature": {
+        "scheme": "eip191",
+        "canonicalization": "RFC8785",
+        "digest": "keccak256",
+        "signer": "0x54010ea16fc75EDc5Fa171690F03708bE7057334",
+        "signedDigest": "0x56dd1a273262f93996e1587d2e65c23a60f1cafe2a9b591c692e1ca19e0fd738",
+        "value": "0x6d607db00a8d58887b0af4578febae35c2a45b929d316c26219342a64194e1e84e380f24e75ff91837c0fdc729067093e7be5994f549c670d26d4d6ff52487d61c"
+      }
+    },
+    {
+      "v": "agentcoin-attestation/0.1",
+      "chainId": 8453,
+      "type": "contract-code",
+      "subject": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "blockNumber": "61318495",
+      "claim": {
+        "name": "token",
+        "codeHash": "0xa6705a10bb756b5dea144591118be77d7af0c3eee3bf2dfe2583dcb0364fefab"
+      },
+      "signature": {
+        "scheme": "eip191",
+        "canonicalization": "RFC8785",
+        "digest": "keccak256",
+        "signer": "0x54010ea16fc75EDc5Fa171690F03708bE7057334",
+        "signedDigest": "0xabe27cedda81c1c03242d9922893e5c3d26e28d7083048fb94da2d708a51d6fa",
+        "value": "0x44421cd6911491eeed9efc8e026005968468ae2e534a566c9e35630678a2660d639d2f943d6243882039421fc8a82aef7c22e221bc219ae6c539353b42a7b1791b"
+      }
+    },
+    {
+      "v": "agentcoin-attestation/0.1",
+      "chainId": 8453,
+      "type": "contract-code",
+      "subject": "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432",
+      "blockNumber": "61318495",
+      "claim": {
+        "name": "identityRegistry",
+        "codeHash": "0xd0e45b1d89fa9b6cc7e97c1f155d64180e5c232aaccf9900ef9d4fd738c02b41"
+      },
+      "signature": {
+        "scheme": "eip191",
+        "canonicalization": "RFC8785",
+        "digest": "keccak256",
+        "signer": "0x54010ea16fc75EDc5Fa171690F03708bE7057334",
+        "signedDigest": "0xfd703b8cb7dd893ae1913eed177391f5f31405e1b4bc934ce17fc398b0846938",
+        "value": "0xf385ae02493e032d67842483b18a26fb5a86ac86aadacb3188e3fdd66320b60a1a529568c761e33c6859b955609ce2eec74b76349cd60c1cc0c5b434dde7f34e1c"
+      }
+    },
+    {
+      "v": "agentcoin-attestation/0.1",
+      "chainId": 8453,
+      "type": "contract-code",
+      "subject": "0x8d2814028E8A5a49Aa2e89B8BAC61Cc22E167d40",
+      "blockNumber": "61318495",
+      "claim": {
+        "name": "depositRouteFactory",
+        "codeHash": "0x60c9504ff233711174e685b8f207ee0b8548f09fe3b4b099191528d1a7ad2859"
+      },
+      "signature": {
+        "scheme": "eip191",
+        "canonicalization": "RFC8785",
+        "digest": "keccak256",
+        "signer": "0x54010ea16fc75EDc5Fa171690F03708bE7057334",
+        "signedDigest": "0xd9d3bdb6525236bb23282dfc7c7ee88cf020880c53b00b85c5e2a3be7d1f66bd",
+        "value": "0xff9d02757891fa85250eaf22045c37545cf199729baa7b27b95c7a50a7b06c51443ef2ae2c0234c7e79725227a16fbcd01ca3076148563425006af1150ef0aab1b"
+      }
+    }
+  ],
+  "testnet": false,
+  "realValue": true,
+  "endpoints": {
+    "agentRegistration": "https://agentcoinhq.com/.well-known/agent-registration.json",
+    "agentCard": "https://agentcoinhq.com/.well-known/agent-card.json",
+    "quote": "https://agentcoinhq.com/v1/quote",
+    "mcp": "https://agentcoinhq.com/mcp",
+    "mcpStdio": "stdio:node agent/mcp/server.mjs",
+    "notarize": "https://agentcoinhq.com/v1/notarize",
+    "quickstart": "https://agentcoinhq.com/QUICKSTART-AGENTS.md",
+    "llms": "https://agentcoinhq.com/llms.txt",
+    "stats": "https://agentcoinhq.com/v1/stats",
+    "evaluators": "https://agentcoinhq.com/v1/evaluators",
+    "evaluatorOnboarding": "https://agentcoinhq.com/v1/evaluators/onboarding",
+    "evaluatorProfile": "https://agentcoinhq.com/v1/evaluators/profile",
+    "evaluatorCanary": "https://agentcoinhq.com/v1/evaluators/canary",
+    "repository": "https://github.com/stos-technologies/agentcoin"
+  },
+  "limitations": [
+    "Base mainnet (chainId 8453); Circle USDC (real value); per-job and total-locked caps enforced on chain (escrow maxPerJob / maxTotalLocked)",
+    "HTTP endpoints hosted at https://agentcoinhq.com",
+    "deposit-route keepers k=2 (deployer holds no role)",
+    "contracts unaudited",
+    "escrow arbitrator: none: JobEscrow.arbitrator() is address(0); challenge() reverts NoArbitrator, so a verdict cannot be overturned and finalize(jobId) executes it after challengeWindow",
+    "operator key held in the service secret store"
+  ],
+  "signature": {
+    "scheme": "eip191",
+    "canonicalization": "RFC8785",
+    "digest": "keccak256",
+    "signer": "0x54010ea16fc75EDc5Fa171690F03708bE7057334",
+    "signedDigest": "0x984e8d9467851584a5744c0c83df2e63580c8552889f7a76aaec6d0eff21731f",
+    "value": "0x0f2a879b7c0de6537cd89a8106ee7465594e5657dee741955882417d6f3924f34dbfff4ac4a473c7df433eb3f93b28d94805e45c1e42d960b014dad20ea6beb81c"
+  }
+}

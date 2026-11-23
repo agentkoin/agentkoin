@@ -1,0 +1,3376 @@
+{
+  "v": "agentcoin-interface/0.1.2",
+  "spec": "specs/SPEC-v0.md",
+  "units": {
+    "token": "USDC base units, 6 decimals",
+    "bps": "basis points, 10000 = 100%",
+    "time": "seconds (unix)"
+  },
+  "states": [
+    "None",
+    "Open",
+    "Funded",
+    "Submitted",
+    "Completed",
+    "Rejected",
+    "Partial",
+    "Disputed",
+    "Settled",
+    "Expired",
+    "Cancelled"
+  ],
+  "outcomes": [
+    "None",
+    "Complete",
+    "Reject",
+    "Partial"
+  ],
+  "transitions": [
+    {
+      "from": "None",
+      "to": "Open",
+      "fn": "createJob",
+      "by": "client"
+    },
+    {
+      "from": "None",
+      "to": "Funded",
+      "fn": "createAndFund",
+      "by": "client"
+    },
+    {
+      "from": "Open",
+      "to": "Funded",
+      "fn": "fund",
+      "by": "client"
+    },
+    {
+      "from": "Open",
+      "to": "Cancelled",
+      "fn": "cancel",
+      "by": "client"
+    },
+    {
+      "from": "Funded",
+      "to": "Cancelled",
+      "fn": "cancel",
+      "by": "client",
+      "when": "not accepted"
+    },
+    {
+      "from": "Funded",
+      "to": "Expired",
+      "fn": "cancel|claimRefund",
+      "by": "client|anyone",
+      "when": "block.timestamp >= deadline"
+    },
+    {
+      "from": "Funded",
+      "to": "Submitted",
+      "fn": "submit",
+      "by": "provider",
+      "when": "before deadline, not instant-eligible"
+    },
+    {
+      "from": "Funded",
+      "to": "Completed",
+      "fn": "submit",
+      "by": "provider",
+      "when": "amount <= instantThreshold and providerBond*10000 >= amount*instantBondCoverBps (instant release)"
+    },
+    {
+      "from": "Submitted",
+      "to": "Completed|Rejected|Partial",
+      "fn": "verdict|complete|reject",
+      "by": "evaluator",
+      "when": "within evalWindow of submit"
+    },
+    {
+      "from": "Submitted",
+      "to": "Expired",
+      "fn": "timeoutRelease",
+      "by": "anyone",
+      "when": "evalWindow elapsed; evaluator slashed missedVerdictSlashBps of minStake; client refunded"
+    },
+    {
+      "from": "Completed|Rejected|Partial",
+      "to": "Disputed",
+      "fn": "challenge",
+      "by": "client|provider (client only if instant)",
+      "when": "within challengeWindow of verdict; bond = max(amount*challengeBondBps/10000, minChallengeBond)"
+    },
+    {
+      "from": "Completed|Rejected|Partial",
+      "to": "Settled",
+      "fn": "finalize",
+      "by": "anyone",
+      "when": "challengeWindow elapsed"
+    },
+    {
+      "from": "Disputed",
+      "to": "Settled",
+      "fn": "rule",
+      "by": "snapshotted arbitrator"
+    },
+    {
+      "from": "Disputed",
+      "to": "Settled",
+      "fn": "resolveStaleDispute",
+      "by": "anyone",
+      "when": "arbitrationTimeout elapsed; settles per verdict; challenge bond and held arbitration cost refunded to the challenger (E-17a)"
+    }
+  ],
+  "fees": {
+    "protocolFee": "feeBps of provider gross (to treasury); 0 on reject/refund",
+    "evaluatorFee": "evaluatorFeeBps of provider gross (to evaluator) on settled Complete/Partial when the verdict stands; 0 on reject, overturn, instant release",
+    "arbitrationFee": "IArbitrator.arbitrationCost(jobId, amount) quoted at challenge time (jobId 0 = prospective quote); challenger pays it with the bond; held by the escrow/adapter until the ruling (E-17a); paid to the arbitrator inside rule(); on a material ruling the losing side reimburses the challenger (evaluator stake on verdict path, provider bond on instant path); on a stale dispute refunded to the challenger"
+  },
+  "erc8183Adapter": {
+    "contract": "ERC8183EvaluatorAdapter",
+    "role": "evaluator address named by an external ERC-8183 kernel; a staked evaluator in EvaluatorRegistry makes the decision",
+    "states": [
+      "None",
+      "Proposed",
+      "Active",
+      "Held",
+      "Disputed",
+      "Executed",
+      "KernelCallFailed",
+      "Withdrawn",
+      "KernelEnded",
+      "ExpiryRefused"
+    ],
+    "kernelStates": [
+      "Open",
+      "Funded",
+      "Submitted",
+      "Completed",
+      "Rejected",
+      "Expired"
+    ],
+    "expiryBound": {
+      "rule": "kernel expiredAt >= now + evalWindow + challengeWindow + arbitrationTimeout + expiryMargin at assign and at acceptAssignment (E-1a)",
+      "defaults": {
+        "evalWindow": 86400,
+        "challengeWindow": 86400,
+        "arbitrationTimeout": 604800,
+        "expiryMargin": 3600,
+        "requiredExpiryDuration": 781200
+      },
+      "views": [
+        "requiredExpiryDuration(uint32 version)",
+        "minKernelExpiry()",
+        "quote(uint256 budget) -> (challengeBond, arbitrationCost, requiredExpiry, minKernelExpiry, configVersion)"
+      ],
+      "lateSubmission": "E-1c refuse: if the submission is first observed (noteSubmission or verdict) when expiredAt < now + requiredExpiryDuration(pinned version), no eval window starts: state -> ExpiryRefused, ExpiryRisk(id, expiredAt, requiredExpiredAt) emitted, evaluator exposure released, no slash; the kernel job falls to the kernel's own refund path (claimRefund after expiry). ExpiryRisk is only ever emitted together with this refusal.",
+      "erc8183FundNote": "follows the ERC-8183 normative text fund(jobId, expectedBudget, optParams); the reference implementation differs, see ASSUMPTIONS E-1b"
+    },
+    "mapping": "payoutBps >= completeThresholdBps -> kernel.complete, else kernel.reject (lossy: ERC-8183 has no partial outcome)",
+    "transitions": [
+      {
+        "from": "None",
+        "to": "Proposed",
+        "fn": "assign",
+        "by": "kernel client",
+        "when": "kernel.evaluator == adapter, kernel status Funded|Submitted, paymentToken == token, expiredAt >= now + evalWindow + challengeWindow + arbitrationTimeout + expiryMargin (see minKernelExpiry), evaluator active"
+      },
+      {
+        "from": "Proposed",
+        "to": "Withdrawn",
+        "fn": "withdrawAssignment",
+        "by": "kernel client"
+      },
+      {
+        "from": "Proposed",
+        "to": "Active",
+        "fn": "acceptAssignment",
+        "by": "named evaluator",
+        "when": "kernel status Funded|Submitted; expiry bound re-checked against the pinned config; locks exposure, pins slashBase = registry minStake"
+      },
+      {
+        "from": "Proposed",
+        "to": "KernelEnded",
+        "fn": "closeKernelEnded",
+        "by": "anyone",
+        "when": "E-1d: kernel job no longer Funded|Submitted; clears the assignment slot; no exposure was locked"
+      },
+      {
+        "from": "Active",
+        "to": "KernelEnded",
+        "fn": "closeKernelEnded",
+        "by": "anyone",
+        "when": "no submission observed and kernel job no longer Funded|Submitted (e.g. claimRefund after expiry); exposure released, no slash"
+      },
+      {
+        "from": "Active",
+        "to": "ExpiryRefused",
+        "fn": "noteSubmission|verdict",
+        "by": "anyone|evaluator",
+        "when": "E-1c: first observed submission with less than requiredExpiryDuration left before kernel expiry; ExpiryRisk emitted; exposure released, no slash; terminal"
+      },
+      {
+        "from": "Active",
+        "to": "Held",
+        "fn": "verdict",
+        "by": "evaluator",
+        "when": "kernel Submitted; within evalWindow of first observed submission"
+      },
+      {
+        "from": "Active",
+        "to": "Executed",
+        "fn": "timeoutRelease",
+        "by": "anyone",
+        "when": "evalWindow elapsed; evaluator slashed; kernel.reject"
+      },
+      {
+        "from": "Held",
+        "to": "Disputed",
+        "fn": "challenge",
+        "by": "kernel client|provider",
+        "when": "within challengeWindow; bond + arbitrationCost held by the adapter until the ruling"
+      },
+      {
+        "from": "Held",
+        "to": "Executed",
+        "fn": "finalize",
+        "by": "anyone",
+        "when": "challengeWindow elapsed; kernel.complete|reject"
+      },
+      {
+        "from": "Disputed",
+        "to": "Executed",
+        "fn": "rule",
+        "by": "snapshotted arbitrator",
+        "when": "overturned iff mapped binary outcome differs"
+      },
+      {
+        "from": "Disputed",
+        "to": "Executed",
+        "fn": "resolveStaleDispute",
+        "by": "anyone",
+        "when": "arbitrationTimeout elapsed; bond and held arbitration cost refunded to the challenger"
+      },
+      {
+        "from": "Executed",
+        "to": "KernelCallFailed",
+        "fn": "(kernel call reverted, e.g. job already expired/refunded on the kernel)",
+        "by": "-"
+      }
+    ]
+  },
+  "x402": {
+    "accepts": [
+      {
+        "scheme": "exact",
+        "assetTransferMethod": "eip3009",
+        "eip712Domain": {
+          "name": "Mock USDC (test only)",
+          "version": "2",
+          "chainId": 31337,
+          "verifyingContract": "token"
+        },
+        "payTo": "EscrowDepositRouteFactory.routeFor(offer) (CREATE2, offer-bound)",
+        "settle": "EscrowDepositRouteFactory.settle(offer, from, value, validAfter, validBefore, nonce, signature) -> atomic only: executes transferWithAuthorization then opens the escrow job with client = from; reverts if the authorization was already used (A-1e)"
+      },
+      {
+        "scheme": "exact-attest",
+        "note": "A-1e (v0.1.2 k-of-n): the only way to credit funds that reached a route outside the atomic settle. EscrowDepositRouteFactory.attestDeposit(offer, txHash, logIndex, from, value, refundOnly) -> (credited, jobId, refunded) is a VOTE by an allowlisted keeper (isKeeper). Votes are keyed by transferId = keccak256(abi.encode(txHash, logIndex)) and must agree on digest = keccak256(abi.encode(route, from, value, refundOnly)); the deposit is credited by the threshold-th (k, default 2 of n = 3) matching vote of distinct current keepers in the current keeperEpoch (AttestationRecorded per vote; DepositAttested(route, transferId, from, value, jobId, refunded, fromVault) on credit). A vote with a different digest freezes the deposit (DepositFrozen; status Frozen; further votes revert DepositIsFrozen). claimOf(id) -> {digest, epoch, round, count, status None|Pending|Credited|Frozen}; hasAttested(id, keeper); attested(id) == Credited. value == offer.amount and !refundOnly opens a job for `from` (refund if it cannot open); otherwise refunds `from`. If the route no longer holds value (swept), the route balance is flushed into the RecoveryVault and the claim is paid from the vault (refund only, fromVault = true; reverts InsufficientUnclaimed beyond the route's unclaimed funds). Keeper set and threshold: deploy-time, then proposeKeeper/executeKeeper and proposeThreshold/executeThreshold after keeperTimelock (default 48h); every executed change bumps keeperEpoch, which discards all pending (not frozen) votes (AttestationRoundReset); k <= n re-checked at execution; k < 2 only on chainId 31337/1337/11155111/84532 (ThresholdBelowTwoOnProductionChain otherwise)."
+      },
+      {
+        "scheme": "exact-resolve",
+        "note": "A-1e v0.1.2: a Frozen deposit is resolved only by the factory owner through the keeper timelock: proposeResolution(id, Credit|Reset, route, from, value, refundOnly) (ResolutionProposed, eta = now + keeperTimelock), cancelResolution(id), executeResolution(id, offer) by anyone after eta (DepositResolved). Credit pays exactly like a k-th vote with the given values (route must match the offer: WrongRoute); Reset returns the claim to None and starts a new voting round. OPEN QUESTION: owner trust; arbitration alternative not built (ASSUMPTIONS A-1e)."
+      },
+      {
+        "scheme": "exact-sweep",
+        "note": "A-1a/A-1d/A-1e v0.1.2: startSweep() is keeper-only (any single keeper) and snapshots the balance; credits during the delay are deducted from the snapshot; sweep() is permissionless after sweepDelay (default 30d) and moves min(snapshot, balance) to route.sweepTo() == the factory's RecoveryVault (immutable per route; never the treasury directly), recorded as unclaimed[route]. Events SweepStarted, Swept, FlushedToVault."
+      },
+      {
+        "scheme": "exact-recovery-vault",
+        "note": "RecoveryVault (one per factory, address = factory.vault()): unclaimed[route], totalUnclaimed, lastSweptAt[route], releasableAt(route). Payers claim swept attributable Transfers through the same k-of-n attestDeposit (paid from the vault, at most once per (txHash, logIndex), never more than the route's unclaimed funds). releaseExpired(route), anyone, after lastSweptAt[route] + horizon (default 365d, factory Config.recoveryHorizon; every sweep into the vault restarts the route's horizon) sends the route's unclaimed funds to the treasury (ReleasedToTreasury). payout is factory-only; recordSweep route-only. Tokens sent to the vault directly are unattributed and stay there (OPEN QUESTION)."
+      },
+      {
+        "scheme": "exact-keeper",
+        "note": "A-1b/A-1e v0.1.2: agent/scripts/keeper.mjs --keeper 0|1|2 (local, trusted allowlisted keepers Anvil #7/#8/#9) scans token Transfer logs to watched routes; acts only on logs at or below the safe head = latest - confirmations (default 2, AGENTCOIN_KEEPER_CONFIRMATIONS / --confirmations) and, where the RPC supports it and not on Anvil, the `finalized` block; re-checks the receipt's blockHash against the canonical chain; verifies the log off-chain (token emitter, to == route, from, value, no DepositSettled in the same tx, from != 0); skips Credited, Frozen and already-voted claims; then votes attestDeposit. Action kinds: pending-finality, reorged-out, vote-recorded, credited-job, credited-refund, credited-vault-refund, frozen, frozen-awaiting-resolution, already-voted, already-attested, unattributable-mint, atomic-settled, swept-to-vault, sweep-started. Trust: docs/SECURITY-NOTES.md. Alternative without keepers (evaluated, not built; no exact-committed scheme): docs/A-1e-commitment-routes.md"
+      },
+      {
+        "scheme": "agentcoin-escrow",
+        "payload": "{jobId, txHash}",
+        "note": "non-standard alternative; buyer funds the escrow job itself"
+      }
+    ]
+  },
+  "contracts": {
+    "JobEscrow": {
+      "functions": [
+        {
+          "name": "BPS",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint16"
+          ]
+        },
+        {
+          "name": "accept",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 jobId"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "acceptOwnership",
+          "stateMutability": "nonpayable",
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "arbitrator",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "cancel",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 jobId"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "challenge",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 jobId",
+            "bytes32 reasonHash"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "claimRefund",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 jobId"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "complete",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 jobId",
+            "bytes32 reason"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "config",
+          "stateMutability": "view",
+          "inputs": [
+            "uint32 version"
+          ],
+          "outputs": [
+            "tuple"
+          ]
+        },
+        {
+          "name": "createAndFund",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address provider",
+            "address evaluator",
+            "uint256 amount",
+            "uint64 deadline",
+            "bytes32 specHash"
+          ],
+          "outputs": [
+            "uint256 jobId"
+          ]
+        },
+        {
+          "name": "createAndFundFor",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address client",
+            "address provider",
+            "address evaluator",
+            "uint256 amount",
+            "uint64 deadline",
+            "bytes32 specHash"
+          ],
+          "outputs": [
+            "uint256 jobId"
+          ]
+        },
+        {
+          "name": "createJob",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address provider",
+            "address evaluator",
+            "uint256 amount",
+            "uint64 deadline",
+            "bytes32 specHash"
+          ],
+          "outputs": [
+            "uint256 jobId"
+          ]
+        },
+        {
+          "name": "currentConfig",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "tuple"
+          ]
+        },
+        {
+          "name": "currentConfigVersion",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint32"
+          ]
+        },
+        {
+          "name": "finalize",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 jobId"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "fund",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 jobId"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "getDispute",
+          "stateMutability": "view",
+          "inputs": [
+            "uint256 jobId"
+          ],
+          "outputs": [
+            "tuple"
+          ]
+        },
+        {
+          "name": "getJob",
+          "stateMutability": "view",
+          "inputs": [
+            "uint256 jobId"
+          ],
+          "outputs": [
+            "tuple"
+          ]
+        },
+        {
+          "name": "jobCount",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint256"
+          ]
+        },
+        {
+          "name": "owner",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "pendingOwner",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "postProviderBond",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 jobId",
+            "uint256 amount"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "quote",
+          "stateMutability": "view",
+          "inputs": [
+            "uint256 amount",
+            "uint256 providerBond"
+          ],
+          "outputs": [
+            "uint256 feeAtFullPayout",
+            "uint256 evaluatorFeeAtFullPayout",
+            "uint256 providerNetAtFullPayout",
+            "uint256 challengeBond",
+            "uint256 arbitrationFee",
+            "bool instantEligible",
+            "uint32 configVersion"
+          ]
+        },
+        {
+          "name": "registry",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "reject",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 jobId",
+            "bytes32 reason"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "renounceOwnership",
+          "stateMutability": "nonpayable",
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "resolveStaleDispute",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 jobId"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "rule",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 jobId",
+            "uint16 payoutBps"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "setArbitrator",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address arbitrator_"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "setConfig",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "tuple config_"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "setTreasury",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address treasury_"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "submit",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 jobId",
+            "bytes32 deliverableHash"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "timeoutRelease",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 jobId"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "token",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "transferOwnership",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address newOwner"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "treasury",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "verdict",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 jobId",
+            "uint8 outcome",
+            "uint16 payoutBps",
+            "bytes32 reasonHash"
+          ],
+          "outputs": []
+        }
+      ],
+      "events": [
+        {
+          "name": "ArbitrationFeeEscrowed",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed challenger",
+            "address indexed arbitrator",
+            "uint256 fee"
+          ]
+        },
+        {
+          "name": "ArbitrationFeePaid",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed challenger",
+            "address indexed arbitrator",
+            "uint256 fee"
+          ]
+        },
+        {
+          "name": "ArbitrationFeeRefunded",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed challenger",
+            "uint256 fee"
+          ]
+        },
+        {
+          "name": "ArbitrationFeeReimbursed",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed challenger",
+            "address indexed from",
+            "uint256 amount"
+          ]
+        },
+        {
+          "name": "ArbitratorSet",
+          "inputs": [
+            "address arbitrator"
+          ]
+        },
+        {
+          "name": "ChallengeBondDistributed",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed challenger",
+            "uint256 toChallenger",
+            "uint256 toCounterparty",
+            "uint256 toTreasury"
+          ]
+        },
+        {
+          "name": "Challenged",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed challenger",
+            "address indexed arbitrator",
+            "uint256 bond",
+            "uint256 disputeId",
+            "bytes32 reasonHash"
+          ]
+        },
+        {
+          "name": "ConfigUpdated",
+          "inputs": [
+            "uint32 indexed version",
+            "tuple config"
+          ]
+        },
+        {
+          "name": "DisputeTimedOut",
+          "inputs": [
+            "uint256 indexed jobId"
+          ]
+        },
+        {
+          "name": "EvaluatorFeePaid",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed evaluator",
+            "uint256 amount"
+          ]
+        },
+        {
+          "name": "InstantReleased",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed provider",
+            "uint256 net",
+            "uint256 fee"
+          ]
+        },
+        {
+          "name": "JobAccepted",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed provider"
+          ]
+        },
+        {
+          "name": "JobCancelled",
+          "inputs": [
+            "uint256 indexed jobId"
+          ]
+        },
+        {
+          "name": "JobCreated",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed client",
+            "address indexed provider",
+            "address evaluator",
+            "uint256 amount",
+            "uint64 deadline",
+            "bytes32 specHash",
+            "uint32 configVersion"
+          ]
+        },
+        {
+          "name": "JobExpired",
+          "inputs": [
+            "uint256 indexed jobId"
+          ]
+        },
+        {
+          "name": "JobFunded",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed client",
+            "uint256 amount"
+          ]
+        },
+        {
+          "name": "JobSubmitted",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed provider",
+            "bytes32 deliverableHash"
+          ]
+        },
+        {
+          "name": "OwnershipTransferStarted",
+          "inputs": [
+            "address indexed previousOwner",
+            "address indexed newOwner"
+          ]
+        },
+        {
+          "name": "OwnershipTransferred",
+          "inputs": [
+            "address indexed previousOwner",
+            "address indexed newOwner"
+          ]
+        },
+        {
+          "name": "PaymentReleased",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed provider",
+            "uint256 net",
+            "uint256 fee"
+          ]
+        },
+        {
+          "name": "ProviderBondPosted",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed provider",
+            "uint256 amount",
+            "uint256 totalBond"
+          ]
+        },
+        {
+          "name": "ProviderBondReturned",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed provider",
+            "uint256 amount"
+          ]
+        },
+        {
+          "name": "ProviderBondSlashed",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed provider",
+            "address indexed to",
+            "uint256 amount"
+          ]
+        },
+        {
+          "name": "Refunded",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed client",
+            "uint256 amount"
+          ]
+        },
+        {
+          "name": "Ruled",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed arbitrator",
+            "uint16 verdictPayoutBps",
+            "uint16 rulingPayoutBps",
+            "bool overturned"
+          ]
+        },
+        {
+          "name": "Settled",
+          "inputs": [
+            "uint256 indexed jobId",
+            "uint16 payoutBps"
+          ]
+        },
+        {
+          "name": "Slashed",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed evaluator",
+            "uint8 reason",
+            "uint256 amount"
+          ]
+        },
+        {
+          "name": "TreasurySet",
+          "inputs": [
+            "address treasury"
+          ]
+        },
+        {
+          "name": "Verdict",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed evaluator",
+            "uint8 outcome",
+            "uint16 payoutBps",
+            "bytes32 reasonHash"
+          ]
+        },
+        {
+          "name": "VerdictTimedOut",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed evaluator",
+            "uint256 slashed"
+          ]
+        }
+      ],
+      "errors": [
+        "ArbitrationTimeoutNotReached()",
+        "ChallengeWindowClosed()",
+        "ChallengeWindowOpen()",
+        "DeadlineInPast()",
+        "DeadlineNotReached()",
+        "DeadlinePassed()",
+        "EvalWindowClosed()",
+        "EvalWindowOpen()",
+        "EvaluatorNotActive(address)",
+        "InvalidConfig()",
+        "InvalidOutcome()",
+        "InvalidParty()",
+        "InvalidPayout()",
+        "JobNotFound(uint256)",
+        "NoArbitrator()",
+        "OwnableInvalidOwner(address)",
+        "OwnableUnauthorizedAccount(address)",
+        "ReentrancyGuardReentrantCall()",
+        "SafeERC20FailedOperation(address)",
+        "Unauthorized()",
+        "WrongState(uint8)",
+        "ZeroAddress()",
+        "ZeroAmount()",
+        "ZeroHash()"
+      ]
+    },
+    "EvaluatorRegistry": {
+      "functions": [
+        {
+          "name": "SLASH_MISSED_VERDICT",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint8"
+          ]
+        },
+        {
+          "name": "SLASH_OVERTURNED_VERDICT",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint8"
+          ]
+        },
+        {
+          "name": "acceptOwnership",
+          "stateMutability": "nonpayable",
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "availableExposure",
+          "stateMutability": "view",
+          "inputs": [
+            "address evaluator"
+          ],
+          "outputs": [
+            "uint256"
+          ]
+        },
+        {
+          "name": "cancelSlasher",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address slasher"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "config",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "tuple"
+          ]
+        },
+        {
+          "name": "evaluatorInfo",
+          "stateMutability": "view",
+          "inputs": [
+            "address evaluator"
+          ],
+          "outputs": [
+            "tuple"
+          ]
+        },
+        {
+          "name": "executeSlasher",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address slasher"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "isActive",
+          "stateMutability": "view",
+          "inputs": [
+            "address evaluator"
+          ],
+          "outputs": [
+            "bool"
+          ]
+        },
+        {
+          "name": "isSlasher",
+          "stateMutability": "view",
+          "inputs": [
+            "address "
+          ],
+          "outputs": [
+            "bool"
+          ]
+        },
+        {
+          "name": "lockExposure",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address evaluator",
+            "uint256 jobId",
+            "uint256 amount"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "minStake",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint256"
+          ]
+        },
+        {
+          "name": "owner",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "pendingOwner",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "pendingSlasher",
+          "stateMutability": "view",
+          "inputs": [
+            "address "
+          ],
+          "outputs": [
+            "bool allowed",
+            "uint64 eta"
+          ]
+        },
+        {
+          "name": "proposeSlasher",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address slasher",
+            "bool allowed"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "reimburse",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address evaluator",
+            "uint256 jobId",
+            "uint256 amount",
+            "address to"
+          ],
+          "outputs": [
+            "uint256 paid"
+          ]
+        },
+        {
+          "name": "releaseExposure",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address evaluator",
+            "uint256 jobId",
+            "uint256 amount"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "renounceOwnership",
+          "stateMutability": "nonpayable",
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "requestUnstake",
+          "stateMutability": "nonpayable",
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "setConfig",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "tuple config_"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "slash",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address evaluator",
+            "uint256 jobId",
+            "uint256 amount",
+            "address harmedParty",
+            "uint8 reason"
+          ],
+          "outputs": [
+            "uint256 slashed"
+          ]
+        },
+        {
+          "name": "slasherTimelock",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint64"
+          ]
+        },
+        {
+          "name": "stake",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 amount"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "stakeOf",
+          "stateMutability": "view",
+          "inputs": [
+            "address evaluator"
+          ],
+          "outputs": [
+            "uint256"
+          ]
+        },
+        {
+          "name": "token",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "transferOwnership",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address newOwner"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "withdraw",
+          "stateMutability": "nonpayable",
+          "inputs": [],
+          "outputs": []
+        }
+      ],
+      "events": [
+        {
+          "name": "ConfigUpdated",
+          "inputs": [
+            "uint256 minStake",
+            "uint64 unbondingPeriod",
+            "uint32 exposureMultiplier",
+            "uint16 slashHarmedShareBps",
+            "address treasury"
+          ]
+        },
+        {
+          "name": "ExposureLocked",
+          "inputs": [
+            "address indexed evaluator",
+            "uint256 indexed jobId",
+            "uint256 amount",
+            "uint256 totalExposure"
+          ]
+        },
+        {
+          "name": "ExposureReleased",
+          "inputs": [
+            "address indexed evaluator",
+            "uint256 indexed jobId",
+            "uint256 amount",
+            "uint256 totalExposure"
+          ]
+        },
+        {
+          "name": "OwnershipTransferStarted",
+          "inputs": [
+            "address indexed previousOwner",
+            "address indexed newOwner"
+          ]
+        },
+        {
+          "name": "OwnershipTransferred",
+          "inputs": [
+            "address indexed previousOwner",
+            "address indexed newOwner"
+          ]
+        },
+        {
+          "name": "Reimbursed",
+          "inputs": [
+            "address indexed evaluator",
+            "uint256 indexed jobId",
+            "address indexed to",
+            "uint256 amount",
+            "address slasher"
+          ]
+        },
+        {
+          "name": "Slashed",
+          "inputs": [
+            "address indexed evaluator",
+            "uint256 indexed jobId",
+            "uint8 indexed reason",
+            "uint256 amount",
+            "address harmedParty",
+            "uint256 toHarmedParty",
+            "uint256 toTreasury",
+            "address slasher"
+          ]
+        },
+        {
+          "name": "SlasherChangeCancelled",
+          "inputs": [
+            "address indexed slasher"
+          ]
+        },
+        {
+          "name": "SlasherChangeProposed",
+          "inputs": [
+            "address indexed slasher",
+            "bool allowed",
+            "uint64 eta"
+          ]
+        },
+        {
+          "name": "SlasherSet",
+          "inputs": [
+            "address indexed slasher",
+            "bool allowed"
+          ]
+        },
+        {
+          "name": "Staked",
+          "inputs": [
+            "address indexed evaluator",
+            "uint256 amount",
+            "uint256 newStake"
+          ]
+        },
+        {
+          "name": "UnstakeRequested",
+          "inputs": [
+            "address indexed evaluator",
+            "uint64 unbondingEndsAt"
+          ]
+        },
+        {
+          "name": "Withdrawn",
+          "inputs": [
+            "address indexed evaluator",
+            "uint256 amount"
+          ]
+        }
+      ],
+      "errors": [
+        "AlreadyUnbonding()",
+        "BelowMinStake(uint256,uint256)",
+        "EvaluatorNotActive(address)",
+        "ExposureCapExceeded(uint256,uint256)",
+        "HasOpenJobs(uint32)",
+        "InvalidConfig()",
+        "NoPendingChange()",
+        "NotSlasher()",
+        "NotUnbonding()",
+        "OwnableInvalidOwner(address)",
+        "OwnableUnauthorizedAccount(address)",
+        "ReentrancyGuardReentrantCall()",
+        "SafeERC20FailedOperation(address)",
+        "TimelockNotElapsed(uint64)",
+        "UnbondingNotElapsed(uint64)",
+        "ZeroAddress()",
+        "ZeroAmount()"
+      ]
+    },
+    "ERC8183EvaluatorAdapter": {
+      "functions": [
+        {
+          "name": "BPS",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint16"
+          ]
+        },
+        {
+          "name": "REASON_MISSED_VERDICT",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "bytes32"
+          ]
+        },
+        {
+          "name": "SLASH_MISSED_VERDICT",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint8"
+          ]
+        },
+        {
+          "name": "SLASH_OVERTURNED_VERDICT",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint8"
+          ]
+        },
+        {
+          "name": "acceptAssignment",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 id"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "acceptOwnership",
+          "stateMutability": "nonpayable",
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "arbitrator",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "assign",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address kernel",
+            "uint256 kernelJobId",
+            "address evaluator"
+          ],
+          "outputs": [
+            "uint256 id"
+          ]
+        },
+        {
+          "name": "assignmentOf",
+          "stateMutability": "view",
+          "inputs": [
+            "bytes32 "
+          ],
+          "outputs": [
+            "uint256"
+          ]
+        },
+        {
+          "name": "challenge",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 id",
+            "bytes32 reasonHash"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "challengeBond",
+          "stateMutability": "view",
+          "inputs": [
+            "uint32 version",
+            "uint256 budget"
+          ],
+          "outputs": [
+            "uint256 bond"
+          ]
+        },
+        {
+          "name": "closeKernelEnded",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 id"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "config",
+          "stateMutability": "view",
+          "inputs": [
+            "uint32 version"
+          ],
+          "outputs": [
+            "tuple"
+          ]
+        },
+        {
+          "name": "currentConfig",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "tuple"
+          ]
+        },
+        {
+          "name": "currentConfigVersion",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint32"
+          ]
+        },
+        {
+          "name": "finalize",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 id"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "getDispute",
+          "stateMutability": "view",
+          "inputs": [
+            "uint256 id"
+          ],
+          "outputs": [
+            "tuple"
+          ]
+        },
+        {
+          "name": "getJob",
+          "stateMutability": "view",
+          "inputs": [
+            "uint256 id"
+          ],
+          "outputs": [
+            "tuple"
+          ]
+        },
+        {
+          "name": "jobCount",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint256"
+          ]
+        },
+        {
+          "name": "mapsToComplete",
+          "stateMutability": "view",
+          "inputs": [
+            "uint32 version",
+            "uint16 payoutBps"
+          ],
+          "outputs": [
+            "bool"
+          ]
+        },
+        {
+          "name": "minKernelExpiry",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint256"
+          ]
+        },
+        {
+          "name": "noteSubmission",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 id"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "owner",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "pendingOwner",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "quote",
+          "stateMutability": "view",
+          "inputs": [
+            "uint256 budget"
+          ],
+          "outputs": [
+            "uint256 challengeBond_",
+            "uint256 arbitrationCost_",
+            "uint256 requiredExpiry_",
+            "uint256 minKernelExpiry_",
+            "uint32 configVersion"
+          ]
+        },
+        {
+          "name": "registry",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "renounceOwnership",
+          "stateMutability": "nonpayable",
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "requiredExpiryDuration",
+          "stateMutability": "view",
+          "inputs": [
+            "uint32 version"
+          ],
+          "outputs": [
+            "uint256"
+          ]
+        },
+        {
+          "name": "resolveStaleDispute",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 id"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "rule",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 id",
+            "uint16 payoutBps"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "setArbitrator",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address a"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "setConfig",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "tuple c"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "setTreasury",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address t"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "timeoutRelease",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 id"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "token",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "transferOwnership",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address newOwner"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "treasury",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "verdict",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 id",
+            "uint16 payoutBps",
+            "bytes32 reasonHash"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "withdrawAssignment",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 id"
+          ],
+          "outputs": []
+        }
+      ],
+      "events": [
+        {
+          "name": "ArbitrationFeeEscrowed",
+          "inputs": [
+            "uint256 indexed id",
+            "address indexed challenger",
+            "address indexed arbitrator",
+            "uint256 fee"
+          ]
+        },
+        {
+          "name": "ArbitrationFeePaid",
+          "inputs": [
+            "uint256 indexed id",
+            "address indexed arbitrator",
+            "uint256 fee"
+          ]
+        },
+        {
+          "name": "ArbitrationFeeRefunded",
+          "inputs": [
+            "uint256 indexed id",
+            "address indexed challenger",
+            "uint256 fee"
+          ]
+        },
+        {
+          "name": "ArbitrationFeeReimbursed",
+          "inputs": [
+            "uint256 indexed id",
+            "address indexed challenger",
+            "uint256 amount"
+          ]
+        },
+        {
+          "name": "ArbitratorSet",
+          "inputs": [
+            "address arbitrator"
+          ]
+        },
+        {
+          "name": "Assigned",
+          "inputs": [
+            "uint256 indexed id",
+            "address indexed kernel",
+            "uint256 indexed kernelJobId",
+            "address client",
+            "address provider",
+            "address evaluator",
+            "uint256 budget",
+            "uint32 configVersion"
+          ]
+        },
+        {
+          "name": "AssignmentAccepted",
+          "inputs": [
+            "uint256 indexed id",
+            "address indexed evaluator",
+            "uint256 slashBase"
+          ]
+        },
+        {
+          "name": "AssignmentWithdrawn",
+          "inputs": [
+            "uint256 indexed id"
+          ]
+        },
+        {
+          "name": "ChallengeBondDistributed",
+          "inputs": [
+            "uint256 indexed id",
+            "address indexed challenger",
+            "uint256 toChallenger",
+            "uint256 toEvaluator",
+            "uint256 toTreasury"
+          ]
+        },
+        {
+          "name": "Challenged",
+          "inputs": [
+            "uint256 indexed id",
+            "address indexed challenger",
+            "address indexed arbitrator",
+            "uint256 bond",
+            "uint256 arbFee",
+            "uint256 disputeId",
+            "bytes32 reasonHash"
+          ]
+        },
+        {
+          "name": "ConfigUpdated",
+          "inputs": [
+            "uint32 indexed version",
+            "tuple config"
+          ]
+        },
+        {
+          "name": "DisputeTimedOut",
+          "inputs": [
+            "uint256 indexed id"
+          ]
+        },
+        {
+          "name": "EvaluatorFeeForwarded",
+          "inputs": [
+            "uint256 indexed id",
+            "address indexed evaluator",
+            "uint256 amount"
+          ]
+        },
+        {
+          "name": "ExpiryRisk",
+          "inputs": [
+            "uint256 indexed id",
+            "uint256 expiredAt",
+            "uint256 requiredExpiredAt"
+          ]
+        },
+        {
+          "name": "KernelCallFailed",
+          "inputs": [
+            "uint256 indexed id",
+            "address indexed kernel",
+            "uint256 indexed kernelJobId",
+            "bool completed"
+          ]
+        },
+        {
+          "name": "KernelExecuted",
+          "inputs": [
+            "uint256 indexed id",
+            "address indexed kernel",
+            "uint256 indexed kernelJobId",
+            "bool completed"
+          ]
+        },
+        {
+          "name": "KernelJobEnded",
+          "inputs": [
+            "uint256 indexed id",
+            "uint8 kernelStatus"
+          ]
+        },
+        {
+          "name": "OwnershipTransferStarted",
+          "inputs": [
+            "address indexed previousOwner",
+            "address indexed newOwner"
+          ]
+        },
+        {
+          "name": "OwnershipTransferred",
+          "inputs": [
+            "address indexed previousOwner",
+            "address indexed newOwner"
+          ]
+        },
+        {
+          "name": "Ruled",
+          "inputs": [
+            "uint256 indexed id",
+            "uint16 verdictPayoutBps",
+            "uint16 rulingPayoutBps",
+            "bool overturned"
+          ]
+        },
+        {
+          "name": "Slashed",
+          "inputs": [
+            "uint256 indexed id",
+            "address indexed evaluator",
+            "uint8 reason",
+            "uint256 amount"
+          ]
+        },
+        {
+          "name": "SubmissionNoted",
+          "inputs": [
+            "uint256 indexed id",
+            "uint64 submittedAt"
+          ]
+        },
+        {
+          "name": "TreasurySet",
+          "inputs": [
+            "address treasury"
+          ]
+        },
+        {
+          "name": "VerdictHeld",
+          "inputs": [
+            "uint256 indexed id",
+            "address indexed evaluator",
+            "uint16 payoutBps",
+            "bool completes",
+            "bytes32 reasonHash"
+          ]
+        },
+        {
+          "name": "VerdictTimedOut",
+          "inputs": [
+            "uint256 indexed id",
+            "address indexed evaluator",
+            "uint256 slashed"
+          ]
+        }
+      ],
+      "errors": [
+        "AlreadyAssigned()",
+        "ArbitrationTimeoutNotReached()",
+        "ChallengeWindowClosed()",
+        "ChallengeWindowOpen()",
+        "EvalWindowClosed()",
+        "EvalWindowOpen()",
+        "EvaluatorNotActive(address)",
+        "ExpiryTooSoon(uint256,uint256)",
+        "InvalidConfig()",
+        "InvalidParty()",
+        "InvalidPayout()",
+        "JobNotFound(uint256)",
+        "NoArbitrator()",
+        "NotAdapterEvaluator()",
+        "NotSubmitted()",
+        "OwnableInvalidOwner(address)",
+        "OwnableUnauthorizedAccount(address)",
+        "ReentrancyGuardReentrantCall()",
+        "SafeERC20FailedOperation(address)",
+        "TokenMismatch()",
+        "Unauthorized()",
+        "WrongKernelStatus(uint8)",
+        "WrongState(uint8)",
+        "ZeroAddress()"
+      ]
+    },
+    "EscrowDepositRouteFactory": {
+      "functions": [
+        {
+          "name": "acceptOwnership",
+          "stateMutability": "nonpayable",
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "attestDeposit",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "tuple o",
+            "bytes32 txHash",
+            "uint256 logIndex",
+            "address from",
+            "uint256 value",
+            "bool refundOnly"
+          ],
+          "outputs": [
+            "bool credited",
+            "uint256 jobId",
+            "bool refunded"
+          ]
+        },
+        {
+          "name": "attestationDigest",
+          "stateMutability": "pure",
+          "inputs": [
+            "address route",
+            "address from",
+            "uint256 value",
+            "bool refundOnly"
+          ],
+          "outputs": [
+            "bytes32"
+          ]
+        },
+        {
+          "name": "attested",
+          "stateMutability": "view",
+          "inputs": [
+            "bytes32 id"
+          ],
+          "outputs": [
+            "bool"
+          ]
+        },
+        {
+          "name": "cancelKeeper",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address keeper"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "cancelResolution",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "bytes32 id"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "cancelThreshold",
+          "stateMutability": "nonpayable",
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "claimOf",
+          "stateMutability": "view",
+          "inputs": [
+            "bytes32 id"
+          ],
+          "outputs": [
+            "tuple"
+          ]
+        },
+        {
+          "name": "deploy",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "tuple o"
+          ],
+          "outputs": [
+            "address route"
+          ]
+        },
+        {
+          "name": "escrow",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "executeKeeper",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address keeper"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "executeResolution",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "bytes32 id",
+            "tuple o"
+          ],
+          "outputs": [
+            "uint256 jobId",
+            "bool refunded"
+          ]
+        },
+        {
+          "name": "executeThreshold",
+          "stateMutability": "nonpayable",
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "hasAttested",
+          "stateMutability": "view",
+          "inputs": [
+            "bytes32 id",
+            "address keeper"
+          ],
+          "outputs": [
+            "bool"
+          ]
+        },
+        {
+          "name": "isKeeper",
+          "stateMutability": "view",
+          "inputs": [
+            "address "
+          ],
+          "outputs": [
+            "bool"
+          ]
+        },
+        {
+          "name": "isRoute",
+          "stateMutability": "view",
+          "inputs": [
+            "address "
+          ],
+          "outputs": [
+            "bool"
+          ]
+        },
+        {
+          "name": "keeperCount",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint256"
+          ]
+        },
+        {
+          "name": "keeperEpoch",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint64"
+          ]
+        },
+        {
+          "name": "keeperTimelock",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint64"
+          ]
+        },
+        {
+          "name": "lowThresholdAllowed",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "bool"
+          ]
+        },
+        {
+          "name": "owner",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "pendingKeeper",
+          "stateMutability": "view",
+          "inputs": [
+            "address "
+          ],
+          "outputs": [
+            "bool allowed",
+            "uint64 eta"
+          ]
+        },
+        {
+          "name": "pendingOwner",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "pendingResolution",
+          "stateMutability": "view",
+          "inputs": [
+            "bytes32 "
+          ],
+          "outputs": [
+            "uint8 kind",
+            "uint64 eta",
+            "bool refundOnly",
+            "address route",
+            "address from",
+            "uint256 value"
+          ]
+        },
+        {
+          "name": "pendingThreshold",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint8 k",
+            "uint64 eta"
+          ]
+        },
+        {
+          "name": "proposeKeeper",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address keeper",
+            "bool allowed"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "proposeResolution",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "bytes32 id",
+            "uint8 kind",
+            "address route",
+            "address from",
+            "uint256 value",
+            "bool refundOnly"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "proposeThreshold",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint8 k"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "renounceOwnership",
+          "stateMutability": "nonpayable",
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "routeFor",
+          "stateMutability": "view",
+          "inputs": [
+            "tuple o"
+          ],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "settle",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "tuple o",
+            "address from",
+            "uint256 value",
+            "uint256 validAfter",
+            "uint256 validBefore",
+            "bytes32 nonce",
+            "bytes signature"
+          ],
+          "outputs": [
+            "address route",
+            "uint256 jobId"
+          ]
+        },
+        {
+          "name": "sweepDelay",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint64"
+          ]
+        },
+        {
+          "name": "sweepTo",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "threshold",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint256"
+          ]
+        },
+        {
+          "name": "token",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "transferId",
+          "stateMutability": "pure",
+          "inputs": [
+            "bytes32 txHash",
+            "uint256 logIndex"
+          ],
+          "outputs": [
+            "bytes32"
+          ]
+        },
+        {
+          "name": "transferOwnership",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address newOwner"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "vault",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        }
+      ],
+      "events": [
+        {
+          "name": "AttestationRecorded",
+          "inputs": [
+            "bytes32 indexed transferId",
+            "address indexed keeper",
+            "bytes32 indexed digest",
+            "uint256 count",
+            "uint64 epoch"
+          ]
+        },
+        {
+          "name": "AttestationRoundReset",
+          "inputs": [
+            "bytes32 indexed transferId",
+            "uint32 round",
+            "uint64 epoch"
+          ]
+        },
+        {
+          "name": "DepositAttested",
+          "inputs": [
+            "address indexed route",
+            "bytes32 indexed transferId",
+            "address indexed from",
+            "uint256 value",
+            "uint256 jobId",
+            "bool refunded",
+            "bool fromVault"
+          ]
+        },
+        {
+          "name": "DepositFrozen",
+          "inputs": [
+            "bytes32 indexed transferId",
+            "address indexed keeper",
+            "bytes32 recordedDigest",
+            "bytes32 conflictingDigest"
+          ]
+        },
+        {
+          "name": "DepositResolved",
+          "inputs": [
+            "bytes32 indexed transferId",
+            "uint8 kind",
+            "uint256 jobId",
+            "bool refunded"
+          ]
+        },
+        {
+          "name": "KeeperChangeCancelled",
+          "inputs": [
+            "address indexed keeper"
+          ]
+        },
+        {
+          "name": "KeeperChangeProposed",
+          "inputs": [
+            "address indexed keeper",
+            "bool allowed",
+            "uint64 eta"
+          ]
+        },
+        {
+          "name": "KeeperSet",
+          "inputs": [
+            "address indexed keeper",
+            "bool allowed",
+            "uint64 epoch"
+          ]
+        },
+        {
+          "name": "OwnershipTransferStarted",
+          "inputs": [
+            "address indexed previousOwner",
+            "address indexed newOwner"
+          ]
+        },
+        {
+          "name": "OwnershipTransferred",
+          "inputs": [
+            "address indexed previousOwner",
+            "address indexed newOwner"
+          ]
+        },
+        {
+          "name": "ResolutionCancelled",
+          "inputs": [
+            "bytes32 indexed transferId"
+          ]
+        },
+        {
+          "name": "ResolutionProposed",
+          "inputs": [
+            "bytes32 indexed transferId",
+            "uint8 kind",
+            "address route",
+            "address from",
+            "uint256 value",
+            "bool refundOnly",
+            "uint64 eta"
+          ]
+        },
+        {
+          "name": "RouteDeployed",
+          "inputs": [
+            "address indexed route",
+            "address indexed provider",
+            "address indexed evaluator",
+            "uint256 amount",
+            "uint64 deadlineSeconds",
+            "bytes32 specHash"
+          ]
+        },
+        {
+          "name": "ThresholdChangeCancelled",
+          "inputs": [
+            "uint256 k"
+          ]
+        },
+        {
+          "name": "ThresholdChangeProposed",
+          "inputs": [
+            "uint256 k",
+            "uint64 eta"
+          ]
+        },
+        {
+          "name": "ThresholdSet",
+          "inputs": [
+            "uint256 k",
+            "uint256 keeperCount",
+            "uint64 epoch"
+          ]
+        }
+      ],
+      "errors": [
+        "AlreadyAttested(bytes32,uint256)",
+        "AlreadyVoted(bytes32)",
+        "DepositIsFrozen(bytes32)",
+        "InvalidAttestation()",
+        "InvalidSweepDelay()",
+        "InvalidThreshold(uint256,uint256)",
+        "InvalidTreasury()",
+        "NoPendingChange()",
+        "NotFrozen(bytes32)",
+        "NotKeeper()",
+        "OwnableInvalidOwner(address)",
+        "OwnableUnauthorizedAccount(address)",
+        "ThresholdBelowTwoOnProductionChain(uint256)",
+        "TimelockNotElapsed(uint64)",
+        "WrongRoute()",
+        "ZeroAddress()"
+      ]
+    },
+    "EscrowDepositRoute": {
+      "functions": [
+        {
+          "name": "amount",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint256"
+          ]
+        },
+        {
+          "name": "attestedTotal",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint256"
+          ]
+        },
+        {
+          "name": "creditAttested",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "bytes32 transferId",
+            "address from",
+            "uint256 value",
+            "bool refundOnly"
+          ],
+          "outputs": [
+            "uint256 jobId",
+            "bool refunded"
+          ]
+        },
+        {
+          "name": "deadlineSeconds",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint64"
+          ]
+        },
+        {
+          "name": "escrow",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "evaluator",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "factory",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "flushToVault",
+          "stateMutability": "nonpayable",
+          "inputs": [],
+          "outputs": [
+            "uint256 bal"
+          ]
+        },
+        {
+          "name": "provider",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "settle",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address from",
+            "uint256 value",
+            "uint256 validAfter",
+            "uint256 validBefore",
+            "bytes32 nonce",
+            "bytes signature"
+          ],
+          "outputs": [
+            "uint256 jobId"
+          ]
+        },
+        {
+          "name": "settled",
+          "stateMutability": "view",
+          "inputs": [
+            "address ",
+            "bytes32 "
+          ],
+          "outputs": [
+            "bool"
+          ]
+        },
+        {
+          "name": "specHash",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "bytes32"
+          ]
+        },
+        {
+          "name": "startSweep",
+          "stateMutability": "nonpayable",
+          "inputs": [],
+          "outputs": []
+        },
+        {
+          "name": "sweep",
+          "stateMutability": "nonpayable",
+          "inputs": [],
+          "outputs": [
+            "uint256 amount_"
+          ]
+        },
+        {
+          "name": "sweepAmount",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint256"
+          ]
+        },
+        {
+          "name": "sweepTo",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "sweepableAt",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint64"
+          ]
+        },
+        {
+          "name": "token",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        }
+      ],
+      "events": [
+        {
+          "name": "DepositAttested",
+          "inputs": [
+            "bytes32 indexed transferId",
+            "address indexed from",
+            "uint256 value",
+            "uint256 indexed jobId",
+            "bool refunded"
+          ]
+        },
+        {
+          "name": "DepositSettled",
+          "inputs": [
+            "address indexed from",
+            "bytes32 indexed nonce",
+            "uint256 indexed jobId"
+          ]
+        },
+        {
+          "name": "FlushedToVault",
+          "inputs": [
+            "address indexed vault",
+            "uint256 amount"
+          ]
+        },
+        {
+          "name": "SweepStarted",
+          "inputs": [
+            "address indexed caller",
+            "uint256 amount",
+            "uint64 sweepableAt"
+          ]
+        },
+        {
+          "name": "Swept",
+          "inputs": [
+            "address indexed caller",
+            "address indexed sweepTo",
+            "uint256 amount"
+          ]
+        }
+      ],
+      "errors": [
+        "AlreadySettled()",
+        "InsufficientRouteBalance()",
+        "NotKeeper()",
+        "NothingToSweep()",
+        "OnlyFactory()",
+        "ReentrancyGuardReentrantCall()",
+        "SafeERC20FailedOperation(address)",
+        "SweepDelayNotElapsed(uint64)",
+        "SweepNotStarted()",
+        "SweepPending(uint64)",
+        "WrongValue(uint256,uint256)"
+      ]
+    },
+    "RecoveryVault": {
+      "functions": [
+        {
+          "name": "factory",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "horizon",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint64"
+          ]
+        },
+        {
+          "name": "lastSweptAt",
+          "stateMutability": "view",
+          "inputs": [
+            "address "
+          ],
+          "outputs": [
+            "uint64"
+          ]
+        },
+        {
+          "name": "payout",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address route",
+            "bytes32 transferId",
+            "address to",
+            "uint256 value"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "recordSweep",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 amount"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "releasableAt",
+          "stateMutability": "view",
+          "inputs": [
+            "address route"
+          ],
+          "outputs": [
+            "uint64"
+          ]
+        },
+        {
+          "name": "releaseExpired",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address route"
+          ],
+          "outputs": [
+            "uint256 amount"
+          ]
+        },
+        {
+          "name": "token",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "totalUnclaimed",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint256"
+          ]
+        },
+        {
+          "name": "treasury",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "unclaimed",
+          "stateMutability": "view",
+          "inputs": [
+            "address "
+          ],
+          "outputs": [
+            "uint256"
+          ]
+        }
+      ],
+      "events": [
+        {
+          "name": "Claimed",
+          "inputs": [
+            "address indexed route",
+            "bytes32 indexed transferId",
+            "address indexed to",
+            "uint256 value"
+          ]
+        },
+        {
+          "name": "ReleasedToTreasury",
+          "inputs": [
+            "address indexed route",
+            "address indexed treasury",
+            "uint256 amount"
+          ]
+        },
+        {
+          "name": "SweptIn",
+          "inputs": [
+            "address indexed route",
+            "uint256 amount",
+            "uint256 unclaimed",
+            "uint64 releasableAt"
+          ]
+        }
+      ],
+      "errors": [
+        "HorizonNotElapsed(uint64)",
+        "InsufficientUnclaimed(uint256,uint256)",
+        "InvalidConfig()",
+        "NotReceived()",
+        "NotRoute()",
+        "NothingToRelease()",
+        "OnlyFactory()",
+        "ReentrancyGuardReentrantCall()",
+        "SafeERC20FailedOperation(address)"
+      ]
+    },
+    "MockUSDC": {
+      "note": "test token with EIP-3009",
+      "functions": [
+        {
+          "name": "CANCEL_AUTHORIZATION_TYPEHASH",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "bytes32"
+          ]
+        },
+        {
+          "name": "DOMAIN_SEPARATOR",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "bytes32"
+          ]
+        },
+        {
+          "name": "RECEIVE_WITH_AUTHORIZATION_TYPEHASH",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "bytes32"
+          ]
+        },
+        {
+          "name": "TRANSFER_WITH_AUTHORIZATION_TYPEHASH",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "bytes32"
+          ]
+        },
+        {
+          "name": "allowance",
+          "stateMutability": "view",
+          "inputs": [
+            "address owner",
+            "address spender"
+          ],
+          "outputs": [
+            "uint256"
+          ]
+        },
+        {
+          "name": "approve",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address spender",
+            "uint256 value"
+          ],
+          "outputs": [
+            "bool"
+          ]
+        },
+        {
+          "name": "authorizationState",
+          "stateMutability": "view",
+          "inputs": [
+            "address authorizer",
+            "bytes32 nonce"
+          ],
+          "outputs": [
+            "bool"
+          ]
+        },
+        {
+          "name": "balanceOf",
+          "stateMutability": "view",
+          "inputs": [
+            "address account"
+          ],
+          "outputs": [
+            "uint256"
+          ]
+        },
+        {
+          "name": "cancelAuthorization",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address authorizer",
+            "bytes32 nonce",
+            "bytes signature"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "decimals",
+          "stateMutability": "pure",
+          "inputs": [],
+          "outputs": [
+            "uint8"
+          ]
+        },
+        {
+          "name": "eip712Domain",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "bytes1 fields",
+            "string name",
+            "string version",
+            "uint256 chainId",
+            "address verifyingContract",
+            "bytes32 salt",
+            "uint256[] extensions"
+          ]
+        },
+        {
+          "name": "mint",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address to",
+            "uint256 amount"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "name",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "string"
+          ]
+        },
+        {
+          "name": "receiveWithAuthorization",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address from",
+            "address to",
+            "uint256 value",
+            "uint256 validAfter",
+            "uint256 validBefore",
+            "bytes32 nonce",
+            "bytes signature"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "receiveWithAuthorization",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address from",
+            "address to",
+            "uint256 value",
+            "uint256 validAfter",
+            "uint256 validBefore",
+            "bytes32 nonce",
+            "uint8 v",
+            "bytes32 r",
+            "bytes32 s"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "symbol",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "string"
+          ]
+        },
+        {
+          "name": "totalSupply",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint256"
+          ]
+        },
+        {
+          "name": "transfer",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address to",
+            "uint256 value"
+          ],
+          "outputs": [
+            "bool"
+          ]
+        },
+        {
+          "name": "transferFrom",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address from",
+            "address to",
+            "uint256 value"
+          ],
+          "outputs": [
+            "bool"
+          ]
+        },
+        {
+          "name": "transferWithAuthorization",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address from",
+            "address to",
+            "uint256 value",
+            "uint256 validAfter",
+            "uint256 validBefore",
+            "bytes32 nonce",
+            "bytes signature"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "transferWithAuthorization",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address from",
+            "address to",
+            "uint256 value",
+            "uint256 validAfter",
+            "uint256 validBefore",
+            "bytes32 nonce",
+            "uint8 v",
+            "bytes32 r",
+            "bytes32 s"
+          ],
+          "outputs": []
+        }
+      ],
+      "events": [
+        {
+          "name": "Approval",
+          "inputs": [
+            "address indexed owner",
+            "address indexed spender",
+            "uint256 value"
+          ]
+        },
+        {
+          "name": "AuthorizationCanceled",
+          "inputs": [
+            "address indexed authorizer",
+            "bytes32 indexed nonce"
+          ]
+        },
+        {
+          "name": "AuthorizationUsed",
+          "inputs": [
+            "address indexed authorizer",
+            "bytes32 indexed nonce"
+          ]
+        },
+        {
+          "name": "EIP712DomainChanged",
+          "inputs": []
+        },
+        {
+          "name": "Transfer",
+          "inputs": [
+            "address indexed from",
+            "address indexed to",
+            "uint256 value"
+          ]
+        }
+      ],
+      "errors": [
+        "AuthorizationAlreadyUsed()",
+        "AuthorizationExpired()",
+        "AuthorizationNotYetValid()",
+        "CallerMustBePayee()",
+        "ERC20InsufficientAllowance(address,uint256,uint256)",
+        "ERC20InsufficientBalance(address,uint256,uint256)",
+        "ERC20InvalidApprover(address)",
+        "ERC20InvalidReceiver(address)",
+        "ERC20InvalidSender(address)",
+        "ERC20InvalidSpender(address)",
+        "InvalidShortString()",
+        "InvalidSignature()",
+        "StringTooLong(string)"
+      ]
+    },
+    "MockERC8183Kernel": {
+      "note": "test-only reference-style ERC-8183 kernel (no hooks)",
+      "functions": [
+        {
+          "name": "admin",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "claimRefund",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 jobId"
+          ],
+          "outputs": []
+        },
+        {
+          "name": "complete",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 jobId",
+            "bytes32 reason",
+            "bytes "
+          ],
+          "outputs": []
+        },
+        {
+          "name": "createJob",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "address provider",
+            "address evaluator",
+            "uint256 expiredAt",
+            "string description",
+            "address hook"
+          ],
+          "outputs": [
+            "uint256 jobId"
+          ]
+        },
+        {
+          "name": "evaluatorFeeBP",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint256"
+          ]
+        },
+        {
+          "name": "fund",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 jobId",
+            "uint256 expectedBudget",
+            "bytes "
+          ],
+          "outputs": []
+        },
+        {
+          "name": "getJob",
+          "stateMutability": "view",
+          "inputs": [
+            "uint256 jobId"
+          ],
+          "outputs": [
+            "tuple"
+          ]
+        },
+        {
+          "name": "jobCounter",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint256"
+          ]
+        },
+        {
+          "name": "jobs",
+          "stateMutability": "view",
+          "inputs": [
+            "uint256 "
+          ],
+          "outputs": [
+            "uint256 id",
+            "address client",
+            "address provider",
+            "address evaluator",
+            "string description",
+            "uint256 budget",
+            "uint256 expiredAt",
+            "uint8 status",
+            "address hook"
+          ]
+        },
+        {
+          "name": "paymentToken",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "platformFeeBP",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "uint256"
+          ]
+        },
+        {
+          "name": "platformTreasury",
+          "stateMutability": "view",
+          "inputs": [],
+          "outputs": [
+            "address"
+          ]
+        },
+        {
+          "name": "reject",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 jobId",
+            "bytes32 reason",
+            "bytes "
+          ],
+          "outputs": []
+        },
+        {
+          "name": "setBudget",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 jobId",
+            "uint256 amount",
+            "bytes "
+          ],
+          "outputs": []
+        },
+        {
+          "name": "setProvider",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 jobId",
+            "address provider_",
+            "bytes "
+          ],
+          "outputs": []
+        },
+        {
+          "name": "submit",
+          "stateMutability": "nonpayable",
+          "inputs": [
+            "uint256 jobId",
+            "bytes32 deliverable",
+            "bytes "
+          ],
+          "outputs": []
+        }
+      ],
+      "events": [
+        {
+          "name": "BudgetSet",
+          "inputs": [
+            "uint256 indexed jobId",
+            "uint256 amount"
+          ]
+        },
+        {
+          "name": "EvaluatorFeePaid",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed evaluator",
+            "uint256 amount"
+          ]
+        },
+        {
+          "name": "JobCompleted",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed evaluator",
+            "bytes32 reason"
+          ]
+        },
+        {
+          "name": "JobCreated",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed client",
+            "address indexed provider",
+            "address evaluator",
+            "uint256 expiredAt",
+            "address hook"
+          ]
+        },
+        {
+          "name": "JobExpired",
+          "inputs": [
+            "uint256 indexed jobId"
+          ]
+        },
+        {
+          "name": "JobFunded",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed client",
+            "uint256 amount"
+          ]
+        },
+        {
+          "name": "JobRejected",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed rejector",
+            "bytes32 reason"
+          ]
+        },
+        {
+          "name": "JobSubmitted",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed provider",
+            "bytes32 deliverable"
+          ]
+        },
+        {
+          "name": "PaymentReleased",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed provider",
+            "uint256 amount"
+          ]
+        },
+        {
+          "name": "ProviderSet",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed provider"
+          ]
+        },
+        {
+          "name": "Refunded",
+          "inputs": [
+            "uint256 indexed jobId",
+            "address indexed client",
+            "uint256 amount"
+          ]
+        }
+      ],
+      "errors": [
+        "BudgetMismatch()",
+        "ExpiryTooShort()",
+        "FeesTooHigh()",
+        "HookNotSupported()",
+        "InvalidJob()",
+        "ProviderNotSet()",
+        "ReentrancyGuardReentrantCall()",
+        "SafeERC20FailedOperation(address)",
+        "Unauthorized()",
+        "WrongStatus()",
+        "ZeroAddress()",
+        "ZeroBudget()"
+      ]
+    },
+    "IArbitrator": {
+      "functions": [
+        {
+          "name": "arbitrationCost",
+          "stateMutability": "view",
+          "inputs": [
+            "uint256 jobId",
+            "uint256 amount"
+          ],
+          "outputs": [
+            "uint256"
+          ],
+          "note": "quote; jobId 0 = prospective job"
+        },
+        {
+          "name": "requestRuling",
+          "inputs": [
+            "uint256 jobId",
+            "address challenger",
+            "uint16 verdictPayoutBps",
+            "bytes32 reasonHash"
+          ],
+          "outputs": [
+            "uint256 disputeId"
+          ],
+          "note": "no payment with the request; the arbitrable holds the cost and transfers it inside rule() (E-17a). Prepay-style arbitrators (Kleros, UMA) need an adapter that fronts the cost (future work, ASSUMPTIONS E-17c)"
+        }
+      ]
+    },
+    "IArbitrable": {
+      "functions": [
+        {
+          "name": "rule",
+          "inputs": [
+            "uint256 jobId",
+            "uint16 payoutBps"
+          ],
+          "outputs": []
+        }
+      ]
+    }
+  },
+  "defaults": {
+    "source": "script/Defaults.sol",
+    "table": "docs/ASSUMPTIONS.md"
+  },
+  "agentInterfaces": {
+    "mcp": {
+      "transport": "stdio",
+      "command": "node agent/mcp/server.mjs",
+      "tools": [
+        "find_service",
+        "route_task",
+        "place_order",
+        "get_order",
+        "claim_listing",
+        "verify"
+      ],
+      "legacyTools": [
+        "quote",
+        "open_job",
+        "get_job_status",
+        "get_evaluator_reputation",
+        "verify_attestation"
+      ],
+      "hosted": "POST {base}/mcp and stdio both serve the six router tools (v0.5); legacyTools remain callable via A2A aliases",
+      "open_job": "returns unsigned EIP-1559 txs; server signing only with AGENTCOIN_DEMO_SIGN=1 and demoSign:true"
+    },
+    "http": {
+      "base": "http://127.0.0.1:4020",
+      "routes": [
+        "GET /v1/quote",
+        "GET /v1/demo/resource (x402)",
+        "GET /discovery/resources",
+        "GET /facilitator/supported",
+        "POST /a2a/v1/message:send",
+        "GET /.well-known/agent-card.json",
+        "GET /.well-known/jwks.json",
+        "GET /.well-known/agent-registration.json",
+        "GET /.well-known/agentcoin-trust.json",
+        "GET /schemas/trust-manifest-0.1.json",
+        "GET /docs/interface.json"
+      ]
+    }
+  }
+}

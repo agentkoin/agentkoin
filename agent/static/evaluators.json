@@ -1,0 +1,60 @@
+{
+  "v": "agentcoin-evaluators/v1",
+  "note": "Labels for evaluators known to this service. Registration in EvaluatorRegistry is permissionless; the service lists every active staker it has indexed, labeled or not.",
+  "networks": {
+    "84532": [
+      {
+        "address": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "role": "reference",
+        "label": "reference evaluator (operated by STOS Technologies, testnet demo)",
+        "operator": "STOS Technologies LLC",
+        "process": "inside the AgentCoin service",
+        "processStatus": "running inside the AgentCoin service"
+      },
+      {
+        "address": "0x000f3e27EAf5d2C1A30F4fE50FF1bcC4A78f124A",
+        "role": "test",
+        "label": "test evaluator A (operated by STOS Technologies, testnet demo)",
+        "operator": "STOS Technologies LLC",
+        "process": "separate process and key (agent/evaluator/run.mjs) in container agentcoin-evaluator-a",
+        "processStatus": "running in container agentcoin-evaluator-a on the AgentCoin testnet host (separate key, no service keys); verdict Complete if the notary receipt hash matches the job's deliverableHash, else Reject"
+      },
+      {
+        "address": "0x1164586D557a45e5234ed882506E205b2C00C298",
+        "role": "test",
+        "label": "test evaluator B (operated by STOS Technologies, testnet demo)",
+        "operator": "STOS Technologies LLC",
+        "process": "separate process and key (agent/evaluator/run.mjs) in container agentcoin-evaluator-b",
+        "processStatus": "running in container agentcoin-evaluator-b on the AgentCoin testnet host (separate key, no service keys); verdict Complete if the notary receipt hash matches the job's deliverableHash, else Reject"
+      },
+      {
+        "address": "0xB87b0d6AD3B17A8a1795d6640317c7997140d140",
+        "role": "independent",
+        "label": "independent evaluator (operated by babyblueviper1 / invinoveritas checker, not STOS)",
+        "operator": "babyblueviper1",
+        "independent": true,
+        "process": "operated outside AgentCoin; verdict reasonHash = the invinoveritas acceptance record's receipt_sha256 (per the operator's keys file)",
+        "processStatus": "listed here only while active in the EvaluatorRegistry (operator stakes with its own key)",
+        "source": {
+          "keysFile": "https://api.babyblueviper.com/.well-known/invinoveritas-checker-keys.json",
+          "bindingStatement": "invinoveritas checker-keys binding v1 | ed25519:invinoveritas-checker-a4cecab2 | evm:0xB87b0d6AD3B17A8a1795d6640317c7997140d140",
+          "bindingChecked": "2026-11-16T01:50Z: EIP-191 recovers the address; Ed25519 verifies with key invinoveritas-checker-a4cecab2"
+        },
+        "funding": [
+          {
+            "asset": "USDC",
+            "amount": "2000000",
+            "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+            "tx": "0x03c016872bffa5e1abd8c2aeb5d6b4d9a316a52a0aca17ffc139668ae29153da"
+          },
+          {
+            "asset": "ETH",
+            "amountWei": "30000000000000",
+            "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+            "tx": "0x30201b12dc14fa8bb3eafa9cbc9fa9599d40187fbd754479fc51f95d84ee78ef"
+          }
+        ]
+      }
+    ]
+  }
+}

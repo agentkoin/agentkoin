@@ -1,0 +1,89 @@
+{
+  "v": "agentkoin-evaluator-fixture/v1",
+  "chainId": 84532,
+  "registry": "0x30576DE005df028D1947C56dEcc85a2a5612036a",
+  "recordedAtBlock": "60881964",
+  "recordedAt": "2026-11-19T14:24:22.384Z",
+  "source": "Base Sepolia public RPC, read-only",
+  "minStake": "2000000",
+  "events": [
+    {
+      "evaluator": "0x000f3e27EAf5d2C1A30F4fE50FF1bcC4A78f124A",
+      "amount": "2000000",
+      "newStake": "2000000",
+      "txHash": "0x17304a4cc284acab2ab7dd1334502b4cd6944cb59936f3a23f513ca8108750ae",
+      "blockNumber": "59182389",
+      "timestamp": 1794758346,
+      "status": "success"
+    },
+    {
+      "evaluator": "0x1164586D557a45e5234ed882506E205b2C00C298",
+      "amount": "2000000",
+      "newStake": "2000000",
+      "txHash": "0x957fe42f0563c826f73e95080004158e48356ca462b5312b5bec472a49fefbc2",
+      "blockNumber": "59182403",
+      "timestamp": 1794758349,
+      "status": "success"
+    },
+    {
+      "evaluator": "0xB87b0d6AD3B17A8a1795d6640317c7997140d140",
+      "amount": "2000000",
+      "newStake": "2000000",
+      "txHash": "0x45d2d0ea9779861f21d846359cd98877457679b94a636cc0df1ed57e52274fca",
+      "blockNumber": "59507812",
+      "timestamp": 1794823431,
+      "status": "success"
+    },
+    {
+      "evaluator": "0x3E8B7382fd85dbad659B2887D88D020C05ca5f93",
+      "amount": "2000000",
+      "newStake": "2000000",
+      "txHash": "0xd3a500194f28133953444ce0426d2f59faa4a44fa8a1bb17f78da53bf4a194a2",
+      "blockNumber": "60643678",
+      "timestamp": 1795050604,
+      "status": "success"
+    }
+  ],
+  "snapshots": {
+    "0x000f3e27EAf5d2C1A30F4fE50FF1bcC4A78f124A": {
+      "active": true,
+      "stake": "2000000",
+      "exposure": "0",
+      "openJobs": 0,
+      "unbondingEndsAt": "0",
+      "slashedTotal": "0"
+    },
+    "0x1164586D557a45e5234ed882506E205b2C00C298": {
+      "active": true,
+      "stake": "2000000",
+      "exposure": "0",
+      "openJobs": 0,
+      "unbondingEndsAt": "0",
+      "slashedTotal": "0"
+    },
+    "0xB87b0d6AD3B17A8a1795d6640317c7997140d140": {
+      "active": false,
+      "stake": "1800000",
+      "exposure": "0",
+      "openJobs": 0,
+      "unbondingEndsAt": "0",
+      "slashedTotal": "200000"
+    },
+    "0x3E8B7382fd85dbad659B2887D88D020C05ca5f93": {
+      "active": true,
+      "stake": "2000000",
+      "exposure": "0",
+      "openJobs": 0,
+      "unbondingEndsAt": "0",
+      "slashedTotal": "0"
+    },
+    "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a": {
+      "active": true,
+      "stake": "3000000",
+      "exposure": "0",
+      "openJobs": 0,
+      "unbondingEndsAt": "0",
+      "slashedTotal": "1000000"
+    }
+  }
+}

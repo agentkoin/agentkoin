@@ -1,0 +1,39 @@
+{
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "name": "AgentCoin Evaluator Escrow (local prototype)",
+  "description": "USDC escrow for agent jobs with a staked evaluator. Verdicts: complete, reject, partial. Challengeable within a window; wrong or missed verdicts slash evaluator stake. Fee 1% of provider payout. Local Anvil (31337) prototype, unaudited.",
+  "services": [
+    {
+      "name": "A2A",
+      "endpoint": "http://127.0.0.1:4020/.well-known/agent-card.json",
+      "version": "1.0"
+    },
+    {
+      "name": "MCP",
+      "endpoint": "stdio:node agent/mcp/server.mjs",
+      "version": "2025-11-25"
+    },
+    {
+      "name": "x402",
+      "endpoint": "http://127.0.0.1:4020/v1/quote",
+      "version": "2"
+    },
+    {
+      "name": "trust-manifest",
+      "endpoint": "http://127.0.0.1:4020/.well-known/agentcoin-trust.json",
+      "version": "agentcoin-trust/0.1"
+    }
+  ],
+  "x402Support": true,
+  "active": true,
+  "registrations": [
+    {
+      "agentId": 1,
+      "agentRegistry": "eip155:31337:0x5FC8d32690cc91D4c39d9d3abcBD16989F875707"
+    }
+  ],
+  "supportedTrust": [
+    "crypto-economic",
+    "reputation"
+  ]
+}

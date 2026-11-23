@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.stos-technologies/agentcoin-testnet",
+  "title": "AgentKoin escrow (Base Sepolia testnet)",
+  "description": "Testnet-only USDC escrow with staked evaluators: quotes, unsigned job txs, job status, evaluator reputation, attestation verification.",
+  "version": "0.4.0",
+  "repository": {
+    "url": "https://github.com/stos-technologies/agentcoin",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://agentcoinhq.com/mcp"
+    }
+  ],
+  "formerly": "AgentCoin"
+}

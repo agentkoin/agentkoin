@@ -1,0 +1,446 @@
+
+Detector: reentrancy-balance
+Reentrancy in CrossCurrencySettler._pull(CrossCurrencySettler.Quote,CrossCurrencySettler.Auth,bytes32) (src/CrossCurrencySettler.sol#175-183):
+	External call allowing reentrancy:
+	- IERC3009Receive(q.tokenIn).receiveWithAuthorization(q.buyer,address(this),q.amountIn,a.validAfter,a.validBefore,qh,a.v,a.r,a.s) (src/CrossCurrencySettler.sol#178-180)
+	Balance read before the call:
+	- inBefore = tin.balanceOf(address(this)) (src/CrossCurrencySettler.sol#177)
+	Possible stale balance used after the call in a condition:
+	- pulled != q.amountIn (src/CrossCurrencySettler.sol#182)
+		- stale variable `pulled`
+Reentrancy in CrossCurrencySettler._swap(CrossCurrencySettler.Quote,bytes32) (src/CrossCurrencySettler.sol#133-160):
+	External call allowing reentrancy:
+	- router.exactInputSingle(ISwapRouterV3.ExactInputSingleParams({tokenIn:q.tokenIn,tokenOut:q.tokenOut,fee:q.poolFee,recipient:address(this),amountIn:q.amountIn,amountOutMinimum:q.minOut,sqrtPriceLimitX96:0})) (src/CrossCurrencySettler.sol#138-155)
+	Balance read before the call:
+	- outBefore = tout.balanceOf(address(this)) (src/CrossCurrencySettler.sol#137)
+	Possible stale balance used after the call in a condition:
+	- amountOut < q.minOut (src/CrossCurrencySettler.sol#158)
+		- stale variable `amountOut`
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities
+
+Detector: divide-before-multiply
+JobEscrow._distribute(uint256,JobEscrow.Job,uint16,bool) (src/JobEscrow.sol#845-860) performs a multiplication on the result of a division:
+	- gross = (j.amount * payoutBps) / BPS (src/JobEscrow.sol#846)
+	- evalFee = (gross * _configs[j.configVersion].evaluatorFeeBps) / BPS (src/JobEscrow.sol#848)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply
+
+Detector: incorrect-equality
+EscrowDepositRoute._attributedOut(uint256) (src/EscrowDepositRoute.sol#224-228) uses a dangerous strict equality:
+	- sweepableAt == 0 (src/EscrowDepositRoute.sol#225)
+EscrowDepositRoute.startSweep() (src/EscrowDepositRoute.sol#180-189) uses a dangerous strict equality:
+	- bal == 0 (src/EscrowDepositRoute.sol#184)
+EscrowDepositRouteFactory._checkThreshold(uint256,uint256) (src/EscrowDepositRoute.sol#433-436) uses a dangerous strict equality:
+	- k == 0 || k > n (src/EscrowDepositRoute.sol#434)
+EscrowDepositRouteFactory.executeKeeper(address) (src/EscrowDepositRoute.sol#453-466) uses a dangerous strict equality:
+	- p.eta == 0 (src/EscrowDepositRoute.sol#455)
+EscrowDepositRouteFactory.executeResolution(bytes32,EscrowDepositRouteFactory.Offer) (src/EscrowDepositRoute.sol#600-617) uses a dangerous strict equality:
+	- r.eta == 0 (src/EscrowDepositRoute.sol#602)
+EscrowDepositRouteFactory.executeResolution(bytes32,EscrowDepositRouteFactory.Offer) (src/EscrowDepositRoute.sol#600-617) uses a dangerous strict equality:
+	- r.kind == ResolutionKind.Credit (src/EscrowDepositRoute.sol#607)
+EscrowDepositRouteFactory.executeThreshold() (src/EscrowDepositRoute.sol#484-493) uses a dangerous strict equality:
+	- p.eta == 0 (src/EscrowDepositRoute.sol#486)
+EvaluatorRegistry.executeSlasher(address) (src/EvaluatorRegistry.sol#145-152) uses a dangerous strict equality:
+	- p.eta == 0 (src/EvaluatorRegistry.sol#147)
+AgentKoinAuthCaptureArbiter.outcome(bytes32) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#611-619) uses a dangerous strict equality:
+	- o.buyerAccepted = o.buyerDecision == BuyerDecision.Accepted (src/arbiter/AgentKoinAuthCaptureArbiter.sol#618)
+AgentKoinAuthCaptureArbiterV03.outcome(bytes32) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#646-654) uses a dangerous strict equality:
+	- o.buyerAccepted = o.buyerDecision == BuyerDecision.Accepted (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#653)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities
+
+Detector: reentrancy-no-eth
+Reentrancy in UMAArbitratorAdapter.proposeRuling(uint256,uint16) (src/arbitration/UMAArbitratorAdapter.sol#127-153):
+	External calls:
+	- assertionId = oracle.assertTruth(claimFor(disputeId,payoutBps),msg.sender,address(this),address(0),liveness,currency,bond,oracle.defaultIdentifier(),bytes32(0)) (src/arbitration/UMAArbitratorAdapter.sol#138-148)
+	State variables written after the call(s):
+	- r.pendingAssertion = assertionId (src/arbitration/UMAArbitratorAdapter.sol#149)
+	UMAArbitratorAdapter.requests (src/arbitration/UMAArbitratorAdapter.sol#40) can be used in cross function reentrancies:
+	- UMAArbitratorAdapter.assertionResolvedCallback(bytes32,bool) (src/arbitration/UMAArbitratorAdapter.sol#156-172)
+	- UMAArbitratorAdapter.claimFor(uint256,uint16) (src/arbitration/UMAArbitratorAdapter.sol#112-124)
+	- UMAArbitratorAdapter.proposeRuling(uint256,uint16) (src/arbitration/UMAArbitratorAdapter.sol#127-153)
+	- UMAArbitratorAdapter.requestRuling(uint256,address,uint16,bytes32) (src/arbitration/UMAArbitratorAdapter.sol#93-105)
+	- UMAArbitratorAdapter.requests (src/arbitration/UMAArbitratorAdapter.sol#40)
+	- r.pendingBps = payoutBps (src/arbitration/UMAArbitratorAdapter.sol#150)
+	UMAArbitratorAdapter.requests (src/arbitration/UMAArbitratorAdapter.sol#40) can be used in cross function reentrancies:
+	- UMAArbitratorAdapter.assertionResolvedCallback(bytes32,bool) (src/arbitration/UMAArbitratorAdapter.sol#156-172)
+	- UMAArbitratorAdapter.claimFor(uint256,uint16) (src/arbitration/UMAArbitratorAdapter.sol#112-124)
+	- UMAArbitratorAdapter.proposeRuling(uint256,uint16) (src/arbitration/UMAArbitratorAdapter.sol#127-153)
+	- UMAArbitratorAdapter.requestRuling(uint256,address,uint16,bytes32) (src/arbitration/UMAArbitratorAdapter.sol#93-105)
+	- UMAArbitratorAdapter.requests (src/arbitration/UMAArbitratorAdapter.sol#40)
+Reentrancy in AgentKoinAuthCaptureArbiter.rule(uint256,uint16) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#465-495):
+	External calls:
+	- REGISTRY.reimburse(p.evaluator,jobId,d.arbFee,d.challenger) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#483)
+	- slashed = REGISTRY.slash(p.evaluator,jobId,(p.slashBase * _wrongBps) / BPS,d.challenger,SLASH_OVERTURNED_VERDICT) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#484-486)
+	- _settle(key,p) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#494)
+		- REGISTRY.releaseExposure(p.evaluator,uint256(key),p.amount) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#705)
+		- ESCROW.capture(info,toReceiver,0,address(0)) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#711)
+		- ESCROW.void(info) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#716)
+	State variables written after the call(s):
+	- _settle(key,p) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#494)
+		- p.state = State.Finalized (src/arbiter/AgentKoinAuthCaptureArbiter.sol#704)
+	AgentKoinAuthCaptureArbiter._payments (src/arbiter/AgentKoinAuthCaptureArbiter.sol#182) can be used in cross function reentrancies:
+	- AgentKoinAuthCaptureArbiter.getPayment(bytes32) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#594-596)
+	- AgentKoinAuthCaptureArbiter.outcome(bytes32) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#611-619)
+Reentrancy in AgentKoinAuthCaptureArbiterV03.rule(uint256,uint16) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#484-514):
+	External calls:
+	- REGISTRY.reimburse(p.evaluator,jobId,d.arbFee,d.challenger) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#502)
+	- slashed = REGISTRY.slash(p.evaluator,jobId,(p.slashBase * _wrongBps) / BPS,d.challenger,SLASH_OVERTURNED_VERDICT) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#503-505)
+	- _settle(key,p) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#513)
+		- REGISTRY.releaseExposure(p.evaluator,uint256(key),p.amount) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#740)
+		- ESCROW.capture(info,toReceiver,0,address(0)) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#746)
+		- ESCROW.void(info) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#751)
+	State variables written after the call(s):
+	- _settle(key,p) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#513)
+		- p.state = State.Finalized (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#739)
+	AgentKoinAuthCaptureArbiterV03._payments (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#188) can be used in cross function reentrancies:
+	- AgentKoinAuthCaptureArbiterV03.getPayment(bytes32) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#629-631)
+	- AgentKoinAuthCaptureArbiterV03.outcome(bytes32) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#646-654)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2
+
+Detector: uninitialized-local
+PayoutScheduleLib.requiredCounts(bool[],PayoutScheduleLib.CriterionResult[]).bit (src/PayoutScheduleLib.sol#60) is a local variable never initialized
+JobEscrow._verdict(uint256,JobEscrow.Outcome,uint16,bytes32).next (src/JobEscrow.sol#736) is a local variable never initialized
+UMAArbitratorAdapter._u(uint256).n (src/arbitration/UMAArbitratorAdapter.sol#181) is a local variable never initialized
+ERC8183EvaluatorAdapter._execute(uint256,ERC8183EvaluatorAdapter.AdapterJob).ok (src/ERC8183EvaluatorAdapter.sol#607) is a local variable never initialized
+EscrowDepositRouteFactory._credit(EscrowDepositRouteFactory.Offer,bytes32,address,uint256,bool).fromVault (src/EscrowDepositRoute.sol#557) is a local variable never initialized
+KlerosArbitratorAdapter.rule(uint256,uint256).bps (src/arbitration/KlerosArbitratorAdapter.sol#130) is a local variable never initialized
+EscrowDepositRouteFactory.constructor(IERC20,address,address,EscrowDepositRouteFactory.Config,address[]).n (src/EscrowDepositRoute.sol#410) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables
+
+Detector: unused-return
+CrossCurrencySettler._swap(CrossCurrencySettler.Quote,bytes32) (src/CrossCurrencySettler.sol#133-160) ignores return value by router.exactInputSingle(ISwapRouterV3.ExactInputSingleParams({tokenIn:q.tokenIn,tokenOut:q.tokenOut,fee:q.poolFee,recipient:address(this),amountIn:q.amountIn,amountOutMinimum:q.minOut,sqrtPriceLimitX96:0})) (src/CrossCurrencySettler.sol#138-155)
+EscrowDepositRouteFactory._credit(EscrowDepositRouteFactory.Offer,bytes32,address,uint256,bool) (src/EscrowDepositRoute.sol#552-567) ignores return value by EscrowDepositRoute(r).flushToVault() (src/EscrowDepositRoute.sol#561)
+AgentKoinAuthCaptureArbiter.rule(uint256,uint16) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#465-495) ignores return value by REGISTRY.reimburse(p.evaluator,jobId,d.arbFee,d.challenger) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#483)
+AgentKoinAuthCaptureArbiter._settle(bytes32,AgentKoinAuthCaptureArbiter.Payment) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#703-718) ignores return value by (None,held,None) = ESCROW.paymentState(key) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#707)
+AgentKoinAuthCaptureArbiter._voidHeld(bytes32,IAuthCaptureEscrow.PaymentInfo,uint8) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#720-724) ignores return value by (None,held,None) = ESCROW.paymentState(key) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#721)
+AgentKoinAuthCaptureArbiterV03.rule(uint256,uint16) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#484-514) ignores return value by REGISTRY.reimburse(p.evaluator,jobId,d.arbFee,d.challenger) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#502)
+AgentKoinAuthCaptureArbiterV03._settle(bytes32,AgentKoinAuthCaptureArbiterV03.Payment) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#738-753) ignores return value by (None,held,None) = ESCROW.paymentState(key) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#742)
+AgentKoinAuthCaptureArbiterV03._voidHeld(bytes32,IAuthCaptureEscrow.PaymentInfo,uint8) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#755-759) ignores return value by (None,held,None) = ESCROW.paymentState(key) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#756)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return
+
+Detector: events-maths
+UMAArbitratorAdapter.setLiveness(uint64) (src/arbitration/UMAArbitratorAdapter.sol#75-77) should emit an event for: 
+	- liveness = l (src/arbitration/UMAArbitratorAdapter.sol#76) 
+UMAArbitratorAdapter.setTokenFee(uint256) (src/arbitration/UMAArbitratorAdapter.sol#79-81) should emit an event for: 
+	- tokenFee = fee (src/arbitration/UMAArbitratorAdapter.sol#80) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic
+
+Detector: missing-zero-check
+EscrowDepositRoute.constructor(IERC20,address,address,address,uint256,uint64,bytes32).escrow_ (src/EscrowDepositRoute.sol#106) lacks a zero-check on :
+		- escrow = escrow_ (src/EscrowDepositRoute.sol#115)
+EscrowDepositRoute.constructor(IERC20,address,address,address,uint256,uint64,bytes32).provider_ (src/EscrowDepositRoute.sol#107) lacks a zero-check on :
+		- provider = provider_ (src/EscrowDepositRoute.sol#116)
+EscrowDepositRoute.constructor(IERC20,address,address,address,uint256,uint64,bytes32).evaluator_ (src/EscrowDepositRoute.sol#108) lacks a zero-check on :
+		- evaluator = evaluator_ (src/EscrowDepositRoute.sol#117)
+EscrowDepositRouteFactory.constructor(IERC20,address,address,EscrowDepositRouteFactory.Config,address[]).escrow_ (src/EscrowDepositRoute.sol#398) lacks a zero-check on :
+		- escrow = escrow_ (src/EscrowDepositRoute.sol#404)
+KlerosArbitratorAdapter.constructor(IERC792Arbitrator,bytes,address,uint256).owner_ (src/arbitration/KlerosArbitratorAdapter.sol#64) lacks a zero-check on :
+		- owner = owner_ (src/arbitration/KlerosArbitratorAdapter.sol#67)
+KlerosArbitratorAdapter.withdrawNative(address,uint256).to (src/arbitration/KlerosArbitratorAdapter.sol#93) lacks a zero-check on :
+		- (ok,None) = to.call{value: amount}() (src/arbitration/KlerosArbitratorAdapter.sol#94)
+UMAArbitratorAdapter.constructor(IOptimisticOracleV3,IERC20,address,uint64,uint256).owner_ (src/arbitration/UMAArbitratorAdapter.sol#57) lacks a zero-check on :
+		- owner = owner_ (src/arbitration/UMAArbitratorAdapter.sol#60)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation
+
+Detector: reentrancy-benign
+Reentrancy in AgentKoinAuthCaptureArbiter.authorize(IAuthCaptureEscrow.PaymentInfo,uint256,address,bytes) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#290-314):
+	External calls:
+	- ESCROW.authorize(info,amount,tokenCollector,collectorData) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#306)
+	State variables written after the call(s):
+	- _infos[key] = info (src/arbiter/AgentKoinAuthCaptureArbiter.sol#312)
+	- p.state = State.Authorized (src/arbiter/AgentKoinAuthCaptureArbiter.sol#310)
+	- p.amount = amount (src/arbiter/AgentKoinAuthCaptureArbiter.sol#311)
+Reentrancy in AgentKoinAuthCaptureArbiterV03.authorize(IAuthCaptureEscrow.PaymentInfo,uint256,address,bytes) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#299-323):
+	External calls:
+	- ESCROW.authorize(info,amount,tokenCollector,collectorData) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#315)
+	State variables written after the call(s):
+	- _infos[key] = info (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#321)
+	- p.state = State.Authorized (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#319)
+	- p.amount = amount (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#320)
+Reentrancy in UMAArbitratorAdapter.proposeRuling(uint256,uint16) (src/arbitration/UMAArbitratorAdapter.sol#127-153):
+	External calls:
+	- assertionId = oracle.assertTruth(claimFor(disputeId,payoutBps),msg.sender,address(this),address(0),liveness,currency,bond,oracle.defaultIdentifier(),bytes32(0)) (src/arbitration/UMAArbitratorAdapter.sol#138-148)
+	State variables written after the call(s):
+	- disputeOfAssertion[assertionId] = disputeId (src/arbitration/UMAArbitratorAdapter.sol#151)
+Reentrancy in KlerosArbitratorAdapter.requestRuling(uint256,address,uint16,bytes32) (src/arbitration/KlerosArbitratorAdapter.sol#109-121):
+	External calls:
+	- ext = kleros.createDispute{value: cost}(CHOICES,extraData) (src/arbitration/KlerosArbitratorAdapter.sol#117)
+	State variables written after the call(s):
+	- localIdOf[ext] = disputeId (src/arbitration/KlerosArbitratorAdapter.sol#119)
+	- requests[disputeId] = Request(msg.sender,jobId,challenger,verdictPayoutBps,ext,false) (src/arbitration/KlerosArbitratorAdapter.sol#118)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3
+
+Detector: reentrancy-events
+Reentrancy in EscrowDepositRouteFactory._credit(EscrowDepositRouteFactory.Offer,bytes32,address,uint256,bool) (src/EscrowDepositRoute.sol#552-567):
+	External calls:
+	- (jobId,refunded) = EscrowDepositRoute(r).creditAttested(id,from,value,refundOnly) (src/EscrowDepositRoute.sol#559)
+	- EscrowDepositRoute(r).flushToVault() (src/EscrowDepositRoute.sol#561)
+	- vault.payout(r,id,from,value) (src/EscrowDepositRoute.sol#562)
+	Event emitted after the call(s):
+	- DepositAttested(r,id,from,value,jobId,refunded,fromVault) (src/EscrowDepositRoute.sol#566)
+Reentrancy in EscrowDepositRouteFactory.executeResolution(bytes32,EscrowDepositRouteFactory.Offer) (src/EscrowDepositRoute.sol#600-617):
+	External calls:
+	- (jobId,refunded) = _credit(o,id,r.from,r.value,r.refundOnly) (src/EscrowDepositRoute.sol#610)
+		- (jobId,refunded) = EscrowDepositRoute(r).creditAttested(id,from,value,refundOnly) (src/EscrowDepositRoute.sol#559)
+		- EscrowDepositRoute(r).flushToVault() (src/EscrowDepositRoute.sol#561)
+		- vault.payout(r,id,from,value) (src/EscrowDepositRoute.sol#562)
+	Event emitted after the call(s):
+	- DepositResolved(id,r.kind,jobId,refunded) (src/EscrowDepositRoute.sol#616)
+Reentrancy in UMAArbitratorAdapter.proposeRuling(uint256,uint16) (src/arbitration/UMAArbitratorAdapter.sol#127-153):
+	External calls:
+	- assertionId = oracle.assertTruth(claimFor(disputeId,payoutBps),msg.sender,address(this),address(0),liveness,currency,bond,oracle.defaultIdentifier(),bytes32(0)) (src/arbitration/UMAArbitratorAdapter.sol#138-148)
+	Event emitted after the call(s):
+	- RulingProposed(disputeId,assertionId,msg.sender,payoutBps) (src/arbitration/UMAArbitratorAdapter.sol#152)
+Reentrancy in KlerosArbitratorAdapter.requestRuling(uint256,address,uint16,bytes32) (src/arbitration/KlerosArbitratorAdapter.sol#109-121):
+	External calls:
+	- ext = kleros.createDispute{value: cost}(CHOICES,extraData) (src/arbitration/KlerosArbitratorAdapter.sol#117)
+	Event emitted after the call(s):
+	- DisputeOpened(disputeId,ext,msg.sender,jobId,cost) (src/arbitration/KlerosArbitratorAdapter.sol#120)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-4
+
+Detector: timestamp
+AGC._useAuthorization(bytes32,address,address,uint256,uint256,uint256,bytes32,bytes) (src/AGC.sol#268-286) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp <= validAfter (src/AGC.sol#278)
+	- block.timestamp >= validBefore (src/AGC.sol#279)
+CrossCurrencySettler.settle(CrossCurrencySettler.Quote,CrossCurrencySettler.Auth) (src/CrossCurrencySettler.sol#113-131) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > q.expiry (src/CrossCurrencySettler.sol#118)
+ERC8183EvaluatorAdapter.assign(address,uint256,address) (src/ERC8183EvaluatorAdapter.sol#246-278) uses timestamp for comparisons
+	Dangerous comparisons:
+	- kj.expiredAt < minExpiry (src/ERC8183EvaluatorAdapter.sol#261)
+ERC8183EvaluatorAdapter.acceptAssignment(uint256) (src/ERC8183EvaluatorAdapter.sol#292-308) uses timestamp for comparisons
+	Dangerous comparisons:
+	- kj.expiredAt < minExpiry (src/ERC8183EvaluatorAdapter.sol#302)
+ERC8183EvaluatorAdapter.verdict(uint256,uint16,bytes32) (src/ERC8183EvaluatorAdapter.sol#376-395) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > uint256(j.submittedAt) + c.evalWindow (src/ERC8183EvaluatorAdapter.sol#388)
+ERC8183EvaluatorAdapter.timeoutRelease(uint256) (src/ERC8183EvaluatorAdapter.sol#399-414) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp <= uint256(j.submittedAt) + c.evalWindow (src/ERC8183EvaluatorAdapter.sol#404)
+ERC8183EvaluatorAdapter.challenge(uint256,bytes32) (src/ERC8183EvaluatorAdapter.sol#421-443) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > uint256(j.verdictAt) + c.challengeWindow (src/ERC8183EvaluatorAdapter.sol#425)
+ERC8183EvaluatorAdapter.resolveStaleDispute(uint256) (src/ERC8183EvaluatorAdapter.sol#485-499) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < uint256(j.disputedAt) + c.arbitrationTimeout (src/ERC8183EvaluatorAdapter.sol#489)
+ERC8183EvaluatorAdapter.finalize(uint256) (src/ERC8183EvaluatorAdapter.sol#502-508) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp <= uint256(j.verdictAt) + c.challengeWindow (src/ERC8183EvaluatorAdapter.sol#506)
+ERC8183EvaluatorAdapter._noteSubmission(uint256,ERC8183EvaluatorAdapter.AdapterJob,uint256) (src/ERC8183EvaluatorAdapter.sol#586-598) uses timestamp for comparisons
+	Dangerous comparisons:
+	- expiredAt < required (src/ERC8183EvaluatorAdapter.sol#588)
+EscrowDepositRoute.startSweep() (src/EscrowDepositRoute.sol#180-189) uses timestamp for comparisons
+	Dangerous comparisons:
+	- sweepableAt != 0 (src/EscrowDepositRoute.sol#182)
+EscrowDepositRoute.sweep() (src/EscrowDepositRoute.sol#193-203) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < at (src/EscrowDepositRoute.sol#196)
+EscrowDepositRoute._attributedOut(uint256) (src/EscrowDepositRoute.sol#224-228) uses timestamp for comparisons
+	Dangerous comparisons:
+	- sweepableAt == 0 (src/EscrowDepositRoute.sol#225)
+EscrowDepositRouteFactory._checkThreshold(uint256,uint256) (src/EscrowDepositRoute.sol#433-436) uses timestamp for comparisons
+	Dangerous comparisons:
+	- k == 0 || k > n (src/EscrowDepositRoute.sol#434)
+	- k < 2 && ! lowThresholdAllowed() (src/EscrowDepositRoute.sol#435)
+EscrowDepositRouteFactory.executeKeeper(address) (src/EscrowDepositRoute.sol#453-466) uses timestamp for comparisons
+	Dangerous comparisons:
+	- p.eta == 0 (src/EscrowDepositRoute.sol#455)
+	- block.timestamp < p.eta (src/EscrowDepositRoute.sol#456)
+	- p.allowed && ! isKeeper[keeper] (src/EscrowDepositRoute.sol#459)
+	- ! p.allowed && isKeeper[keeper] (src/EscrowDepositRoute.sol#460)
+EscrowDepositRouteFactory.executeThreshold() (src/EscrowDepositRoute.sol#484-493) uses timestamp for comparisons
+	Dangerous comparisons:
+	- p.eta == 0 (src/EscrowDepositRoute.sol#486)
+	- block.timestamp < p.eta (src/EscrowDepositRoute.sol#487)
+EscrowDepositRouteFactory._vote(bytes32,bytes32) (src/EscrowDepositRoute.sol#525-550) uses timestamp for comparisons
+	Dangerous comparisons:
+	- count >= threshold (src/EscrowDepositRoute.sol#549)
+EscrowDepositRouteFactory._credit(EscrowDepositRouteFactory.Offer,bytes32,address,uint256,bool) (src/EscrowDepositRoute.sol#552-567) uses timestamp for comparisons
+	Dangerous comparisons:
+	- token.balanceOf(r) >= value (src/EscrowDepositRoute.sol#558)
+EscrowDepositRouteFactory.executeResolution(bytes32,EscrowDepositRouteFactory.Offer) (src/EscrowDepositRoute.sol#600-617) uses timestamp for comparisons
+	Dangerous comparisons:
+	- r.eta == 0 (src/EscrowDepositRoute.sol#602)
+	- block.timestamp < r.eta (src/EscrowDepositRoute.sol#603)
+	- r.kind == ResolutionKind.Credit (src/EscrowDepositRoute.sol#607)
+	- routeFor(o) != r.route (src/EscrowDepositRoute.sol#608)
+EvaluatorRegistry.executeSlasher(address) (src/EvaluatorRegistry.sol#145-152) uses timestamp for comparisons
+	Dangerous comparisons:
+	- p.eta == 0 (src/EvaluatorRegistry.sol#147)
+	- block.timestamp < p.eta (src/EvaluatorRegistry.sol#148)
+EvaluatorRegistry.withdraw() (src/EvaluatorRegistry.sol#188-198) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < e.unbondingEndsAt (src/EvaluatorRegistry.sol#191)
+JobEscrow.cancel(uint256) (src/JobEscrow.sol#341-357) uses timestamp for comparisons
+	Dangerous comparisons:
+	- j.state == State.Funded && block.timestamp >= j.deadline (src/JobEscrow.sol#352)
+JobEscrow.claimRefund(uint256) (src/JobEscrow.sol#360-365) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < j.deadline (src/JobEscrow.sol#363)
+JobEscrow.submit(uint256,bytes32) (src/JobEscrow.sol#394-417) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp >= j.deadline (src/JobEscrow.sol#398)
+JobEscrow.verdictScheduled(uint256,uint16,uint8,uint8,bytes32) (src/JobEscrow.sol#442-476) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > uint256(j.submittedAt) + c.evalWindow (src/JobEscrow.sol#455)
+JobEscrow.timeoutRelease(uint256) (src/JobEscrow.sol#479-491) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp <= uint256(j.submittedAt) + c.evalWindow (src/JobEscrow.sol#483)
+JobEscrow.challenge(uint256,bytes32) (src/JobEscrow.sol#500-527) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > uint256(j.verdictAt) + c.challengeWindow (src/JobEscrow.sol#506)
+JobEscrow.resolveStaleDispute(uint256) (src/JobEscrow.sol#572-588) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < uint256(j.disputedAt) + c.arbitrationTimeout (src/JobEscrow.sol#576)
+JobEscrow.finalize(uint256) (src/JobEscrow.sol#591-601) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp <= uint256(j.verdictAt) + c.challengeWindow (src/JobEscrow.sol#597)
+JobEscrow._create(address,address,address,uint256,uint64,bytes32) (src/JobEscrow.sol#677-703) uses timestamp for comparisons
+	Dangerous comparisons:
+	- deadline <= block.timestamp (src/JobEscrow.sol#688)
+JobEscrow._fund(uint256,address) (src/JobEscrow.sol#717-726) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp >= j.deadline (src/JobEscrow.sol#720)
+JobEscrow._verdict(uint256,JobEscrow.Outcome,uint16,bytes32) (src/JobEscrow.sol#728-755) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > uint256(j.submittedAt) + c.evalWindow (src/JobEscrow.sol#734)
+JobEscrow._transferOut(address,uint256) (src/JobEscrow.sol#902-904) uses timestamp for comparisons
+	Dangerous comparisons:
+	- amount > 0 (src/JobEscrow.sol#903)
+RecoveryVault.releaseExpired(address) (src/RecoveryVault.sol#83-92) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < at (src/RecoveryVault.sol#87)
+AgentKoinAuthCaptureArbiter.authorize(IAuthCaptureEscrow.PaymentInfo,uint256,address,bytes) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#290-314) uses timestamp for comparisons
+	Dangerous comparisons:
+	- uint256(block.timestamp) + _lifecycleSpan(_evalWindow) > info.authorizationExpiry (src/arbiter/AgentKoinAuthCaptureArbiter.sol#302)
+AgentKoinAuthCaptureArbiter.bindTerms(IAuthCaptureEscrow.PaymentInfo,AgentKoinAuthCaptureArbiter.Terms,uint256) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#330-360) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > terms.submitBy (src/arbiter/AgentKoinAuthCaptureArbiter.sol#344)
+AgentKoinAuthCaptureArbiter.submit(IAuthCaptureEscrow.PaymentInfo,bytes32,bytes32) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#365-378) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > p.submitBy (src/arbiter/AgentKoinAuthCaptureArbiter.sol#371)
+AgentKoinAuthCaptureArbiter.recordBuyerAcceptance(IAuthCaptureEscrow.PaymentInfo,AgentKoinAuthCaptureArbiter.BuyerAcceptance,bytes) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#417-442) uses timestamp for comparisons
+	Dangerous comparisons:
+	- _acceptances[key].decision != BuyerDecision.None (src/arbiter/AgentKoinAuthCaptureArbiter.sol#433)
+AgentKoinAuthCaptureArbiter.challenge(IAuthCaptureEscrow.PaymentInfo,bytes32) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#446-461) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > uint256(p.verdictAt) + _challengeWindow (src/arbiter/AgentKoinAuthCaptureArbiter.sol#450)
+AgentKoinAuthCaptureArbiter.rule(uint256,uint16) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#465-495) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > uint256(p.disputedAt) + _rulingWindow (src/arbiter/AgentKoinAuthCaptureArbiter.sol#470)
+AgentKoinAuthCaptureArbiter.resolveStaleDispute(IAuthCaptureEscrow.PaymentInfo) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#499-507) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp <= uint256(p.disputedAt) + _rulingWindow (src/arbiter/AgentKoinAuthCaptureArbiter.sol#501)
+AgentKoinAuthCaptureArbiter.finalize(IAuthCaptureEscrow.PaymentInfo) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#510-514) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp <= uint256(p.verdictAt) + _challengeWindow (src/arbiter/AgentKoinAuthCaptureArbiter.sol#512)
+AgentKoinAuthCaptureArbiter.timeoutRelease(IAuthCaptureEscrow.PaymentInfo) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#518-529) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp <= uint256(p.submittedAt) + p.evalWindow (src/arbiter/AgentKoinAuthCaptureArbiter.sol#520)
+AgentKoinAuthCaptureArbiter.voidUnbound(IAuthCaptureEscrow.PaymentInfo,AgentKoinAuthCaptureArbiter.Terms,uint256) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#533-542) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp <= terms.submitBy (src/arbiter/AgentKoinAuthCaptureArbiter.sol#539)
+AgentKoinAuthCaptureArbiter.voidNoSubmit(IAuthCaptureEscrow.PaymentInfo) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#545-551) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp <= p.submitBy (src/arbiter/AgentKoinAuthCaptureArbiter.sol#547)
+AgentKoinAuthCaptureArbiter.outcome(bytes32) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#611-619) uses timestamp for comparisons
+	Dangerous comparisons:
+	- o.buyerAccepted = o.buyerDecision == BuyerDecision.Accepted (src/arbiter/AgentKoinAuthCaptureArbiter.sol#618)
+AgentKoinAuthCaptureArbiter._checkVerdict(AgentKoinAuthCaptureArbiter.Payment,uint16,bytes32,bytes32) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#660-670) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > uint256(p.submittedAt) + p.evalWindow (src/arbiter/AgentKoinAuthCaptureArbiter.sol#665)
+AgentKoinAuthCaptureArbiter._settle(bytes32,AgentKoinAuthCaptureArbiter.Payment) (src/arbiter/AgentKoinAuthCaptureArbiter.sol#703-718) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < info.authorizationExpiry (src/arbiter/AgentKoinAuthCaptureArbiter.sol#709)
+AgentKoinAuthCaptureArbiterV03.authorize(IAuthCaptureEscrow.PaymentInfo,uint256,address,bytes) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#299-323) uses timestamp for comparisons
+	Dangerous comparisons:
+	- uint256(block.timestamp) + _lifecycleSpan(_evalWindow) > info.authorizationExpiry (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#311)
+AgentKoinAuthCaptureArbiterV03.bindTerms(IAuthCaptureEscrow.PaymentInfo,AgentKoinAuthCaptureArbiterV03.Terms,uint256) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#339-375) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > terms.submitBy (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#358)
+AgentKoinAuthCaptureArbiterV03.submit(IAuthCaptureEscrow.PaymentInfo,bytes32,bytes32) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#381-394) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > p.submitBy (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#387)
+AgentKoinAuthCaptureArbiterV03.recordBuyerAcceptance(IAuthCaptureEscrow.PaymentInfo,AgentKoinAuthCaptureArbiterV03.BuyerAcceptance,bytes) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#433-458) uses timestamp for comparisons
+	Dangerous comparisons:
+	- _acceptances[key].decision != BuyerDecision.None (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#449)
+AgentKoinAuthCaptureArbiterV03.challenge(IAuthCaptureEscrow.PaymentInfo,bytes32) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#463-480) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > uint256(p.verdictAt) + _challengeWindow (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#469)
+AgentKoinAuthCaptureArbiterV03.rule(uint256,uint16) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#484-514) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > uint256(p.disputedAt) + _rulingWindow (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#489)
+AgentKoinAuthCaptureArbiterV03.resolveStaleDispute(IAuthCaptureEscrow.PaymentInfo) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#518-526) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp <= uint256(p.disputedAt) + _rulingWindow (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#520)
+AgentKoinAuthCaptureArbiterV03.finalize(IAuthCaptureEscrow.PaymentInfo) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#529-533) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp <= uint256(p.verdictAt) + _challengeWindow (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#531)
+AgentKoinAuthCaptureArbiterV03.timeoutRelease(IAuthCaptureEscrow.PaymentInfo) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#538-549) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp <= uint256(p.submittedAt) + p.evalWindow (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#540)
+AgentKoinAuthCaptureArbiterV03.voidUnbound(IAuthCaptureEscrow.PaymentInfo,AgentKoinAuthCaptureArbiterV03.Terms,uint256) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#553-562) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp <= terms.submitBy (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#559)
+AgentKoinAuthCaptureArbiterV03.voidNoSubmit(IAuthCaptureEscrow.PaymentInfo) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#565-571) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp <= p.submitBy (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#567)
+AgentKoinAuthCaptureArbiterV03.outcome(bytes32) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#646-654) uses timestamp for comparisons
+	Dangerous comparisons:
+	- o.buyerAccepted = o.buyerDecision == BuyerDecision.Accepted (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#653)
+AgentKoinAuthCaptureArbiterV03._checkVerdict(AgentKoinAuthCaptureArbiterV03.Payment,uint16,bytes32,bytes32) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#695-705) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > uint256(p.submittedAt) + p.evalWindow (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#700)
+AgentKoinAuthCaptureArbiterV03._settle(bytes32,AgentKoinAuthCaptureArbiterV03.Payment) (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#738-753) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < info.authorizationExpiry (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#744)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp
+
+Detector: assembly
+EscrowDepositRouteFactory.deploy(EscrowDepositRouteFactory.Offer) (src/EscrowDepositRoute.sol#653-664) uses assembly
+	- INLINE ASM (src/EscrowDepositRoute.sol#658-660)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage
+
+Detector: low-level-calls
+Low level call in KlerosArbitratorAdapter.withdrawNative(address,uint256) (src/arbitration/KlerosArbitratorAdapter.sol#93-96):
+	- (ok,None) = to.call{value: amount}() (src/arbitration/KlerosArbitratorAdapter.sol#94)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls
+
+Detector: missing-inheritance
+AGC (src/AGC.sol#31-293) should inherit from IUSDCReceive (src/AGC.sol#13-23)
+AGC (src/AGC.sol#31-293) should inherit from IERC3009Receive (src/CrossCurrencySettler.sol#9-21)
+AGC (src/AGC.sol#31-293) should inherit from IEIP3009 (src/EscrowDepositRoute.sol#10-20)
+AGCSettlerAdapter (src/AGCSettlerAdapter.sol#24-63) should inherit from IJobEscrowFundFor (src/CrossCurrencySettler.sol#23-32)
+JobEscrow (src/JobEscrow.sol#21-905) should inherit from IJobEscrowFundFor (src/CrossCurrencySettler.sol#23-32)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-inheritance
+
+Detector: naming-convention
+Variable AGC.USDC (src/AGC.sol#46) is not in mixedCase
+Variable AgentKoinAuthCaptureArbiter.ESCROW (src/arbiter/AgentKoinAuthCaptureArbiter.sol#167) is not in mixedCase
+Variable AgentKoinAuthCaptureArbiter.REGISTRY (src/arbiter/AgentKoinAuthCaptureArbiter.sol#168) is not in mixedCase
+Variable AgentKoinAuthCaptureArbiter.ARBITRATOR (src/arbiter/AgentKoinAuthCaptureArbiter.sol#169) is not in mixedCase
+Variable AgentKoinAuthCaptureArbiter.TOKEN (src/arbiter/AgentKoinAuthCaptureArbiter.sol#170) is not in mixedCase
+Variable AgentKoinAuthCaptureArbiter.MAX_AMOUNT_PER_PAYMENT (src/arbiter/AgentKoinAuthCaptureArbiter.sol#171) is not in mixedCase
+Variable AgentKoinAuthCaptureArbiterV03.ESCROW (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#173) is not in mixedCase
+Variable AgentKoinAuthCaptureArbiterV03.REGISTRY (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#174) is not in mixedCase
+Variable AgentKoinAuthCaptureArbiterV03.ARBITRATOR (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#175) is not in mixedCase
+Variable AgentKoinAuthCaptureArbiterV03.TOKEN (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#176) is not in mixedCase
+Variable AgentKoinAuthCaptureArbiterV03.MAX_AMOUNT_PER_PAYMENT (src/arbiter/AgentKoinAuthCaptureArbiterV03.sol#177) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions
+
+Detector: too-many-digits
+EscrowDepositRouteFactory._initCode(EscrowDepositRouteFactory.Offer) (src/EscrowDepositRoute.sol#685-690) uses literals with too many digits:
+	- abi.encodePacked(type()(EscrowDepositRoute).creationCode,abi.encode(token,escrow,o.provider,o.evaluator,o.amount,o.deadlineSeconds,o.specHash)) (src/EscrowDepositRoute.sol#686-689)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits
+
+Detector: unindexed-event-address
+Event ERC8183EvaluatorAdapter.TreasurySet(address) (src/ERC8183EvaluatorAdapter.sol#115) has address parameters but no indexed parameters
+Event ERC8183EvaluatorAdapter.ArbitratorSet(address) (src/ERC8183EvaluatorAdapter.sol#116) has address parameters but no indexed parameters
+Event EvaluatorRegistry.ConfigUpdated(uint256,uint64,uint32,uint16,address) (src/EvaluatorRegistry.sol#54-60) has address parameters but no indexed parameters
+Event JobEscrow.TreasurySet(address) (src/JobEscrow.sol#119) has address parameters but no indexed parameters
+Event JobEscrow.ArbitratorSet(address) (src/JobEscrow.sol#120) has address parameters but no indexed parameters
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unindexed-event-address-parameters
+. analyzed (82 contracts with 102 detectors), 134 result(s) found
+'forge clean' running (wd: /workspace/agentcoin)
+'forge config --json' running
+'forge build --build-info --deny never --skip ./test/** ./script/** --force' running (wd: /workspace/agentcoin)

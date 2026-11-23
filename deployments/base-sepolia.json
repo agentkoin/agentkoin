@@ -1,0 +1,822 @@
+{
+  "network": "Base Sepolia",
+  "chainId": 84532,
+  "sourceCommit": "7c7071bfdd7f66ce4e0aa18153049eb8cee3a96c",
+  "deployer": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+  "treasury": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+  "usdc": {
+    "address": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+    "kind": "Circle official test USDC (FiatToken proxy), decimals 6",
+    "source": "https://developers.circle.com/stablecoins/usdc-contract-addresses"
+  },
+  "keeperConfig": {
+    "keepers": [
+      "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e"
+    ],
+    "threshold": 1,
+    "note": "TESTNET ONLY: deployer is sole keeper (k=1)"
+  },
+  "mockArbitrator": true,
+  "arbitratorKind": "MockArbitrator (testnet stand-in, owner = deployer)",
+  "notDeployed": [
+    "MockUSDC",
+    "MockIdentityRegistry",
+    "KlerosArbitratorAdapter (local tests only)",
+    "UMAArbitratorAdapter (local tests only)"
+  ],
+  "params": {
+    "minStake": 2000000,
+    "evalWindow": 3600,
+    "challengeWindow": 600,
+    "arbitrationFee": 500000
+  },
+  "deployBlockFirst": 52030622,
+  "contracts": {
+    "MockArbitrator": {
+      "address": "0x3C4587eD99B1969581cA4f041FD9535a0D269736",
+      "deployTx": "0xd9cbabd82f90ef966941ebd1e6063b250de0968eae2b4cc2476f24d543ade8ff",
+      "block": 52030622,
+      "gasUsed": 396392,
+      "constructorArgs": [
+        "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "500000"
+      ],
+      "sourcify": "exact_match"
+    },
+    "EvaluatorRegistry": {
+      "address": "0x30576DE005df028D1947C56dEcc85a2a5612036a",
+      "deployTx": "0x2412ac3fe78d31f035c52d6318e9837ffcf6b4f09d12a0c7a70f323ae786c342",
+      "block": 52030633,
+      "gasUsed": 1683081,
+      "constructorArgs": [
+        "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "(2000000, 604800, 5, 5000, 0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e)",
+        "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "[0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D, 0x27803F8DBDAd0D6B0E719d2AB2eB7A31b5c53509]",
+        "172800"
+      ],
+      "sourcify": "exact_match"
+    },
+    "JobEscrow": {
+      "address": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+      "deployTx": "0xac549513c18ad207d3f5a4de9d5ac827e9d8fb34fac8567d855f8a66eca5ce3f",
+      "block": 52030644,
+      "gasUsed": 4046475,
+      "constructorArgs": [
+        "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "0x30576DE005df028D1947C56dEcc85a2a5612036a",
+        "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "0x3C4587eD99B1969581cA4f041FD9535a0D269736",
+        "(1000000, 1000000, 3600, 600, 2592000, 500, 1000, 2500, 2000, 100, 5000, 10000, 50)",
+        "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e"
+      ],
+      "sourcify": "exact_match"
+    },
+    "ERC8183EvaluatorAdapter": {
+      "address": "0x27803F8DBDAd0D6B0E719d2AB2eB7A31b5c53509",
+      "deployTx": "0x3ff3f9d4da39a30f8c6212c0576ff96769c7777b07bd696713f12738fe093777",
+      "block": 52030655,
+      "gasUsed": 3848709,
+      "constructorArgs": [
+        "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "0x30576DE005df028D1947C56dEcc85a2a5612036a",
+        "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "0x3C4587eD99B1969581cA4f041FD9535a0D269736",
+        "(86400, 86400, 604800, 3600, 1000000, 500, 1000, 2500, 5000, 5000)",
+        "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e"
+      ],
+      "sourcify": "exact_match"
+    },
+    "EscrowDepositRouteFactory": {
+      "address": "0x32174eFD01e600E621Cf3f0D19Ff694483B19b95",
+      "deployTx": "0x7ed2f2857cf8d5d44803ad0e3e25a751891e1c729e0e48d7a3cf2ebf13b6703c",
+      "block": 52030666,
+      "gasUsed": 4426509,
+      "constructorArgs": [
+        "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+        "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "(2592000, 0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e, 31536000, 172800, 1)",
+        "[0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e]"
+      ],
+      "sourcify": "exact_match"
+    },
+    "RecoveryVault": {
+      "address": "0xac3bFF013bABD1F8B671b4838Cd54aA98bd3B460",
+      "deployTx": "0x7ed2f2857cf8d5d44803ad0e3e25a751891e1c729e0e48d7a3cf2ebf13b6703c",
+      "block": 52030666,
+      "note": "created inside EscrowDepositRouteFactory constructor",
+      "constructorArgs": [
+        "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "31536000"
+      ],
+      "sourcify": "exact_match"
+    },
+    "MockERC8183Kernel": {
+      "address": "0x79c40413556ab795f9d64d745b7c591e4a888e64",
+      "mock": true,
+      "note": "MOCK ERC-8183-style job kernel for testnet adapter smoke only; not a production kernel",
+      "deployTx": "0xe324018556c939a94603a7880338b1ff47fab05101f435ba0f2283015169f3b1",
+      "block": 52040534,
+      "gasUsed": 1504138,
+      "constructorArgs": [
+        "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+        "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "100",
+        "50"
+      ],
+      "sourcify": "exact_match",
+      "addedIn": "v0.3.0-sepolia"
+    }
+  },
+  "verification": {
+    "verifier": "sourcify",
+    "result": "all 8 exact_match (6 core v0.2 + MockERC8183Kernel + EscrowDepositRoute instance)"
+  },
+  "smoke": {
+    "amount": 1000000,
+    "jobA_happy": 1,
+    "jobB_reject": 2,
+    "provider": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+    "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+    "payoutsObserved": {
+      "jobA": {
+        "provider": 985000,
+        "treasury(=client)": 10000,
+        "evaluator": 5000
+      },
+      "jobB": {
+        "clientRefund": 1000000
+      }
+    },
+    "open": [
+      {
+        "fn": "ETH transfer to 0x745528c4e0cbda5759175a660da06d0aaa72db7f",
+        "from": "0x78e2c0164a80f3e337ae17e3ba4b8ea2c0fa488e",
+        "tx": "0x1a87565f2c3bf108cd5f5f4ffd13480873bc3078d757be7d0dfb59849cc4d590",
+        "block": 52030809,
+        "gasUsed": 21000,
+        "status": 1
+      },
+      {
+        "fn": "ETH transfer to 0xfb0159725fb6169f676ebfd2fa0ac2c3a184509a",
+        "from": "0x78e2c0164a80f3e337ae17e3ba4b8ea2c0fa488e",
+        "tx": "0xb49a0ff4d8271abeab2957f21bb1f6106e92c47d1c2d5ef581ba6f6a0c65cf15",
+        "block": 52030820,
+        "gasUsed": 21000,
+        "status": 1
+      },
+      {
+        "fn": "transfer(address,uint256)",
+        "from": "0x78e2c0164a80f3e337ae17e3ba4b8ea2c0fa488e",
+        "tx": "0xec6e1413250bab3051d320b82c55a09802cefa1aea7ace9593efc5c06e97b7eb",
+        "block": 52030831,
+        "gasUsed": 62159,
+        "status": 1
+      },
+      {
+        "fn": "approve(address,uint256)",
+        "from": "0xfb0159725fb6169f676ebfd2fa0ac2c3a184509a",
+        "tx": "0xadd4e3b19a38ae80b9fa0a449b71a72d2e39dfe53ebce9ad479b953b47702a4c",
+        "block": 52030842,
+        "gasUsed": 55437,
+        "status": 1
+      },
+      {
+        "fn": "stake(uint256)",
+        "from": "0xfb0159725fb6169f676ebfd2fa0ac2c3a184509a",
+        "tx": "0x385b136e00289b8f91455e89e8f432555cd1bc67594855e32924a4e372c61d60",
+        "block": 52030853,
+        "gasUsed": 92116,
+        "status": 1
+      },
+      {
+        "fn": "approve(address,uint256)",
+        "from": "0x78e2c0164a80f3e337ae17e3ba4b8ea2c0fa488e",
+        "tx": "0xcb382a7d6f64a066d8ae4831a0a2ef7fbc8077271ca9d78b4568582a19ae359b",
+        "block": 52030864,
+        "gasUsed": 55437,
+        "status": 1
+      },
+      {
+        "fn": "createAndFund(address,address,uint256,uint64,bytes32)",
+        "from": "0x78e2c0164a80f3e337ae17e3ba4b8ea2c0fa488e",
+        "tx": "0xcd87a26639dddbec1158a1a5b68c9217def880dbc1180c2fe13259e442719a18",
+        "block": 52030872,
+        "gasUsed": 323438,
+        "status": 1
+      },
+      {
+        "fn": "createAndFund(address,address,uint256,uint64,bytes32)",
+        "from": "0x78e2c0164a80f3e337ae17e3ba4b8ea2c0fa488e",
+        "tx": "0xdf55b217a41701a19bb629f436c68efcf0ff7491a3a6e2c941d0d654e9cb8d4e",
+        "block": 52030882,
+        "gasUsed": 250238,
+        "status": 1
+      },
+      {
+        "fn": "submit(uint256,bytes32)",
+        "from": "0x745528c4e0cbda5759175a660da06d0aaa72db7f",
+        "tx": "0xbcb9292234c1e24c870168871d9dc6534c1bad1a5094071a79be335c47a20b20",
+        "block": 52030891,
+        "gasUsed": 70540,
+        "status": 1
+      },
+      {
+        "fn": "submit(uint256,bytes32)",
+        "from": "0x745528c4e0cbda5759175a660da06d0aaa72db7f",
+        "tx": "0x74d4d47bd605facc419fc05b97a89f4255ca3b4594d66eca577fa891218fef51",
+        "block": 52030900,
+        "gasUsed": 70540,
+        "status": 1
+      },
+      {
+        "fn": "verdict(uint256,uint8,uint16,bytes32)",
+        "from": "0xfb0159725fb6169f676ebfd2fa0ac2c3a184509a",
+        "tx": "0xb7cb367d625110f1590fbd2cb81dc2cea24fd819a0a72e05ff82b405377a8982",
+        "block": 52030910,
+        "gasUsed": 63508,
+        "status": 1
+      },
+      {
+        "fn": "verdict(uint256,uint8,uint16,bytes32)",
+        "from": "0xfb0159725fb6169f676ebfd2fa0ac2c3a184509a",
+        "tx": "0x017a93a803c18788c7ee5bfbd2477dd8609dc4de7d5103090ead5c33e9131dc3",
+        "block": 52030919,
+        "gasUsed": 63530,
+        "status": 1
+      }
+    ],
+    "finalize": [
+      {
+        "fn": "finalize(uint256)",
+        "from": "0x78e2c0164a80f3e337ae17e3ba4b8ea2c0fa488e",
+        "tx": "0x0f12ef62812419708362588128da9efd77bd59ed95e842cc2bac0c5a05de6d03",
+        "block": 52034225,
+        "gasUsed": 153346,
+        "status": 1
+      },
+      {
+        "fn": "finalize(uint256)",
+        "from": "0x78e2c0164a80f3e337ae17e3ba4b8ea2c0fa488e",
+        "tx": "0x063498af8fdd49d192f6b79f1231a6fdc7eb94b6fb8218fee55af532cfaf760d",
+        "block": 52034235,
+        "gasUsed": 75716,
+        "status": 1
+      }
+    ],
+    "result": "SMOKE OK"
+  },
+  "routes": [
+    {
+      "address": "0xaf9AE89AdA6f06645166b1aa20845c4e054a4Ffa",
+      "contract": "EscrowDepositRoute",
+      "createdBy": "EscrowDepositRouteFactory.deploy(offer)",
+      "deployTx": "0x0362a12cf5a20946fa708265db8f6391606472578c4e1a521e372d5c51e7a867",
+      "block": 52040489,
+      "gasUsed": 1182151,
+      "offer": {
+        "provider": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+        "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "amount": "1000000",
+        "deadlineSeconds": "3600",
+        "specHash": "0x40d7d0bdc27b24c4fad9a08f9d49074a051e3f30db87cbab807dc75ff8c6d7a8"
+      },
+      "predictedByRouteFor": "0xaf9AE89AdA6f06645166b1aa20845c4e054a4Ffa",
+      "sweepTo": "0xac3bFF013bABD1F8B671b4838Cd54aA98bd3B460",
+      "sourcify": "exact_match",
+      "addedIn": "v0.3.0-sepolia"
+    }
+  ],
+  "v03": {
+    "tag": "v0.3.0-sepolia",
+    "adapterConfig": {
+      "version": 2,
+      "evalWindow": "3600",
+      "challengeWindow": "600",
+      "arbitrationTimeout": "3600",
+      "expiryMargin": "600",
+      "minChallengeBond": "1000000",
+      "challengeBondBps": 500,
+      "missedVerdictSlashBps": 1000,
+      "wrongVerdictSlashBps": 2500,
+      "failedChallengeEvaluatorShareBps": 5000,
+      "completeThresholdBps": 5000,
+      "note": "testnet-short windows set via setConfig"
+    },
+    "results": {
+      "fund": {
+        "done": true,
+        "evaluatorStake": "4000000"
+      },
+      "dispute": {
+        "done": true,
+        "jobId": "3",
+        "disputeId": "1",
+        "amount": "1000000",
+        "challengeBond": "1000000",
+        "arbitrationFee": "500000",
+        "state": 8,
+        "payoutBps": 10000,
+        "evaluatorStakeBefore": "4000000",
+        "evaluatorStakeAfter": "3000000",
+        "usdcDeltaFromStart": {
+          "deployer": "-0.740000",
+          "provider": "1.240000",
+          "evaluator": "0.000000",
+          "mockArbitrator": "0.500000",
+          "escrow": "0.000000"
+        },
+        "usdcDeltaAtRuling": {
+          "deployer": "0.260000",
+          "provider": "2.740000",
+          "evaluator": "0.000000",
+          "mockArbitrator": "0.500000",
+          "escrow": "-2.500000"
+        },
+        "rulingEvents": [
+          {
+            "event": "Ruled",
+            "args": {
+              "jobId": "3",
+              "arbitrator": "0x3C4587eD99B1969581cA4f041FD9535a0D269736",
+              "verdictPayoutBps": 0,
+              "rulingPayoutBps": 10000,
+              "overturned": true
+            }
+          },
+          {
+            "event": "Reimbursed",
+            "args": {
+              "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+              "jobId": "3",
+              "to": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+              "amount": "500000",
+              "slasher": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D"
+            }
+          },
+          {
+            "event": "ArbitrationFeeReimbursed",
+            "args": {
+              "jobId": "3",
+              "challenger": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+              "from": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+              "amount": "500000"
+            }
+          },
+          {
+            "event": "Slashed",
+            "args": {
+              "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+              "jobId": "3",
+              "reason": 2,
+              "amount": "500000",
+              "harmedParty": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+              "toHarmedParty": "250000",
+              "toTreasury": "250000",
+              "slasher": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D"
+            }
+          },
+          {
+            "event": "Slashed",
+            "args": {
+              "jobId": "3",
+              "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+              "reason": 2,
+              "amount": "500000"
+            }
+          },
+          {
+            "event": "ChallengeBondDistributed",
+            "args": {
+              "jobId": "3",
+              "challenger": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+              "toChallenger": "1000000",
+              "toCounterparty": "0",
+              "toTreasury": "0"
+            }
+          },
+          {
+            "event": "PaymentReleased",
+            "args": {
+              "jobId": "3",
+              "provider": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+              "net": "990000",
+              "fee": "10000"
+            }
+          },
+          {
+            "event": "ArbitrationFeePaid",
+            "args": {
+              "jobId": "3",
+              "challenger": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+              "arbitrator": "0x3C4587eD99B1969581cA4f041FD9535a0D269736",
+              "fee": "500000"
+            }
+          },
+          {
+            "event": "ExposureReleased",
+            "args": {
+              "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+              "jobId": "3",
+              "amount": "1000000",
+              "totalExposure": "0"
+            }
+          },
+          {
+            "event": "Settled",
+            "args": {
+              "jobId": "3",
+              "payoutBps": 10000
+            }
+          }
+        ]
+      },
+      "route": {
+        "done": true,
+        "route": "0xaf9AE89AdA6f06645166b1aa20845c4e054a4Ffa",
+        "predicted": "0xaf9AE89AdA6f06645166b1aa20845c4e054a4Ffa",
+        "offer": {
+          "provider": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+          "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+          "amount": "1000000",
+          "deadlineSeconds": "3600",
+          "specHash": "0x40d7d0bdc27b24c4fad9a08f9d49074a051e3f30db87cbab807dc75ff8c6d7a8"
+        },
+        "sweepTo": "0xac3bFF013bABD1F8B671b4838Cd54aA98bd3B460",
+        "block": "52040489"
+      },
+      "x402": {
+        "done": true,
+        "jobId": "4",
+        "payer": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "client": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "resource": {
+          "resource": "agentcoin-demo",
+          "jobId": "4",
+          "payload": {
+            "n": 4,
+            "servedAt": "2026-10-30T03:12:51.441Z"
+          },
+          "deliverableHash": "0x9705bd2d78116238d889ebb7dc1bb6d235cc0c056b205d4dd8e64201dd4960a7"
+        },
+        "paymentResponse": {
+          "success": true,
+          "transaction": "0x23cbc6ccc24143a4d5bbdb872d96c56a51332fa4e46a1ef970648ca5ceedc2e2",
+          "network": "eip155:84532",
+          "payer": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+          "amount": "1000000",
+          "extensions": {
+            "agentcoin": {
+              "scheme": "exact",
+              "jobId": "4",
+              "escrowContract": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+              "submitTx": "0x2ab9d8648a111fc0e69391ef91bb9fe10b7d4c44e4b13ea3fa289167f44bab1f",
+              "deliverableHash": "0x9705bd2d78116238d889ebb7dc1bb6d235cc0c056b205d4dd8e64201dd4960a7",
+              "note": "funds held in escrow until evaluator verdict + challenge window"
+            }
+          }
+        },
+        "usdcDeltaAtSettle": {
+          "deployer": "-1.000000",
+          "provider": "0.000000",
+          "evaluator": "0.000000",
+          "route": "0.000000",
+          "escrow": "1.000000"
+        },
+        "verdictAt": "1793329973",
+        "finalizableAfter": "1793330573"
+      },
+      "adapterKernel": {
+        "address": "0x79c40413556ab795f9d64d745b7c591e4a888e64",
+        "deployTx": "0xe324018556c939a94603a7880338b1ff47fab05101f435ba0f2283015169f3b1",
+        "block": "52040534",
+        "gasUsed": "1504138",
+        "constructorArgs": {
+          "token": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+          "treasury": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+          "platformFeeBP": 100,
+          "evaluatorFeeBP": 50
+        }
+      },
+      "adapter": {
+        "done": true,
+        "kernel": "0x79c40413556ab795f9d64d745b7c591e4a888e64",
+        "kernelJobId": "1",
+        "adapterJobId": "1",
+        "configVersion": 2,
+        "config": {
+          "evalWindow": "3600",
+          "challengeWindow": "600",
+          "arbitrationTimeout": "3600",
+          "expiryMargin": "600",
+          "minChallengeBond": "1000000",
+          "challengeBondBps": 500,
+          "missedVerdictSlashBps": 1000,
+          "wrongVerdictSlashBps": 2500,
+          "failedChallengeEvaluatorShareBps": 5000,
+          "completeThresholdBps": 5000
+        },
+        "requiredExpiryDuration": "8400",
+        "expiredAt": "1793339276",
+        "verdictAt": "1793329985",
+        "finalizableAfter": "1793330585",
+        "usdcBefore": {
+          "deployer": "12270000",
+          "provider": "3225000",
+          "evaluator": "5000",
+          "kernel": "0"
+        }
+      },
+      "finalize": {
+        "done": true,
+        "x402Job": {
+          "state": 8,
+          "payoutBps": 10000,
+          "usdcDelta": {
+            "deployer": "0.010000",
+            "provider": "0.985000",
+            "evaluator": "0.005000",
+            "kernel": "0.000000",
+            "escrow": "-1.000000"
+          }
+        },
+        "adapterJob": {
+          "state": 5,
+          "kernelStatus": 3,
+          "usdcDelta": {
+            "deployer": "0.010000",
+            "provider": "0.985000",
+            "evaluator": "0.005000",
+            "kernel": "-1.000000",
+            "escrow": "0.000000"
+          }
+        },
+        "evaluatorInfo": {
+          "stake": "3000000",
+          "exposure": "0",
+          "openJobs": 0,
+          "unbondingEndsAt": "0",
+          "slashedTotal": "1000000"
+        }
+      }
+    },
+    "txLog": "deployments/base-sepolia-v03.json",
+    "txs": [
+      {
+        "phase": "fund",
+        "label": "ETH deployer->provider (gas)",
+        "hash": "0xf671e2e7c3bf47cb4b17e2767b686bbb01a300eaaa97dc0f11dc39a9600dd422",
+        "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "block": 52040402,
+        "gasUsed": 21000
+      },
+      {
+        "phase": "fund",
+        "label": "ETH deployer->evaluator (gas)",
+        "hash": "0xb02f350edff0d074a107227180f51fbe273abfffbf51aaf8562c15df580c1f3e",
+        "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "block": 52040406,
+        "gasUsed": 21000
+      },
+      {
+        "phase": "fund",
+        "label": "USDC deployer->evaluator 2 (extra stake)",
+        "hash": "0x5b978cdbed7d55f65f3e8fa15d5d6aa9ad0c4e31471f8127d4c589d21e010074",
+        "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "block": 52040411,
+        "gasUsed": 45059
+      },
+      {
+        "phase": "fund",
+        "label": "USDC evaluator approve registry 2",
+        "hash": "0x67c24a155c5b423df410d4b222173e51fbfcc79acc08d4eca7bb328f120be40d",
+        "from": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "block": 52040416,
+        "gasUsed": 55437
+      },
+      {
+        "phase": "fund",
+        "label": "EvaluatorRegistry.stake(2) by evaluator",
+        "hash": "0x834adf1a7ee89fc251df98e214987d2b4433264ac5a9290e36e90d15f1c78637",
+        "from": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "block": 52040422,
+        "gasUsed": 62716
+      },
+      {
+        "phase": "fund",
+        "label": "USDC deployer->provider 1 (challenge bond)",
+        "hash": "0x533029157b84eb0cb35f20ef48d7df99c7d85280affb89c418050e9c318de8ca",
+        "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "block": 52040428,
+        "gasUsed": 45059
+      },
+      {
+        "phase": "dispute",
+        "label": "USDC client approve escrow 1",
+        "hash": "0xbd9af237f92504bc87642cd6f9aaec8acc394ffe41cceca1ac0acac6dda9be27",
+        "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "block": 52040442,
+        "gasUsed": 55437
+      },
+      {
+        "phase": "dispute",
+        "label": "JobEscrow.createAndFund (dispute job)",
+        "hash": "0x2c9d844000bb9276cdf05f6c1de1555670bde5dc78e822c5d03858979193e116",
+        "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "block": 52040448,
+        "gasUsed": 301538
+      },
+      {
+        "phase": "dispute",
+        "label": "JobEscrow.submit",
+        "hash": "0xf6f644a044be648aeeae7327451c6b1ea397b0ac14e58d21dbf349f82171cefa",
+        "from": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+        "block": 52040453,
+        "gasUsed": 70540
+      },
+      {
+        "phase": "dispute",
+        "label": "JobEscrow.verdict Reject 0",
+        "hash": "0x886b1ac8d7ecc1d22dd5d6d56a0fe7439a450e8bcf6b84591339078d4381681f",
+        "from": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "block": 52040457,
+        "gasUsed": 63506
+      },
+      {
+        "phase": "dispute",
+        "label": "USDC provider approve escrow (bond+arb)",
+        "hash": "0x084a627188d2e32c9d1749d344c34239aadff0b96b1ec942eb38203d47009481",
+        "from": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+        "block": 52040462,
+        "gasUsed": 55437
+      },
+      {
+        "phase": "dispute",
+        "label": "JobEscrow.challenge by provider",
+        "hash": "0x0933e360c9528905605d6c6acce7176d2fb61cc517c4ce4531601faaefbf5b47",
+        "from": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+        "block": 52040467,
+        "gasUsed": 336834
+      },
+      {
+        "phase": "dispute",
+        "label": "MockArbitrator.giveRuling(disputeId, 10000)",
+        "hash": "0xf1bdceec23fe2d4f93b73e8a285c95972166d10fc5f83fbe53d43304b74b0617",
+        "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "block": 52040475,
+        "gasUsed": 245459
+      },
+      {
+        "phase": "route",
+        "label": "EscrowDepositRouteFactory.deploy(offer)",
+        "hash": "0x0362a12cf5a20946fa708265db8f6391606472578c4e1a521e372d5c51e7a867",
+        "from": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+        "block": 52040489,
+        "gasUsed": 1182151
+      },
+      {
+        "phase": "x402",
+        "label": "x402 settle: EscrowDepositRouteFactory.settle (EIP-3009 transferWithAuthorization + createAndFundFor)",
+        "hash": "0x23cbc6ccc24143a4d5bbdb872d96c56a51332fa4e46a1ef970648ca5ceedc2e2",
+        "from": "0x745528c4e0cbda5759175a660da06d0aaa72db7f",
+        "block": 52040511,
+        "gasUsed": 397151
+      },
+      {
+        "phase": "x402",
+        "label": "x402 provider JobEscrow.submit",
+        "hash": "0x2ab9d8648a111fc0e69391ef91bb9fe10b7d4c44e4b13ea3fa289167f44bab1f",
+        "from": "0x745528c4e0cbda5759175a660da06d0aaa72db7f",
+        "block": 52040515,
+        "gasUsed": 70540
+      },
+      {
+        "phase": "x402",
+        "label": "JobEscrow.verdict Complete 10000 (x402 job)",
+        "hash": "0x87c436792ad6c9bfe5780df0aabdf81d2f151497af350cd1208f8cec1c3a5c1e",
+        "from": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "block": 52040523,
+        "gasUsed": 63508
+      },
+      {
+        "phase": "adapter",
+        "label": "deploy MockERC8183Kernel (MOCK, test only)",
+        "hash": "0xe324018556c939a94603a7880338b1ff47fab05101f435ba0f2283015169f3b1",
+        "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "block": 52040534,
+        "gasUsed": 1504138
+      },
+      {
+        "phase": "adapter",
+        "label": "ERC8183EvaluatorAdapter.setConfig (testnet-short windows)",
+        "hash": "0xcffcbd88bf90cbc76305ed1d35ca49179e5e249c1a75fd7e6f278b2788877db6",
+        "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "block": 52040539,
+        "gasUsed": 103125
+      },
+      {
+        "phase": "adapter",
+        "label": "Kernel.createJob (evaluator = adapter)",
+        "hash": "0xc9bb59de987fecdd77c9d8684ea84d5a2137ab1ba5592ea323b02960e3e518ee",
+        "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "block": 52040546,
+        "gasUsed": 212053
+      },
+      {
+        "phase": "adapter",
+        "label": "Kernel.setBudget 1",
+        "hash": "0x955354c2fee158ae661f7227c6095e0d2f394455e367e54fcd2fff31f5f454ed",
+        "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "block": 52040551,
+        "gasUsed": 54628
+      },
+      {
+        "phase": "adapter",
+        "label": "USDC client approve kernel 1",
+        "hash": "0x2e180a782c255b871aee73155c49f414ec079311db32e06089984b0327672325",
+        "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "block": 52040557,
+        "gasUsed": 55437
+      },
+      {
+        "phase": "adapter",
+        "label": "Kernel.fund",
+        "hash": "0x5cc7f8a7923b727d794a2d5bb3b9f925c9685a16fb858bf9b773bba699e156b9",
+        "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "block": 52040563,
+        "gasUsed": 104751
+      },
+      {
+        "phase": "adapter",
+        "label": "Adapter.assign(kernel, job, evaluator)",
+        "hash": "0x7f31cb1b2dfa37fd6c3413d9a0dd819e9a42f08eef67f2ac184bfdffad521b79",
+        "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "block": 52040568,
+        "gasUsed": 247634
+      },
+      {
+        "phase": "adapter",
+        "label": "Adapter.acceptAssignment (evaluator)",
+        "hash": "0x57091a1ad949d70317a190f03092de4430cfd487c4203495084c4eadbc0167f4",
+        "from": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "block": 52040573,
+        "gasUsed": 114661
+      },
+      {
+        "phase": "adapter",
+        "label": "Kernel.submit (provider)",
+        "hash": "0x3161d41228cd394aa9f2325c622e82e639e43801dac71f005e7901d51034b634",
+        "from": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+        "block": 52040579,
+        "gasUsed": 36451
+      },
+      {
+        "phase": "adapter",
+        "label": "Adapter.verdict 10000 (evaluator)",
+        "hash": "0x2c4c499b2b4efad9fd4d8c78462a8c9d40724fdd6aed150d2d22bbc200a9b4c4",
+        "from": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "block": 52040585,
+        "gasUsed": 114370
+      },
+      {
+        "phase": "finalize",
+        "label": "JobEscrow.finalize (x402 job)",
+        "hash": "0x52e3cdd1129564cdaa671d07c8771519c30577255d0e17b434483c3d39dee77d",
+        "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "block": 52043834,
+        "gasUsed": 114346
+      },
+      {
+        "phase": "finalize",
+        "label": "Adapter.finalize (-> kernel.complete)",
+        "hash": "0x1aa5b121166aec7a6d9ee90de84e68e13eb6514edafcd0f114706654d5e00f71",
+        "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "block": 52043841,
+        "gasUsed": 146162
+      }
+    ],
+    "totals": {
+      "txs": 29,
+      "gasUsed": 5900128,
+      "feeWei": "35400768100942"
+    },
+    "mocks": [
+      "MockArbitrator (owner-ruled; 0.5 USDC arbitration fee locked, no withdraw)",
+      "MockERC8183Kernel",
+      "in-process x402 facilitator (provider key relays settle)"
+    ]
+  },
+  "erc8004": {
+    "identityRegistry": "0x8004A818BFB912233c491871b3d84c89A494BD9e",
+    "reputationRegistry": "0x8004B663056A597Dffe9eCcC1965A193B7388713",
+    "source": "https://github.com/erc-8004/erc-8004-contracts (README, Base Sepolia)",
+    "agentId": "10494",
+    "owner": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+    "agentRegistry": "eip155:84532:0x8004A818BFB912233c491871b3d84c89A494BD9e",
+    "registerTx": "0x45e5c1484c2606fa6ad4aa2a06fede61ff6bf58933359971afba9c6908bda602",
+    "setAgentURITx": "0xe6959d5d70c7dcf165b3124a8ae6bf4bdee414b89f64c8e3ff09ced2be9a27df",
+    "agentURI": "https://agentcoinhq.com/.well-known/agent-registration.json"
+  }
+}

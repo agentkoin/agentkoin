@@ -1,0 +1,13 @@
+{
+  "keys": [
+    {
+      "kty": "EC",
+      "crv": "secp256k1",
+      "x": "tg0aUQ3pXTy7bnQFnub4N28SF0QNGtmsSBhqNCjkK7k",
+      "y": "a_JMY5Nr38FMi9ZIPkHU6iewuqQ8Us7y7MlxHIwtWc4",
+      "kid": "did:pkh:eip155:8453:0x54010ea16fc75EDc5Fa171690F03708bE7057334#secp256k1",
+      "alg": "ES256K",
+      "use": "sig"
+    }
+  ]
+}

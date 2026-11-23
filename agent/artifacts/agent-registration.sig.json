@@ -1,0 +1,11 @@
+{
+  "document": "agent-registration.json",
+  "signature": {
+    "scheme": "eip191",
+    "canonicalization": "RFC8785",
+    "digest": "keccak256",
+    "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+    "signedDigest": "0xc4608a4a34f04de03c8b004768713dadf77137a21e6477a9b62bdd6c30082c7e",
+    "value": "0x2237238bae54069e71e08366d3dc2d94ac7acb0998a77e8b482d837cca7c5bb72de4a0ef7c4776b7a8b918c5109a8805881a2ef14c8fd0c53ba50fbf66898a421b"
+  }
+}

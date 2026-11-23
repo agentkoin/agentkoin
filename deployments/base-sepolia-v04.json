@@ -1,0 +1,203 @@
+{
+  "network": "base-sepolia",
+  "chainId": 84532,
+  "fork": false,
+  "txs": [
+    {
+      "phase": "fee",
+      "label": "JobEscrow.setConfig(feeBps 0, evaluatorFeeBps 0)",
+      "hash": "0xae6196bc447eac6f6ff2c0d043ec3708afb90d205ec6d5a04f6e6586b1be396d",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "block": "52446705",
+      "gasUsed": "127074",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1309",
+      "costWei": "762444001309"
+    },
+    {
+      "phase": "fund",
+      "label": "ETH deployer->relayer (service gas)",
+      "hash": "0x4e15e8cf55325bfd6dc4a3d87adaa3f0020abbec7dfa4369e7cf38edf8166877",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "block": "52446718",
+      "gasUsed": "21000",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1016",
+      "costWei": "126000001016",
+      "value": "150000000000000"
+    },
+    {
+      "phase": "fund",
+      "label": "ETH deployer->provider (submit gas)",
+      "hash": "0xe6e67edb70ea1c5c165d1209d9b26a5ee57ca534d133b1429062925723ae8074",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "block": "52446724",
+      "gasUsed": "21000",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1016",
+      "costWei": "126000001016",
+      "value": "20000000000000"
+    },
+    {
+      "phase": "fund",
+      "label": "ETH deployer->operator (ERC-8004 registration gas)",
+      "hash": "0x0f38cec88c8db6bdaf2636a1d35b7603f221047dedff96a1b53eb623befefd81",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "block": "52446730",
+      "gasUsed": "21000",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1016",
+      "costWei": "126000001016",
+      "value": "30000000000000"
+    },
+    {
+      "phase": "route",
+      "label": "EscrowDepositRouteFactory.deploy(notary offer)",
+      "hash": "0x9cbc0b7a89ad9a32b0ca474ee6dc304d8aa55640532786cb656ad03becf26469",
+      "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+      "block": "52446744",
+      "gasUsed": "1182139",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1437",
+      "costWei": "7092834001437"
+    },
+    {
+      "phase": "register",
+      "label": "ERC-8004 IdentityRegistry.register() by operator",
+      "hash": "0x45e5c1484c2606fa6ad4aa2a06fede61ff6bf58933359971afba9c6908bda602",
+      "from": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+      "block": "52446757",
+      "gasUsed": "106883",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1016",
+      "costWei": "641298001016"
+    },
+    {
+      "phase": "register",
+      "label": "ERC-8004 IdentityRegistry.setAgentURI(agentId, data: URI) by operator",
+      "hash": "0xf10423237ba35ad1a3681370e77189a67a5dd369359413badb595bb3279e3626",
+      "from": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+      "block": "52446762",
+      "gasUsed": "1387267",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "14018",
+      "costWei": "8323602014018"
+    },
+    {
+      "phase": "uri-1793413424069",
+      "label": "ERC-8004 IdentityRegistry.setAgentURI(agentId, https URI) by operator",
+      "hash": "0xad7c150d095570514fc0175a8d77c1ba961382daacfe2c33aae6fcd2bddaf848",
+      "from": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+      "block": "52457779",
+      "gasUsed": "266589",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "1072",
+      "costWei": "1599534001072"
+    },
+    {
+      "phase": "uri-1794447209812",
+      "label": "ERC-8004 IdentityRegistry.setAgentURI(agentId, https URI) by operator",
+      "hash": "0xe6959d5d70c7dcf165b3124a8ae6bf4bdee414b89f64c8e3ff09ced2be9a27df",
+      "from": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+      "block": "57626708",
+      "gasUsed": "50251",
+      "effectiveGasPrice": "6000000",
+      "l1Fee": "127",
+      "costWei": "301506000127"
+    }
+  ],
+  "phases": {
+    "fee": {
+      "done": true,
+      "configVersionBefore": 1,
+      "configVersionAfter": 2,
+      "feeBps": 0,
+      "evaluatorFeeBps": 0
+    },
+    "fund": {
+      "done": true,
+      "relayer": "0x0a7BFbed71B157Eb3Ce3140CA197f41B43D4877C",
+      "relayerWei": "150000000000000",
+      "providerTopupWei": "20000000000000",
+      "operatorWei": "30000000000000",
+      "balancesAfter": {
+        "deployer": "622677543495724",
+        "provider": "41385867980629",
+        "evaluator": "25754397878447",
+        "relayer": "150000000000000",
+        "operator": "30000000000000"
+      }
+    },
+    "route": {
+      "done": true,
+      "route": "0x6A32bC3Bb5eA1dc814f14E29e6f026535129A84f",
+      "offer": {
+        "provider": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+        "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "amount": "10000",
+        "deadlineSeconds": "3600",
+        "specHash": "0x6b4542f5b8f5c0e6a332f4fed6c1f840db2e26fa2840a194664bee75c49504db"
+      }
+    },
+    "register": {
+      "agentId": "10494",
+      "registerTx": "0x45e5c1484c2606fa6ad4aa2a06fede61ff6bf58933359971afba9c6908bda602",
+      "done": true,
+      "setAgentURITx": "0xf10423237ba35ad1a3681370e77189a67a5dd369359413badb595bb3279e3626",
+      "agentURIBytes": 1833,
+      "registration": {
+        "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+        "name": "AgentCoin Evaluator Escrow (base-sepolia testnet)",
+        "description": "USDC escrow for agent jobs with a staked evaluator. Verdicts: complete, reject, partial. Challengeable within a window; wrong or missed verdicts slash evaluator stake. Protocol fee 0% and evaluator fee 0% of provider payout (escrow config read on chain). Base Sepolia (testnet), chainId 84532: testnet only, test USDC, no real value; HTTP endpoints not publicly hosted yet, contracts callable directly (ABIs on Sourcify), unaudited.",
+        "testnet": true,
+        "realValue": false,
+        "services": [
+          {
+            "name": "escrow-contract",
+            "endpoint": "eip155:84532:0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+            "version": "agentcoin/0.4"
+          },
+          {
+            "name": "escrow-abi",
+            "endpoint": "https://sourcify.dev/server/v2/contract/84532/0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D?fields=abi",
+            "version": "sourcify-v2"
+          },
+          {
+            "name": "x402-deposit-route-factory",
+            "endpoint": "eip155:84532:0x32174eFD01e600E621Cf3f0D19Ff694483B19b95",
+            "version": "agentcoin/0.4"
+          },
+          {
+            "name": "evaluator-registry",
+            "endpoint": "eip155:84532:0x30576DE005df028D1947C56dEcc85a2a5612036a",
+            "version": "agentcoin/0.4"
+          }
+        ],
+        "x402Support": false,
+        "active": true,
+        "registrations": [
+          {
+            "agentId": 10494,
+            "agentRegistry": "eip155:84532:0x8004A818BFB912233c491871b3d84c89A494BD9e"
+          }
+        ],
+        "supportedTrust": [
+          "crypto-economic",
+          "reputation"
+        ]
+      }
+    },
+    "uri-1793413424069": {
+      "done": true,
+      "agentId": "10494",
+      "uri": "https://agentcoin.143-244-167-51.sslip.io/.well-known/agent-registration.json",
+      "setAgentURITx": "0xad7c150d095570514fc0175a8d77c1ba961382daacfe2c33aae6fcd2bddaf848"
+    },
+    "uri-1794447209812": {
+      "done": true,
+      "agentId": "10494",
+      "uri": "https://agentcoinhq.com/.well-known/agent-registration.json",
+      "setAgentURITx": "0xe6959d5d70c7dcf165b3124a8ae6bf4bdee414b89f64c8e3ff09ced2be9a27df"
+    }
+  }
+}

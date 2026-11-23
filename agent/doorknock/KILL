@@ -1,0 +1,2 @@
+Door-knocker kill switch. While this file exists NOTHING is sent, regardless of DRY_RUN.
+Delete it only after Carter explicitly approves live knocks (not approved as of v0.4.0).

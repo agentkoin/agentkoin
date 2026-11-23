@@ -1,0 +1,304 @@
+{
+  "network": "base-sepolia",
+  "chainId": 84532,
+  "task": "AD-010 AGC testnet deploy (approved by Carter 2026-11-15 12:23-12:25 PM ET)",
+  "deployedAt": "2026-11-15T17:35:14.447Z",
+  "deployer": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+  "script": "script/DeployAGC.s.sol",
+  "token": {
+    "name": "AgentCoin",
+    "symbol": "AGC",
+    "decimals": 6,
+    "backing": "Circle test USDC 0x036CbD53842c5426634e7929541eC2318f3dCF7e, 1:1"
+  },
+  "adminModel": {
+    "escrowOwner": "0x000000000000000000000000000000000000dEaD",
+    "registryOwner": "0x000000000000000000000000000000000000dEaD",
+    "escrowTreasury": "0x000000000000000000000000000000000000dEaD",
+    "registryTreasury": "0x000000000000000000000000000000000000dEaD",
+    "vaultTreasury": "0x000000000000000000000000000000000000dEaD",
+    "arbitrator": "0x0000000000000000000000000000000000000000",
+    "feeBps": 0,
+    "routeFactoryOwnerAndKeeper": "deployer (k=1)"
+  },
+  "contracts": {
+    "AGC": {
+      "address": "0x8315f17C0c05D383e77A1b23Df60F46Dd61D636A",
+      "deployTx": "0x6ab4fd950284a5fe99ae6d7a7f3ed9c3e3738eab3042ae37c3b785f42fc210bd",
+      "block": 59211003,
+      "gasUsed": 2180193,
+      "status": "success",
+      "sourcify": {
+        "match": "exact_match",
+        "creationMatch": "exact_match",
+        "runtimeMatch": "exact_match",
+        "verifiedAt": "2026-11-15T19:57:29Z",
+        "url": "https://repo.sourcify.dev/84532/0x8315f17C0c05D383e77A1b23Df60F46Dd61D636A",
+        "submittedBy": "forge verify-contract --verifier sourcify (approved by Carter 2:54 PM ET)"
+      }
+    },
+    "EvaluatorRegistryAGC": {
+      "address": "0xDc8B77A9E3A2e56D1d98ECCb0EE1b2d2C0A537E5",
+      "deployTx": "0xd215f59dd0d865dcc5ed2731d567556bc9ff6efc805cfe117b9616cbd75f924b",
+      "block": 59211005,
+      "gasUsed": 1658133,
+      "status": "success",
+      "sourcify": {
+        "match": "exact_match",
+        "creationMatch": "exact_match",
+        "runtimeMatch": "exact_match",
+        "verifiedAt": "2026-11-15T17:35:26Z",
+        "url": "https://repo.sourcify.dev/84532/0xDc8B77A9E3A2e56D1d98ECCb0EE1b2d2C0A537E5",
+        "submittedBy": "already verified when submitted at 2:57 PM ET (Sourcify matched it at 12:35 PM ET, minutes after deploy; same sources/metadata as the verified USDC-stack contract)"
+      }
+    },
+    "JobEscrowAGC": {
+      "address": "0x627A6838BC35C01Fb074f4ADCc66e06371995734",
+      "deployTx": "0x5072010923a293c0d6cecd95ee5935bd3417e16fa8de93fc580ffc61cd0ccab7",
+      "block": 59211015,
+      "gasUsed": 4045779,
+      "status": "success",
+      "sourcify": {
+        "match": "exact_match",
+        "creationMatch": "exact_match",
+        "runtimeMatch": "exact_match",
+        "verifiedAt": "2026-11-15T17:35:27Z",
+        "url": "https://repo.sourcify.dev/84532/0x627A6838BC35C01Fb074f4ADCc66e06371995734",
+        "submittedBy": "already verified when submitted at 2:57 PM ET (Sourcify matched it at 12:35 PM ET, minutes after deploy; same sources/metadata as the verified USDC-stack contract)"
+      }
+    },
+    "EscrowDepositRouteFactoryAGC": {
+      "address": "0x5025fB79Afe335647364871a4A98Cc1421e0f43c",
+      "deployTx": "0xbde00b4cabee44b95df7b8885e998b408c0556c6b3ef9e0e9ebb4278e1d4d055",
+      "block": 59211025,
+      "gasUsed": 4426293,
+      "status": "success",
+      "sourcify": {
+        "match": "exact_match",
+        "creationMatch": "exact_match",
+        "runtimeMatch": "exact_match",
+        "verifiedAt": "2026-11-15T17:35:30Z",
+        "url": "https://repo.sourcify.dev/84532/0x5025fB79Afe335647364871a4A98Cc1421e0f43c",
+        "submittedBy": "already verified when submitted at 2:57 PM ET (Sourcify matched it at 12:35 PM ET, minutes after deploy; same sources/metadata as the verified USDC-stack contract)"
+      }
+    },
+    "AGCSettlerAdapter": {
+      "address": "0x030d00bF0Befdef2C06a3f555084baFE0805469B",
+      "deployTx": "0x6ecaa08df216c6e58ff11337403363ab6f154579698d03c5e9c9745c7998c013",
+      "block": 59211034,
+      "gasUsed": 435047,
+      "status": "success",
+      "sourcify": {
+        "match": "exact_match",
+        "creationMatch": "exact_match",
+        "runtimeMatch": "exact_match",
+        "verifiedAt": "2026-11-15T19:57:37Z",
+        "url": "https://repo.sourcify.dev/84532/0x030d00bF0Befdef2C06a3f555084baFE0805469B",
+        "submittedBy": "forge verify-contract --verifier sourcify (approved by Carter 2:54 PM ET)"
+      }
+    }
+  },
+  "sourcify": "all 5 exact_match (creation + runtime); see contracts.*.sourcify",
+  "evaluatorFunding": {
+    "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+    "minStake": "2000000",
+    "txs": [
+      {
+        "label": "USDC deployer -> reference evaluator (AGC minStake)",
+        "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "hash": "0x61657dda54a8dca8c4f953f8a7fa69cf42f00f213132b609835bdd8f8e0c6982",
+        "block": "59211265",
+        "status": "success"
+      },
+      {
+        "label": "USDC evaluator approve AGC",
+        "from": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "hash": "0x872fd6cac7c3da9d8ca2e24bd83f7a736c6123ba1ced0d993ccafc221e6b3437",
+        "block": "59211268",
+        "status": "success"
+      },
+      {
+        "label": "AGC.wrap(minStake) by evaluator",
+        "from": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "hash": "0x7d7af1470ddfc57af3d45933a621a99917cb473fc47e911301f2d84e3d5ef521",
+        "block": "59211271",
+        "status": "success"
+      },
+      {
+        "label": "AGC evaluator approve AGC registry",
+        "from": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "hash": "0x57127e6ba3c07f3cb3fe2772a5fb1a932a5c38bf5614aa9916989a27ae922b85",
+        "block": "59211275",
+        "status": "success"
+      },
+      {
+        "label": "EvaluatorRegistry(AGC).stake(minStake) by evaluator",
+        "from": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "hash": "0x9b37a7d89fb5768d275e7c38bd36676ae987cfb0dbb35fff75a498350cbc4398",
+        "block": "59211278",
+        "status": "success"
+      }
+    ],
+    "activeOnAGCRegistry": true,
+    "stake": "2000000"
+  },
+  "check5": {
+    "buyer": "stos-demo-buyer-1 0x600D4d4A0FeeF7877ACCb91351fFe2AA66CF18cb",
+    "txs": [
+      {
+        "label": "EURC->AGC escrow job",
+        "hash": "0xdf89f41992bd11da881b038ce2d74a2bcfbabea9ffae0c03fba317160ac8741e",
+        "block": "59211864",
+        "status": "success",
+        "simulated": [
+          true,
+          "10170",
+          "1"
+        ],
+        "settlerEvents": [
+          {
+            "event": "CrossCurrencySettled",
+            "args": {
+              "quoteHash": "0x53c52c0f0e13b02c608d07059937433a1319680ac32f552513a10800106dc468",
+              "quoteId": "0x65aff7416994a7259cd42497553cbfb699c22e8f9e3df43f5c725ed765e17dd4",
+              "buyer": "0x600D4d4A0FeeF7877ACCb91351fFe2AA66CF18cb",
+              "tokenIn": "0x808456652fdb597867f38412077A9182bf77359F",
+              "amountIn": "10000",
+              "tokenOut": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+              "amountOut": "10170",
+              "jobId": "1"
+            }
+          }
+        ],
+        "escrowEvents": [
+          {
+            "event": "JobCreated",
+            "args": {
+              "jobId": "1",
+              "client": "0x600D4d4A0FeeF7877ACCb91351fFe2AA66CF18cb",
+              "provider": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+              "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+              "amount": "10170",
+              "deadline": "1794767841",
+              "specHash": "0x6b4542f5b8f5c0e6a332f4fed6c1f840db2e26fa2840a194664bee75c49504db",
+              "configVersion": 1
+            }
+          },
+          {
+            "event": "JobFunded",
+            "args": {
+              "jobId": "1",
+              "client": "0x600D4d4A0FeeF7877ACCb91351fFe2AA66CF18cb",
+              "amount": "10170"
+            }
+          }
+        ],
+        "transfers": [
+          {
+            "token": "EURC",
+            "from": "0x600D4d4A0FeeF7877ACCb91351fFe2AA66CF18cb",
+            "to": "0x6258D112bf27006287253424a1fa877C607B564a",
+            "value": "10000"
+          },
+          {
+            "token": "USDC",
+            "from": "0x43047A302cD99DDb32E32B2886B40935b60aD2C1",
+            "to": "0x6258D112bf27006287253424a1fa877C607B564a",
+            "value": "10170"
+          },
+          {
+            "token": "EURC",
+            "from": "0x6258D112bf27006287253424a1fa877C607B564a",
+            "to": "0x43047A302cD99DDb32E32B2886B40935b60aD2C1",
+            "value": "10000"
+          },
+          {
+            "token": "USDC",
+            "from": "0x6258D112bf27006287253424a1fa877C607B564a",
+            "to": "0x030d00bF0Befdef2C06a3f555084baFE0805469B",
+            "value": "10170"
+          },
+          {
+            "token": "USDC",
+            "from": "0x030d00bF0Befdef2C06a3f555084baFE0805469B",
+            "to": "0x8315f17C0c05D383e77A1b23Df60F46Dd61D636A",
+            "value": "10170"
+          },
+          {
+            "token": "AGC",
+            "from": "0x0000000000000000000000000000000000000000",
+            "to": "0x030d00bF0Befdef2C06a3f555084baFE0805469B",
+            "value": "10170"
+          },
+          {
+            "token": "AGC",
+            "from": "0x030d00bF0Befdef2C06a3f555084baFE0805469B",
+            "to": "0x627A6838BC35C01Fb074f4ADCc66e06371995734",
+            "value": "10170"
+          }
+        ],
+        "before": {
+          "eurc": "972395",
+          "agcSupply": "2000000"
+        },
+        "after": {
+          "eurc": "962395",
+          "agcSupply": "2010170"
+        }
+      },
+      {
+        "label": "forced swap failure (minOut 1 USDC)",
+        "hash": "0x6982285314fc8a924aaa0e40f57af4091597155343db83d9589989f8cc68abd2",
+        "block": "59211869",
+        "status": "success",
+        "simulated": [
+          false,
+          "0",
+          "0"
+        ],
+        "settlerEvents": [
+          {
+            "event": "SwapFailedRefunded",
+            "args": {
+              "quoteHash": "0xa379bd0a8814969911118206810d7616587e8fbf7a8c5adea88b76c8fe63ced2",
+              "quoteId": "0x093d3e06454cbf5221febc1f23138a44a1953c2eb7debc84511877087d9e3b69",
+              "buyer": "0x600D4d4A0FeeF7877ACCb91351fFe2AA66CF18cb",
+              "tokenIn": "0x808456652fdb597867f38412077A9182bf77359F",
+              "amountIn": "10000",
+              "reason": "0x08c379a000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000013546f6f206c6974746c6520726563656976656400000000000000000000000000"
+            }
+          }
+        ],
+        "escrowEvents": [],
+        "transfers": [
+          {
+            "token": "EURC",
+            "from": "0x600D4d4A0FeeF7877ACCb91351fFe2AA66CF18cb",
+            "to": "0x6258D112bf27006287253424a1fa877C607B564a",
+            "value": "10000"
+          },
+          {
+            "token": "EURC",
+            "from": "0x6258D112bf27006287253424a1fa877C607B564a",
+            "to": "0x600D4d4A0FeeF7877ACCb91351fFe2AA66CF18cb",
+            "value": "10000"
+          }
+        ],
+        "before": {
+          "eurc": "962395",
+          "agcSupply": "2010170"
+        },
+        "after": {
+          "eurc": "962395",
+          "agcSupply": "2010170"
+        }
+      }
+    ]
+  },
+  "serviceEntry": {
+    "attempt1": "2026-11-15 ~12:36 PM ET, about 1 minute, rolled back: header drops USDC agentcoin-escrow entry (spec 6.2); Carter later accepted this layout",
+    "attempt2": "2026-11-15 2:55 PM ET, about 15 seconds, rolled back: UltravioletaDAO discovery returned 0 items for q=agentcoin (payTo 0x6A32...A84f no longer listed); still absent after rollback; USDC exact entry was byte-identical in header and body, escrow entry byte-identical in body, headers 5,494 B",
+    "state": "off (AGC_* env unset)",
+    "uvdReregister": "2026-11-15 3:34 PM ET POST /discovery/register (same payload as ops/agentcoin-research/uvd-register-notarize.json, no key) -> 409 'Resource already registered ... listed or waiting for its first verification. There is no public route to update or remove a listing; ask the facilitator operator.' Record is held but not verified-alive; public search serves verified-alive only; /discovery/refresh and /discovery/admin/pending need the operator's admin token. Still 0 results through 3:45 PM ET. AGC left OFF."
+  }
+}

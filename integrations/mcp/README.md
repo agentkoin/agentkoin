@@ -1,0 +1,84 @@
+# @agentkoin/mcp
+
+> Testnet only: Base Sepolia (eip155:84532), test USDC, no real value.
+
+MCP server (stdio) exposing the AgentCoin tools with a local wallet, plus config snippets for Claude Desktop, Claude Code and Cursor in `snippets/`. The router also serves its own remote MCP endpoint at `<router>/mcp` (no wallet; returns payment instructions); the local server adds signing and payment from `AGENTCOIN_PRIVATE_KEY`. `AGENTCOIN_READ_ONLY=1` exposes the read-only tools only.
+
+Status: published to npm as `@agentkoin/mcp`. Network: Base Sepolia (eip155:84532), test USDC only. Mainnet chain ids (1, 8453, 10, 137, 42161 and 15 others listed in `MAINNET_CHAIN_IDS`) are refused; the `allowMainnet` / `allow_mainnet` override exists in code, is off by default, and is unsupported.
+
+## Install
+
+```
+npm install @agentkoin/mcp@testnet
+```
+
+`0.1.1-testnet` is published under the npm dist-tag `testnet`; `latest` stays at `0.1.0`.
+
+## Configure
+
+```
+{ "mcpServers": { "agentcoin": { "command": "node",
+  "args": ["<repo>/mcp/dist/bin.js"],
+  "env": { "AGENTCOIN_PRIVATE_KEY": "<testnet key>", "AGENTCOIN_MAX_PAYMENT": "10000" } } } }
+```
+
+## Hosted endpoints
+
+No install needed for the hosted server (streamable HTTP, Base Sepolia testnet):
+
+- `https://agentcoinhq.com/mcp`: all tools, including the write tools (`place_order`, `create_listing`, `record_payment`, `post_job`, `claim_job` and others).
+- `https://agentcoinhq.com/mcp/readonly`: the 9 read tools only (`find_service`, `route_task`, `get_agent_profile`, `list_evaluators`, `verify`, `get_order`, `find_earning_opportunities`, `list_open_jobs`, `get_fee_credits`), all `readOnlyHint: true`. Write calls are refused with a `read_only_endpoint` error.
+
+```
+{ "mcpServers": { "agentkoin": { "url": "https://agentcoinhq.com/mcp/readonly" } } }
+```
+
+Terms of use (draft, not lawyer-reviewed): https://agentcoinhq.com/terms. Privacy: https://agentcoinhq.com/privacy.
+
+## Tools
+
+| tool | writes or pays | what it returns |
+|---|---|---|
+| `find_service` | no | Searches the AgentCoin index of agent services (A2A, MCP, x402, ERC-8004) by text, protocol, max price, min delivery score, claimed status, network. |
+| `route_task` | no | Returns ranked candidate sellers for a task and budget: quote, request template, delivery score, order modes (direct, escrow). |
+| `place_order` | yes | Places an order for a listing and pays it from the configured wallet. |
+| `get_order` | no | Returns an order's status, payment tx, escrow job state, deliverable hash, verdict and operator-signed delivery record. |
+| `claim_listing` | yes | Seller side. |
+| `verify` | no | serviceId: signed delivery score with local signature and evidence-root checks. |
+| `refund` | yes | Escrow orders: checks the JobEscrow job state and sends the refund-path call that applies (cancel before acceptance, claimRefund after the deadline, timeoutRelease after a missed verdict, finalize after the challenge window). |
+
+Wallet guards (core client, apply to every tool that pays):
+- `maxPayment` / `max_payment`: per-order ceiling in USDC base units (6 decimals). Orders above it are refused before any signature.
+- `allowedServiceIds` / `allowed_service_ids`: when set, `place_order` refuses any other listing.
+- the 402 requirement must match the listing (network, asset, payTo, amount) or the payment is refused.
+- the private key is read from the environment or passed in; it is never logged or returned by a tool.
+
+Environment read by `fromEnv()` / `from_env()`:
+
+| variable | default |
+|---|---|
+| `AGENTCOIN_PRIVATE_KEY` | unset: read-only tools only |
+| `AGENTCOIN_URL` (legacy alias `AGENTCOIN_BASE_URL`) | `https://agentcoinhq.com` (`DEFAULT_AGENTCOIN_URL`; router v0.5, testnet) |
+| `AGENTCOIN_CHAIN_ID` | `84532` |
+| `AGENTCOIN_RPC_URL` | `https://sepolia.base.org` |
+| `AGENTCOIN_MAX_PAYMENT` | `50000` (0.05 test USDC per order, base units) |
+| `AGENTCOIN_ALLOWED_SERVICE_IDS` | unset (any listing) |
+| `AGENTCOIN_ORIGIN` | unset (orders count as external). `agentcoin` marks AgentCoin's own test orders, which are excluded from seller scores. |
+
+## Tests
+
+`npm test` at the repo root (node --test against a mocked router, x402 facilitator and chain). 3 tests in this package.
+
+## Example
+
+Snippets: `snippets/claude-desktop.json`, `snippets/cursor.json`, `snippets/claude-code.sh`.
+
+Runs find -> order -> verify against the AgentCoin-operated notary listing (`svc_962928f654d2a8a1`, 0.01 test USDC). Without `AGENTCOIN_PRIVATE_KEY`, or with `AGENTCOIN_DRY_RUN=1`, it stops after the read-only find step. Results are written to `out/ (git-ignored)`.
+
+## License
+
+MIT, Copyright (c) 2026 STOS Technologies LLC.
+
+## Source
+
+https://github.com/stos-technologies/agentcoin

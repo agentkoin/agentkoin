@@ -1,0 +1,27 @@
+{
+  "chainId": 84532,
+  "deployBlock": 62628983,
+  "deployer": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+  "depositRouteFactory": "0x8ED18f25dA40ee70eb451519a9a7C2762065DfdF",
+  "escrow": "0xb243C29ff0BDD05ea6AaF89F9Bb806Bb7bdce4ed",
+  "escrowArbitrator": "0x0000000000000000000000000000000000000000",
+  "evaluatorFeeBps": 0,
+  "feeBps": 0,
+  "feeRecipientSafe": "0x097AE572B2630b0ca2C1d36E594023D6B8e9d185",
+  "keeperThreshold": 2,
+  "keepers": [
+    "0xb300C82e88560a854D109aAdc83702D32580D2e5",
+    "0xa9d34898B6EbFd084b3B47320c92C4AaF16d2586"
+  ],
+  "maxPerJob": 50000000,
+  "maxTotalLocked": 500000000,
+  "minStake": 10000000,
+  "ownerSafe": "0x7409d8FFf320b534a8a82a501293f97760E89Db1",
+  "pauserSafe": "0xb9257484c41D91cD9BD5E7D88D0082d1CdD9ea1b",
+  "pendingSafeActions": "None required. Disputes are off at launch (escrow.arbitrator = 0). To enable later: OWNER_SAFE uma.setArbitrable(escrow,true) then escrow.setArbitrator(uma). No acceptOwnership needed: owners set in constructors.",
+  "recoveryVault": "0xDBC968E2d97754CB0810178D7221Ff13bfFcD6cc",
+  "registry": "0x743FAfA278c24440d6BD23b28c7443558a160215",
+  "umaArbitratorAdapter": "0x79F6048661E3b9C545393bb6A8D1e356Ec6F400D",
+  "umaOracle": "0x0F7fC5E6482f096380db6158f978167b57388deE",
+  "usdc": "0x036CbD53842c5426634e7929541eC2318f3dCF7e"
+}

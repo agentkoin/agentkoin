@@ -1,0 +1,28 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+solc_version = "0.8.28"
+evm_version = "cancun"
+optimizer = true
+optimizer_runs = 200
+via_ir = false
+remappings = [
+  "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+  "forge-std/=lib/forge-std/src/",
+  # test-only vendored Base commerce-payments deps (see test/arbiter/vendor/README.md)
+  "solady/=test/arbiter/vendor/solady/",
+]
+
+fs_permissions = [{ access = "read-write", path = "./deployments" }, { access = "read", path = "./.secrets" }, { access = "read", path = "./out" }, { access = "read", path = "./src" }]
+
+[fuzz]
+runs = 512
+
+# No rpc_endpoints / etherscan sections on purpose: RPC URLs are passed explicitly (local Anvil, or Base Sepolia
+# only via script/DeployTestnet.s.sol, which refuses any chain other than 84532/31337).
+
+[invariant]
+runs = 256
+depth = 200
+fail_on_revert = true

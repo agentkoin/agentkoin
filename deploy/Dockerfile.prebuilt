@@ -1,0 +1,15 @@
+# AgentCoin public TESTNET service (Base Sepolia only): lean image from a prebuilt context.
+# Context = tracked files of the release tree + the contract ABIs the agent reads (out/<C>.sol/<C>.json),
+# produced by deploy/make-context.sh. No compiler stage, no .secrets, no keys.
+# Keys are NOT baked in: pass AGENTCOIN_{RELAYER,PROVIDER,EVALUATOR,OPERATOR}_KEY via --env-file (testnet throwaways only).
+# Artifacts are pre-signed in the repo for the public base URL, so the container does not re-sign at start.
+FROM node:20-slim
+WORKDIR /app
+COPY agent/package.json agent/package-lock.json ./agent/
+RUN cd agent && npm ci --omit=dev && npm cache clean --force
+COPY . .
+ENV AGENTCOIN_NETWORK=base-sepolia TRUST_PROXY=1 SERVICE_PORT=8402 SERVICE_HOST=127.0.0.1 NODE_ENV=production \
+    SERVICE_STATE_DIR=/var/lib/agentcoin
+USER node
+EXPOSE 8402
+CMD ["node", "agent/service/app.mjs"]

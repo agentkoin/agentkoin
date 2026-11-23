@@ -1,0 +1,34 @@
+{
+ "chainId": 84532,
+ "deployBlock": 62637829,
+ "deployer": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+ "depositRouteFactory": "0x2EC91418173B711ea5a35dfCb241a1F288fb2e0a",
+ "escrow": "0xA2013D8866ef5B1E119D1588Ba74af48534835B1",
+ "escrowArbitrator": "0x0000000000000000000000000000000000000000",
+ "evaluatorFeeBps": 0,
+ "feeBps": 0,
+ "feeRecipientSafe": "0x097AE572B2630b0ca2C1d36E594023D6B8e9d185",
+ "keeperThreshold": 2,
+ "keepers": [
+  "0xb300C82e88560a854D109aAdc83702D32580D2e5",
+  "0xa9d34898B6EbFd084b3B47320c92C4AaF16d2586"
+ ],
+ "maxPerJob": 50000000,
+ "maxTotalLocked": 500000000,
+ "minStake": 10000000,
+ "note": "Re-run after the JobEscrow fee ceiling (MAX_TOTAL_FEE_BPS=500), Nov 23 2026 ~11:00 AM ET; stand-in Safes reused.",
+ "ownerSafe": "0x7409d8FFf320b534a8a82a501293f97760E89Db1",
+ "pauserSafe": "0xb9257484c41D91cD9BD5E7D88D0082d1CdD9ea1b",
+ "pendingSafeActions": "None required. Disputes are off at launch (escrow.arbitrator = 0). To enable later: OWNER_SAFE uma.setArbitrable(escrow,true) then escrow.setArbitrator(uma). No acceptOwnership needed: owners set in constructors.",
+ "recoveryVault": "0x4461d0030472E7058124a80635aC120a2B2aa8b7",
+ "registry": "0x353d7Fa08a67b30dCD8FdbF9E14c936417E78216",
+ "txs": {
+  "EscrowDepositRouteFactory": "0x47b0a5b15e6ecd589b94afd672508cfaf19277efaed77d24ee6d405dbdfc1a07",
+  "EvaluatorRegistry": "0xe2827e264b6ceca77c6db7eaf9846005426a5ae26ae4feb9ff5506ad9cfc467a",
+  "JobEscrow": "0xe70d3fb8427ed6e309af26d254f9a7de34c3f57b05d0e0b1161bbd31789b3fc1",
+  "UMAArbitratorAdapter": "0x9dd13984a620698e86629bffcb3a86f4b4545f24045d73121996f2682929ee37"
+ },
+ "umaArbitratorAdapter": "0xc819b3821a2f42477C3355111776784566804848",
+ "umaOracle": "0x0F7fC5E6482f096380db6158f978167b57388deE",
+ "usdc": "0x036CbD53842c5426634e7929541eC2318f3dCF7e"
+}

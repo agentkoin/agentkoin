@@ -1,0 +1,10 @@
+.secrets
+agent/.keys
+agent/.state
+agent/.cache
+agent/node_modules
+out
+cache
+broadcast
+.git
+deployments/fork-*.json

@@ -1,0 +1,1296 @@
+{
+  "network": "base-sepolia",
+  "chainId": 84532,
+  "startedAt": "2026-10-30T03:28:29.367Z",
+  "calls": [
+    {
+      "tool": "quote",
+      "args": {
+        "amount": "1000000",
+        "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a"
+      },
+      "ms": 557,
+      "isError": false,
+      "result": {
+        "chainId": 84532,
+        "network": "eip155:84532",
+        "networkName": "base-sepolia",
+        "blockNumber": "52045202",
+        "contracts": {
+          "escrow": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+          "evaluatorRegistry": "0x30576DE005df028D1947C56dEcc85a2a5612036a",
+          "token": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+          "arbitrator": "0x3C4587eD99B1969581cA4f041FD9535a0D269736",
+          "identityRegistry": null,
+          "evaluatorAdapter": "0x27803F8DBDAd0D6B0E719d2AB2eB7A31b5c53509",
+          "depositRouteFactory": "0x32174eFD01e600E621Cf3f0D19Ff694483B19b95"
+        },
+        "unit": "USDC base units (6 decimals)",
+        "amount": "1000000",
+        "providerBond": "0",
+        "feeBps": 100,
+        "feeAtFullPayout": "10000",
+        "providerNetAtFullPayout": "985000",
+        "feeChargedOn": "payout to provider only; 0 on reject/refund",
+        "evaluatorFeeBps": 50,
+        "evaluatorFeeAtFullPayout": "5000",
+        "evaluatorFeeChargedOn": "provider gross on settled Complete/Partial when the verdict stands; 0 on reject, overturn, instant release",
+        "challengeBond": "1000000",
+        "arbitrationFee": "500000",
+        "challengeUpfrontTotal": "1500000",
+        "arbitrationFeeModel": "challenger pays bond + quoted arbitration cost; both held by the contract until the ruling; on a ruling the cost goes to the arbitrator and the losing side reimburses it if the ruling is material; on a stale dispute both are refunded to the challenger",
+        "instantThreshold": "1000000",
+        "instantBondCoverBps": 10000,
+        "instantEligible": false,
+        "requiredProviderBondForInstant": "1000000",
+        "evalWindowSeconds": 3600,
+        "challengeWindowSeconds": 600,
+        "configVersion": 1,
+        "evaluatorMinStake": "2000000",
+        "exposureMultiplier": 5,
+        "erc8183Adapter": {
+          "challengeBond": "1000000",
+          "arbitrationFee": "500000",
+          "requiredExpiryDurationSeconds": "8400",
+          "minKernelExpiry": "1793339309",
+          "minKernelExpiryRule": "kernel job expiredAt >= assign/accept time + evalWindow + challengeWindow + arbitrationTimeout + expiryMargin; assign and acceptAssignment revert ExpiryTooSoon otherwise",
+          "configVersion": 2
+        },
+        "evaluator": {
+          "address": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+          "active": true,
+          "stake": "3000000",
+          "exposure": "0",
+          "availableExposure": "15000000",
+          "openJobs": 0,
+          "unbondingEndsAt": "0",
+          "slashedTotal": "1000000"
+        },
+        "evaluatorCanTakeAmount": true
+      }
+    },
+    {
+      "tool": "open_job",
+      "args": {
+        "client": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "provider": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+        "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "amount": "1000000",
+        "deadlineSeconds": 3600,
+        "spec": "smoke: unsigned open_job on base-sepolia"
+      },
+      "ms": 448,
+      "isError": false,
+      "result": {
+        "chainId": 84532,
+        "network": "eip155:84532",
+        "networkName": "base-sepolia",
+        "blockNumber": "52045204",
+        "contracts": {
+          "escrow": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+          "evaluatorRegistry": "0x30576DE005df028D1947C56dEcc85a2a5612036a",
+          "token": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+          "arbitrator": "0x3C4587eD99B1969581cA4f041FD9535a0D269736",
+          "identityRegistry": null,
+          "evaluatorAdapter": "0x27803F8DBDAd0D6B0E719d2AB2eB7A31b5c53509",
+          "depositRouteFactory": "0x32174eFD01e600E621Cf3f0D19Ff694483B19b95"
+        },
+        "mode": "unsigned",
+        "client": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "provider": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+        "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "amount": "1000000",
+        "specHash": "0x3231082596074ade27c24377366ef578e1d2dd498f3e37ad6674ec05208a33eb",
+        "deadline": "1793334509",
+        "transactions": [
+          {
+            "step": 1,
+            "label": "USDC.approve(escrow, amount)",
+            "type": "eip1559",
+            "chainId": 84532,
+            "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+            "to": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+            "data": "0x095ea7b30000000000000000000000004eaf6d09f8c22980bb16e719779ace73a7b1cb3d00000000000000000000000000000000000000000000000000000000000f4240",
+            "value": "0",
+            "nonce": 29,
+            "gas": "56240",
+            "maxFeePerGas": "7000000",
+            "maxPriorityFeePerGas": "1000000"
+          },
+          {
+            "step": 2,
+            "label": "JobEscrow.createAndFund(provider, evaluator, amount, deadline, specHash)",
+            "type": "eip1559",
+            "chainId": 84532,
+            "from": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+            "to": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+            "data": "0x08a92ae1000000000000000000000000745528c4e0cbda5759175a660da06d0aaa72db7f000000000000000000000000fb0159725fb6169f676ebfd2fa0ac2c3a184509a00000000000000000000000000000000000000000000000000000000000f4240000000000000000000000000000000000000000000000000000000006ae41ced3231082596074ade27c24377366ef578e1d2dd498f3e37ad6674ec05208a33eb",
+            "value": "0",
+            "nonce": 30,
+            "gas": null,
+            "maxFeePerGas": "7000000",
+            "maxPriorityFeePerGas": "1000000"
+          }
+        ],
+        "expectedJobId": "5"
+      }
+    },
+    {
+      "tool": "get_job_status",
+      "args": {
+        "jobId": "1"
+      },
+      "ms": 733,
+      "isError": false,
+      "result": {
+        "chainId": 84532,
+        "network": "eip155:84532",
+        "networkName": "base-sepolia",
+        "blockNumber": "52045207",
+        "contracts": {
+          "escrow": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+          "evaluatorRegistry": "0x30576DE005df028D1947C56dEcc85a2a5612036a",
+          "token": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+          "arbitrator": "0x3C4587eD99B1969581cA4f041FD9535a0D269736",
+          "identityRegistry": null,
+          "evaluatorAdapter": "0x27803F8DBDAd0D6B0E719d2AB2eB7A31b5c53509",
+          "depositRouteFactory": "0x32174eFD01e600E621Cf3f0D19Ff694483B19b95"
+        },
+        "jobId": "1",
+        "exists": true,
+        "state": "Settled",
+        "outcome": "Complete",
+        "client": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "provider": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+        "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "amount": "1000000",
+        "providerBond": "0",
+        "slashBase": "2000000",
+        "payoutBps": 10000,
+        "instant": false,
+        "accepted": true,
+        "configVersion": 1,
+        "deadline": "1793414421",
+        "submittedAt": "1793328047",
+        "verdictAt": "1793328050",
+        "disputedAt": "0",
+        "verdictDeadline": "1793331647",
+        "challengeDeadline": "1793328650",
+        "specHash": "0xdacf18a0d92fe6936233925bb81a36174d456126e865d8bfaa8d39fbf9c2285f",
+        "deliverableHash": "0x4289f164ef1c6abf11032d4261bcccce30dbe0e72cb75d2f7907f6fc4f683ab5",
+        "reasonHash": "0xce0d04aef2460f7e7dac19062a8e22d0053e53f24d329c6010f4025d319a38f3",
+        "dispute": null,
+        "evidence": [
+          {
+            "event": "JobCreated",
+            "txHash": "0xcd87a26639dddbec1158a1a5b68c9217def880dbc1180c2fe13259e442719a18",
+            "blockNumber": "52030872",
+            "logIndex": 6
+          },
+          {
+            "event": "JobFunded",
+            "txHash": "0xcd87a26639dddbec1158a1a5b68c9217def880dbc1180c2fe13259e442719a18",
+            "blockNumber": "52030872",
+            "logIndex": 9
+          },
+          {
+            "event": "JobSubmitted",
+            "txHash": "0xbcb9292234c1e24c870168871d9dc6534c1bad1a5094071a79be335c47a20b20",
+            "blockNumber": "52030891",
+            "logIndex": 3
+          },
+          {
+            "event": "Verdict",
+            "txHash": "0xb7cb367d625110f1590fbd2cb81dc2cea24fd819a0a72e05ff82b405377a8982",
+            "blockNumber": "52030910",
+            "logIndex": 24
+          },
+          {
+            "event": "EvaluatorFeePaid",
+            "txHash": "0x0f12ef62812419708362588128da9efd77bd59ed95e842cc2bac0c5a05de6d03",
+            "blockNumber": "52034225",
+            "logIndex": 1
+          },
+          {
+            "event": "PaymentReleased",
+            "txHash": "0x0f12ef62812419708362588128da9efd77bd59ed95e842cc2bac0c5a05de6d03",
+            "blockNumber": "52034225",
+            "logIndex": 4
+          },
+          {
+            "event": "Settled",
+            "txHash": "0x0f12ef62812419708362588128da9efd77bd59ed95e842cc2bac0c5a05de6d03",
+            "blockNumber": "52034225",
+            "logIndex": 6
+          }
+        ]
+      }
+    },
+    {
+      "tool": "get_job_status",
+      "args": {
+        "jobId": "2"
+      },
+      "ms": 512,
+      "isError": false,
+      "result": {
+        "chainId": 84532,
+        "network": "eip155:84532",
+        "networkName": "base-sepolia",
+        "blockNumber": "52045210",
+        "contracts": {
+          "escrow": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+          "evaluatorRegistry": "0x30576DE005df028D1947C56dEcc85a2a5612036a",
+          "token": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+          "arbitrator": "0x3C4587eD99B1969581cA4f041FD9535a0D269736",
+          "identityRegistry": null,
+          "evaluatorAdapter": "0x27803F8DBDAd0D6B0E719d2AB2eB7A31b5c53509",
+          "depositRouteFactory": "0x32174eFD01e600E621Cf3f0D19Ff694483B19b95"
+        },
+        "jobId": "2",
+        "exists": true,
+        "state": "Settled",
+        "outcome": "Reject",
+        "client": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "provider": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+        "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "amount": "1000000",
+        "providerBond": "0",
+        "slashBase": "2000000",
+        "payoutBps": 0,
+        "instant": false,
+        "accepted": true,
+        "configVersion": 1,
+        "deadline": "1793414421",
+        "submittedAt": "1793328048",
+        "verdictAt": "1793328052",
+        "disputedAt": "0",
+        "verdictDeadline": "1793331648",
+        "challengeDeadline": "1793328652",
+        "specHash": "0xc56624b115881570ec9d8355bb842b5fb25e166c0b573b7ddab45a71405382b9",
+        "deliverableHash": "0xa2d320e126448e1f42533e61d45ed39f481df953b39573cc155a91f4f061a52e",
+        "reasonHash": "0x404e288122caaca48654acd4e0fa541d9fb91cf6e0e0d9d9f8cce9d9dc5b5a31",
+        "dispute": null,
+        "evidence": [
+          {
+            "event": "JobCreated",
+            "txHash": "0xdf55b217a41701a19bb629f436c68efcf0ff7491a3a6e2c941d0d654e9cb8d4e",
+            "blockNumber": "52030882",
+            "logIndex": 0
+          },
+          {
+            "event": "JobFunded",
+            "txHash": "0xdf55b217a41701a19bb629f436c68efcf0ff7491a3a6e2c941d0d654e9cb8d4e",
+            "blockNumber": "52030882",
+            "logIndex": 3
+          },
+          {
+            "event": "JobSubmitted",
+            "txHash": "0x74d4d47bd605facc419fc05b97a89f4255ca3b4594d66eca577fa891218fef51",
+            "blockNumber": "52030900",
+            "logIndex": 1
+          },
+          {
+            "event": "Verdict",
+            "txHash": "0x017a93a803c18788c7ee5bfbd2477dd8609dc4de7d5103090ead5c33e9131dc3",
+            "blockNumber": "52030919",
+            "logIndex": 1
+          },
+          {
+            "event": "Refunded",
+            "txHash": "0x063498af8fdd49d192f6b79f1231a6fdc7eb94b6fb8218fee55af532cfaf760d",
+            "blockNumber": "52034235",
+            "logIndex": 47
+          },
+          {
+            "event": "Settled",
+            "txHash": "0x063498af8fdd49d192f6b79f1231a6fdc7eb94b6fb8218fee55af532cfaf760d",
+            "blockNumber": "52034235",
+            "logIndex": 49
+          }
+        ]
+      }
+    },
+    {
+      "tool": "get_job_status",
+      "args": {
+        "jobId": "3"
+      },
+      "ms": 505,
+      "isError": false,
+      "result": {
+        "chainId": 84532,
+        "network": "eip155:84532",
+        "networkName": "base-sepolia",
+        "blockNumber": "52045213",
+        "contracts": {
+          "escrow": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+          "evaluatorRegistry": "0x30576DE005df028D1947C56dEcc85a2a5612036a",
+          "token": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+          "arbitrator": "0x3C4587eD99B1969581cA4f041FD9535a0D269736",
+          "identityRegistry": null,
+          "evaluatorAdapter": "0x27803F8DBDAd0D6B0E719d2AB2eB7A31b5c53509",
+          "depositRouteFactory": "0x32174eFD01e600E621Cf3f0D19Ff694483B19b95"
+        },
+        "jobId": "3",
+        "exists": true,
+        "state": "Settled",
+        "outcome": "Reject",
+        "client": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "provider": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+        "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "amount": "1000000",
+        "providerBond": "0",
+        "slashBase": "2000000",
+        "payoutBps": 10000,
+        "instant": false,
+        "accepted": true,
+        "configVersion": 1,
+        "deadline": "1793416356",
+        "submittedAt": "1793329959",
+        "verdictAt": "1793329960",
+        "disputedAt": "1793329962",
+        "verdictDeadline": "1793333559",
+        "challengeDeadline": "1793330560",
+        "specHash": "0x62b2866853905cb4a639cc033fc42f5e70ce3c12bf9f4f2b136b1b1c4ea34125",
+        "deliverableHash": "0xdd240568fe8c3547dc45dfef45ea641098c43ab9bee18be8a2a1d10a8be4074e",
+        "reasonHash": "0xe4bda88c42fe56ba8a1cc87560c18cc6fc32a2f02f00f64a194e6d1c7c9600c9",
+        "dispute": {
+          "challenger": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+          "arbitrator": "0x3C4587eD99B1969581cA4f041FD9535a0D269736",
+          "bond": "1000000",
+          "arbitrationFee": "500000",
+          "disputeId": "1",
+          "reasonHash": "0xc0a1722a16f73a355b4ba67b9e4aa5dd4cf25a49b5131b4b4b7f1950002994bd"
+        },
+        "evidence": [
+          {
+            "event": "JobCreated",
+            "txHash": "0x2c9d844000bb9276cdf05f6c1de1555670bde5dc78e822c5d03858979193e116",
+            "blockNumber": "52040448",
+            "logIndex": 0
+          },
+          {
+            "event": "JobFunded",
+            "txHash": "0x2c9d844000bb9276cdf05f6c1de1555670bde5dc78e822c5d03858979193e116",
+            "blockNumber": "52040448",
+            "logIndex": 3
+          },
+          {
+            "event": "JobSubmitted",
+            "txHash": "0xf6f644a044be648aeeae7327451c6b1ea397b0ac14e58d21dbf349f82171cefa",
+            "blockNumber": "52040453",
+            "logIndex": 9
+          },
+          {
+            "event": "Verdict",
+            "txHash": "0x886b1ac8d7ecc1d22dd5d6d56a0fe7439a450e8bcf6b84591339078d4381681f",
+            "blockNumber": "52040457",
+            "logIndex": 31
+          },
+          {
+            "event": "ArbitrationFeeEscrowed",
+            "txHash": "0x0933e360c9528905605d6c6acce7176d2fb61cc517c4ce4531601faaefbf5b47",
+            "blockNumber": "52040467",
+            "logIndex": 1
+          },
+          {
+            "event": "Challenged",
+            "txHash": "0x0933e360c9528905605d6c6acce7176d2fb61cc517c4ce4531601faaefbf5b47",
+            "blockNumber": "52040467",
+            "logIndex": 3
+          },
+          {
+            "event": "Ruled",
+            "txHash": "0xf1bdceec23fe2d4f93b73e8a285c95972166d10fc5f83fbe53d43304b74b0617",
+            "blockNumber": "52040475",
+            "logIndex": 2
+          },
+          {
+            "event": "ArbitrationFeeReimbursed",
+            "txHash": "0xf1bdceec23fe2d4f93b73e8a285c95972166d10fc5f83fbe53d43304b74b0617",
+            "blockNumber": "52040475",
+            "logIndex": 5
+          },
+          {
+            "event": "Slashed",
+            "txHash": "0xf1bdceec23fe2d4f93b73e8a285c95972166d10fc5f83fbe53d43304b74b0617",
+            "blockNumber": "52040475",
+            "logIndex": 9
+          },
+          {
+            "event": "ChallengeBondDistributed",
+            "txHash": "0xf1bdceec23fe2d4f93b73e8a285c95972166d10fc5f83fbe53d43304b74b0617",
+            "blockNumber": "52040475",
+            "logIndex": 11
+          },
+          {
+            "event": "PaymentReleased",
+            "txHash": "0xf1bdceec23fe2d4f93b73e8a285c95972166d10fc5f83fbe53d43304b74b0617",
+            "blockNumber": "52040475",
+            "logIndex": 14
+          },
+          {
+            "event": "ArbitrationFeePaid",
+            "txHash": "0xf1bdceec23fe2d4f93b73e8a285c95972166d10fc5f83fbe53d43304b74b0617",
+            "blockNumber": "52040475",
+            "logIndex": 16
+          },
+          {
+            "event": "Settled",
+            "txHash": "0xf1bdceec23fe2d4f93b73e8a285c95972166d10fc5f83fbe53d43304b74b0617",
+            "blockNumber": "52040475",
+            "logIndex": 18
+          }
+        ]
+      }
+    },
+    {
+      "tool": "get_job_status",
+      "args": {
+        "jobId": "4"
+      },
+      "ms": 521,
+      "isError": false,
+      "result": {
+        "chainId": 84532,
+        "network": "eip155:84532",
+        "networkName": "base-sepolia",
+        "blockNumber": "52045216",
+        "contracts": {
+          "escrow": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+          "evaluatorRegistry": "0x30576DE005df028D1947C56dEcc85a2a5612036a",
+          "token": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+          "arbitrator": "0x3C4587eD99B1969581cA4f041FD9535a0D269736",
+          "identityRegistry": null,
+          "evaluatorAdapter": "0x27803F8DBDAd0D6B0E719d2AB2eB7A31b5c53509",
+          "depositRouteFactory": "0x32174eFD01e600E621Cf3f0D19Ff694483B19b95"
+        },
+        "jobId": "4",
+        "exists": true,
+        "state": "Settled",
+        "outcome": "Complete",
+        "client": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+        "provider": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+        "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "amount": "1000000",
+        "providerBond": "0",
+        "slashBase": "2000000",
+        "payoutBps": 10000,
+        "instant": false,
+        "accepted": true,
+        "configVersion": 1,
+        "deadline": "1793333571",
+        "submittedAt": "1793329971",
+        "verdictAt": "1793329973",
+        "disputedAt": "0",
+        "verdictDeadline": "1793333571",
+        "challengeDeadline": "1793330573",
+        "specHash": "0x40d7d0bdc27b24c4fad9a08f9d49074a051e3f30db87cbab807dc75ff8c6d7a8",
+        "deliverableHash": "0x9705bd2d78116238d889ebb7dc1bb6d235cc0c056b205d4dd8e64201dd4960a7",
+        "reasonHash": "0xfdd4e3c1195743bb44beb8b4f971e5c9525b49c534696030a6ab1b2b9dedeba3",
+        "dispute": null,
+        "evidence": [
+          {
+            "event": "JobCreated",
+            "txHash": "0x23cbc6ccc24143a4d5bbdb872d96c56a51332fa4e46a1ef970648ca5ceedc2e2",
+            "blockNumber": "52040511",
+            "logIndex": 4
+          },
+          {
+            "event": "JobFunded",
+            "txHash": "0x23cbc6ccc24143a4d5bbdb872d96c56a51332fa4e46a1ef970648ca5ceedc2e2",
+            "blockNumber": "52040511",
+            "logIndex": 7
+          },
+          {
+            "event": "JobSubmitted",
+            "txHash": "0x2ab9d8648a111fc0e69391ef91bb9fe10b7d4c44e4b13ea3fa289167f44bab1f",
+            "blockNumber": "52040515",
+            "logIndex": 6
+          },
+          {
+            "event": "Verdict",
+            "txHash": "0x87c436792ad6c9bfe5780df0aabdf81d2f151497af350cd1208f8cec1c3a5c1e",
+            "blockNumber": "52040523",
+            "logIndex": 0
+          },
+          {
+            "event": "EvaluatorFeePaid",
+            "txHash": "0x52e3cdd1129564cdaa671d07c8771519c30577255d0e17b434483c3d39dee77d",
+            "blockNumber": "52043834",
+            "logIndex": 1
+          },
+          {
+            "event": "PaymentReleased",
+            "txHash": "0x52e3cdd1129564cdaa671d07c8771519c30577255d0e17b434483c3d39dee77d",
+            "blockNumber": "52043834",
+            "logIndex": 4
+          },
+          {
+            "event": "Settled",
+            "txHash": "0x52e3cdd1129564cdaa671d07c8771519c30577255d0e17b434483c3d39dee77d",
+            "blockNumber": "52043834",
+            "logIndex": 6
+          }
+        ]
+      }
+    },
+    {
+      "tool": "get_evaluator_reputation",
+      "args": {
+        "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a"
+      },
+      "ms": 1634,
+      "isError": false,
+      "result": {
+        "chainId": 84532,
+        "network": "eip155:84532",
+        "networkName": "base-sepolia",
+        "blockNumber": "52045218",
+        "contracts": {
+          "escrow": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+          "evaluatorRegistry": "0x30576DE005df028D1947C56dEcc85a2a5612036a",
+          "token": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+          "arbitrator": "0x3C4587eD99B1969581cA4f041FD9535a0D269736",
+          "identityRegistry": null,
+          "evaluatorAdapter": "0x27803F8DBDAd0D6B0E719d2AB2eB7A31b5c53509",
+          "depositRouteFactory": "0x32174eFD01e600E621Cf3f0D19Ff694483B19b95"
+        },
+        "evaluator": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+        "indexedFromBlock": "52030622",
+        "indexedToBlock": "52045218",
+        "unit": "USDC base units (6 decimals); seconds",
+        "counts": {
+          "jobsAssigned": 4,
+          "verdicts": 4,
+          "verdictsByOutcome": {
+            "Complete": 2,
+            "Reject": 2,
+            "Partial": 0
+          },
+          "jobsCompleted": 4,
+          "jobsDisputed": 1,
+          "disputesLost": 1,
+          "verdictsOverturned": 1,
+          "missedVerdicts": 0,
+          "adapter": {
+            "jobsAccepted": 1,
+            "verdicts": 1,
+            "verdictsOverturned": 0,
+            "missedVerdicts": 0
+          }
+        },
+        "totalVolume": "4000000",
+        "currentStake": "3000000",
+        "active": true,
+        "slashedTotal": "1000000",
+        "avgTimeToVerdictSeconds": "2",
+        "evidence": {
+          "jobsAssigned": [
+            {
+              "event": "JobCreated",
+              "jobId": "1",
+              "txHash": "0xcd87a26639dddbec1158a1a5b68c9217def880dbc1180c2fe13259e442719a18",
+              "blockNumber": "52030872"
+            },
+            {
+              "event": "JobCreated",
+              "jobId": "2",
+              "txHash": "0xdf55b217a41701a19bb629f436c68efcf0ff7491a3a6e2c941d0d654e9cb8d4e",
+              "blockNumber": "52030882"
+            },
+            {
+              "event": "JobCreated",
+              "jobId": "3",
+              "txHash": "0x2c9d844000bb9276cdf05f6c1de1555670bde5dc78e822c5d03858979193e116",
+              "blockNumber": "52040448"
+            },
+            {
+              "event": "JobCreated",
+              "jobId": "4",
+              "txHash": "0x23cbc6ccc24143a4d5bbdb872d96c56a51332fa4e46a1ef970648ca5ceedc2e2",
+              "blockNumber": "52040511"
+            }
+          ],
+          "verdicts": [
+            {
+              "event": "Verdict",
+              "jobId": "1",
+              "txHash": "0xb7cb367d625110f1590fbd2cb81dc2cea24fd819a0a72e05ff82b405377a8982",
+              "blockNumber": "52030910",
+              "outcome": "Complete",
+              "payoutBps": 10000
+            },
+            {
+              "event": "Verdict",
+              "jobId": "2",
+              "txHash": "0x017a93a803c18788c7ee5bfbd2477dd8609dc4de7d5103090ead5c33e9131dc3",
+              "blockNumber": "52030919",
+              "outcome": "Reject",
+              "payoutBps": 0
+            },
+            {
+              "event": "Verdict",
+              "jobId": "3",
+              "txHash": "0x886b1ac8d7ecc1d22dd5d6d56a0fe7439a450e8bcf6b84591339078d4381681f",
+              "blockNumber": "52040457",
+              "outcome": "Reject",
+              "payoutBps": 0
+            },
+            {
+              "event": "Verdict",
+              "jobId": "4",
+              "txHash": "0x87c436792ad6c9bfe5780df0aabdf81d2f151497af350cd1208f8cec1c3a5c1e",
+              "blockNumber": "52040523",
+              "outcome": "Complete",
+              "payoutBps": 10000
+            }
+          ],
+          "jobsCompleted": [
+            {
+              "event": "Settled",
+              "jobId": "1",
+              "txHash": "0x0f12ef62812419708362588128da9efd77bd59ed95e842cc2bac0c5a05de6d03",
+              "blockNumber": "52034225",
+              "payoutBps": 10000
+            },
+            {
+              "event": "Settled",
+              "jobId": "2",
+              "txHash": "0x063498af8fdd49d192f6b79f1231a6fdc7eb94b6fb8218fee55af532cfaf760d",
+              "blockNumber": "52034235",
+              "payoutBps": 0
+            },
+            {
+              "event": "Settled",
+              "jobId": "3",
+              "txHash": "0xf1bdceec23fe2d4f93b73e8a285c95972166d10fc5f83fbe53d43304b74b0617",
+              "blockNumber": "52040475",
+              "payoutBps": 10000
+            },
+            {
+              "event": "Settled",
+              "jobId": "4",
+              "txHash": "0x52e3cdd1129564cdaa671d07c8771519c30577255d0e17b434483c3d39dee77d",
+              "blockNumber": "52043834",
+              "payoutBps": 10000
+            }
+          ],
+          "jobsDisputed": [
+            {
+              "event": "Challenged",
+              "jobId": "3",
+              "txHash": "0x0933e360c9528905605d6c6acce7176d2fb61cc517c4ce4531601faaefbf5b47",
+              "blockNumber": "52040467"
+            }
+          ],
+          "verdictsOverturned": [
+            {
+              "event": "Ruled",
+              "jobId": "3",
+              "txHash": "0xf1bdceec23fe2d4f93b73e8a285c95972166d10fc5f83fbe53d43304b74b0617",
+              "blockNumber": "52040475",
+              "verdictPayoutBps": 0,
+              "rulingPayoutBps": 10000
+            }
+          ],
+          "missedVerdicts": [],
+          "slashes": [
+            {
+              "event": "Slashed",
+              "jobId": "3",
+              "txHash": "0xf1bdceec23fe2d4f93b73e8a285c95972166d10fc5f83fbe53d43304b74b0617",
+              "blockNumber": "52040475",
+              "reason": 2,
+              "amount": "500000",
+              "slasher": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+              "source": "escrow"
+            }
+          ],
+          "arbitrationFeeReimbursements": [
+            {
+              "event": "Reimbursed",
+              "jobId": "3",
+              "txHash": "0xf1bdceec23fe2d4f93b73e8a285c95972166d10fc5f83fbe53d43304b74b0617",
+              "blockNumber": "52040475",
+              "amount": "500000",
+              "to": "0x745528C4E0CBdA5759175A660da06d0aaA72db7F",
+              "slasher": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+              "source": "escrow"
+            }
+          ],
+          "adapter": {
+            "jobsAccepted": [
+              {
+                "event": "AssignmentAccepted",
+                "id": "1",
+                "txHash": "0x57091a1ad949d70317a190f03092de4430cfd487c4203495084c4eadbc0167f4",
+                "blockNumber": "52040573"
+              }
+            ],
+            "verdicts": [
+              {
+                "event": "VerdictHeld",
+                "id": "1",
+                "txHash": "0x2c4c499b2b4efad9fd4d8c78462a8c9d40724fdd6aed150d2d22bbc200a9b4c4",
+                "blockNumber": "52040585",
+                "payoutBps": 10000,
+                "completes": true
+              }
+            ],
+            "verdictsOverturned": [],
+            "missedVerdicts": []
+          }
+        }
+      }
+    },
+    {
+      "tool": "verify_attestation",
+      "args": {
+        "document": {
+          "$schema": "http://127.0.0.1:4020/schemas/trust-manifest-0.1.json",
+          "v": "agentcoin-trust/0.1",
+          "issuer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+          "agent": null,
+          "chainId": 84532,
+          "network": "eip155:84532",
+          "issuedAt": "2026-10-30T03:28:25.223Z",
+          "snapshotBlock": "52045175",
+          "contracts": {
+            "escrow": {
+              "address": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+              "codeHash": "0x11bc5beacc8dca74745956ea8993ea5541cfe9533ae45ea0902fb755fe3641ee"
+            },
+            "evaluatorRegistry": {
+              "address": "0x30576DE005df028D1947C56dEcc85a2a5612036a",
+              "codeHash": "0xc248c0e267e26f05aac6b885fd584c4813d7f55966fe9c3686809f212e565b8f"
+            },
+            "token": {
+              "address": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+              "codeHash": "0xedc5281a85c0efecd49999a1ef668390c59b88702f2d4a07029d7f5d63059d6c",
+              "symbol": "USDC",
+              "decimals": 6,
+              "note": "Circle test USDC on Base Sepolia (testnet, no value); proxy contract, codeHash is of the proxy"
+            },
+            "arbitrator": {
+              "address": "0x3C4587eD99B1969581cA4f041FD9535a0D269736",
+              "codeHash": "0x64d8fb9958a0f36a2716c5cf96f7f248b4b4a9d930fe02f56c587a22fe8b1328",
+              "kind": "MockArbitrator (owner-ruled stub for Kleros/UMA)"
+            },
+            "evaluatorAdapter": {
+              "address": "0x27803F8DBDAd0D6B0E719d2AB2eB7A31b5c53509",
+              "codeHash": "0x02e928f2c75a55986909c6b473412182e2ed7c7b77d0c0abdd8af1fcb5568e80",
+              "kind": "ERC8183EvaluatorAdapter (staked evaluator for external ERC-8183 kernels)"
+            },
+            "depositRouteFactory": {
+              "address": "0x32174eFD01e600E621Cf3f0D19Ff694483B19b95",
+              "codeHash": "0xe9f11acdd45c84aa23d6625d5892f0a4f0abf7155eb99c65adacc083f6d7f1d8",
+              "kind": "EscrowDepositRouteFactory (x402 exact payTo routes)"
+            },
+            "treasury": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e"
+          },
+          "fees": {
+            "feeBps": 100,
+            "chargedOn": "provider payout (settlement or instant release); 0 on reject or refund",
+            "evaluatorFeeBps": 50,
+            "evaluatorFeeChargedOn": "provider gross on settled Complete/Partial when the verdict stands",
+            "arbitrationFee": "500000",
+            "arbitrationFeeModel": "challenger pays bond + quoted arbitration cost; both held by the contract until the ruling; on a ruling the cost goes to the arbitrator and the losing side reimburses it if the ruling is material; on a stale dispute both are refunded to the challenger",
+            "buyerBond": "none"
+          },
+          "escrowConfig": {
+            "version": 1,
+            "instantThreshold": "1000000",
+            "minChallengeBond": "1000000",
+            "evalWindow": "3600",
+            "challengeWindow": "600",
+            "arbitrationTimeout": "2592000",
+            "challengeBondBps": "500",
+            "missedVerdictSlashBps": "1000",
+            "wrongVerdictSlashBps": "2500",
+            "materialDiffBps": "2000",
+            "feeBps": "100",
+            "failedChallengeEvaluatorShareBps": "5000",
+            "instantBondCoverBps": "10000",
+            "evaluatorFeeBps": "50"
+          },
+          "adapterConfig": {
+            "version": 2,
+            "evalWindow": "3600",
+            "challengeWindow": "600",
+            "arbitrationTimeout": "3600",
+            "expiryMargin": "600",
+            "minChallengeBond": "1000000",
+            "challengeBondBps": "500",
+            "missedVerdictSlashBps": "1000",
+            "wrongVerdictSlashBps": "2500",
+            "failedChallengeEvaluatorShareBps": "5000",
+            "completeThresholdBps": "5000",
+            "requiredExpiryDuration": "8400"
+          },
+          "registryConfig": {
+            "minStake": "2000000",
+            "unbondingPeriod": "604800",
+            "exposureMultiplier": "5",
+            "slashHarmedShareBps": "5000",
+            "treasury": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+            "slasherTimelockSeconds": "172800"
+          },
+          "evaluators": [
+            {
+              "address": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+              "active": true,
+              "stake": "3000000",
+              "exposure": "0",
+              "availableExposure": "15000000",
+              "openJobs": 0,
+              "unbondingEndsAt": "0",
+              "slashedTotal": "1000000",
+              "snapshotBlock": "52045175"
+            }
+          ],
+          "sla": {
+            "quoteP95Ms": null,
+            "note": "not measured"
+          },
+          "disputeRules": [
+            {
+              "path": "specs/SPEC-v0.md",
+              "sha256": "0xbe66b2d4865d06a260bfd5b94e3cf218ccca2833f15012897763adea628752bb"
+            },
+            {
+              "path": "docs/ASSUMPTIONS.md",
+              "sha256": "0x61ad4d798a6657e83f788126d95f6cd402a95b0b739719b287fbe2ddcb5dd890"
+            }
+          ],
+          "audits": [],
+          "attestations": [
+            {
+              "v": "agentcoin-attestation/0.1",
+              "chainId": 84532,
+              "type": "evaluator-stake",
+              "subject": "0xfb0159725FB6169f676ebFd2FA0Ac2C3A184509a",
+              "contract": "0x30576DE005df028D1947C56dEcc85a2a5612036a",
+              "blockNumber": "52045175",
+              "claim": {
+                "stake": "3000000",
+                "active": true,
+                "slashedTotal": "1000000"
+              },
+              "signature": {
+                "scheme": "eip191",
+                "canonicalization": "RFC8785",
+                "digest": "keccak256",
+                "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+                "signedDigest": "0x14966d8d961c2898b1d99604bdc3369a99a3595d1a57346092204d1bb1b89278",
+                "value": "0xf62bca6311e90cdf969bf81248dfd204aeca19bdd21403cf9878fc3fa1e1f5cf7518a39dbe8df3841212e14daaf3e2a58262e3ded39e92d894dad8cd5a60e85a1c"
+              }
+            },
+            {
+              "v": "agentcoin-attestation/0.1",
+              "chainId": 84532,
+              "type": "contract-code",
+              "subject": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+              "blockNumber": "52045175",
+              "claim": {
+                "name": "escrow",
+                "codeHash": "0x11bc5beacc8dca74745956ea8993ea5541cfe9533ae45ea0902fb755fe3641ee"
+              },
+              "signature": {
+                "scheme": "eip191",
+                "canonicalization": "RFC8785",
+                "digest": "keccak256",
+                "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+                "signedDigest": "0x47a65129ce3ccdcf618c0ec1a8aba0354950b97ace754257da94f63615215d31",
+                "value": "0x63042895376d6b8c1208477ef5e0a5e590a648259fc215c67e090d3e97fb8189601c265b11386b43873902e887168accf872fb017ef3b3b2cdba351962f441a71b"
+              }
+            },
+            {
+              "v": "agentcoin-attestation/0.1",
+              "chainId": 84532,
+              "type": "contract-code",
+              "subject": "0x30576DE005df028D1947C56dEcc85a2a5612036a",
+              "blockNumber": "52045175",
+              "claim": {
+                "name": "evaluatorRegistry",
+                "codeHash": "0xc248c0e267e26f05aac6b885fd584c4813d7f55966fe9c3686809f212e565b8f"
+              },
+              "signature": {
+                "scheme": "eip191",
+                "canonicalization": "RFC8785",
+                "digest": "keccak256",
+                "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+                "signedDigest": "0xe2a8585dfba37aa96c6349edb4e5528aae89ace7143bc5bea7d38308b8ddbbd0",
+                "value": "0x45137945b9ae53960feef5e65510b0ab9b0557812b51c995c1805777ed6f88055468fa8f5fe2f9d962eebb77d2b70e1a974d5fbb46e892e7c660cff4b7f157221c"
+              }
+            },
+            {
+              "v": "agentcoin-attestation/0.1",
+              "chainId": 84532,
+              "type": "contract-code",
+              "subject": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+              "blockNumber": "52045175",
+              "claim": {
+                "name": "token",
+                "codeHash": "0xedc5281a85c0efecd49999a1ef668390c59b88702f2d4a07029d7f5d63059d6c"
+              },
+              "signature": {
+                "scheme": "eip191",
+                "canonicalization": "RFC8785",
+                "digest": "keccak256",
+                "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+                "signedDigest": "0xf17227b9f87bb817ae13f1ce40400a4bc778d11ecaa169384f390db336813dec",
+                "value": "0xf773456eaee7a6c718e3d5f9092fbf3c9c0b18584932f6fec5dbe4b71d2448310159d762f3d1a73d0129ebe94e8b3cbab3c842f2e5fbdae45fbe090e0a716fca1c"
+              }
+            },
+            {
+              "v": "agentcoin-attestation/0.1",
+              "chainId": 84532,
+              "type": "contract-code",
+              "subject": "0x3C4587eD99B1969581cA4f041FD9535a0D269736",
+              "blockNumber": "52045175",
+              "claim": {
+                "name": "arbitrator",
+                "codeHash": "0x64d8fb9958a0f36a2716c5cf96f7f248b4b4a9d930fe02f56c587a22fe8b1328"
+              },
+              "signature": {
+                "scheme": "eip191",
+                "canonicalization": "RFC8785",
+                "digest": "keccak256",
+                "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+                "signedDigest": "0x57da3fb77785adcdd0d5d7aea0181012a05d9bf6dd3db6975f20f7e1d06df738",
+                "value": "0xefbecc02f208ab6be474b6703cc1a707b45aeef90c2c33d4f949aa22faf4fbe22c5e59cf9d07d4b28379576f159f9f8d0ff0fce123c10d3848a7bb6c88ffa3b81c"
+              }
+            },
+            {
+              "v": "agentcoin-attestation/0.1",
+              "chainId": 84532,
+              "type": "contract-code",
+              "subject": "0x27803F8DBDAd0D6B0E719d2AB2eB7A31b5c53509",
+              "blockNumber": "52045175",
+              "claim": {
+                "name": "evaluatorAdapter",
+                "codeHash": "0x02e928f2c75a55986909c6b473412182e2ed7c7b77d0c0abdd8af1fcb5568e80"
+              },
+              "signature": {
+                "scheme": "eip191",
+                "canonicalization": "RFC8785",
+                "digest": "keccak256",
+                "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+                "signedDigest": "0xf0976d468f1f9fba5be211a5d58778a16433bb5d4282b206a92451c4250d58af",
+                "value": "0x30c163c62d9c2bcdf242b0539ea881c059e83b6015884f4f38843771a86ce41255dbb2907222f4a4671f8354f20e40c917f8ee54f635cacefeba8ab44d4d74a11c"
+              }
+            },
+            {
+              "v": "agentcoin-attestation/0.1",
+              "chainId": 84532,
+              "type": "contract-code",
+              "subject": "0x32174eFD01e600E621Cf3f0D19Ff694483B19b95",
+              "blockNumber": "52045175",
+              "claim": {
+                "name": "depositRouteFactory",
+                "codeHash": "0xe9f11acdd45c84aa23d6625d5892f0a4f0abf7155eb99c65adacc083f6d7f1d8"
+              },
+              "signature": {
+                "scheme": "eip191",
+                "canonicalization": "RFC8785",
+                "digest": "keccak256",
+                "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+                "signedDigest": "0x656c527c4a20282381b1a8db40044d428e54a079eeeb74d41bc369acf7d06278",
+                "value": "0x5bd523eca27d93066ca61aee5e5735ce13386668c240f1b9c75474c8db3ceed5376337bb74cd0b78922a63a708ab1e14b5edb5451cbf541ceb9dbfd4a325e2571b"
+              }
+            }
+          ],
+          "endpoints": {
+            "agentRegistration": "http://127.0.0.1:4020/.well-known/agent-registration.json",
+            "agentCard": "http://127.0.0.1:4020/.well-known/agent-card.json",
+            "quote": "http://127.0.0.1:4020/v1/quote",
+            "mcp": "stdio:node agent/mcp/server.mjs"
+          },
+          "limitations": [
+            "Base Sepolia (testnet) (chainId 84532) TESTNET deployment only; no mainnet deployment; test USDC has no value",
+            "no ERC-8004 identity registry on this network",
+            "endpoints (x402, A2A, MCP) run locally on 127.0.0.1 only; not hosted",
+            "single keeper (k=1, deployer)",
+            "contracts unaudited",
+            "arbitrator is an owner-controlled mock",
+            "throwaway operator key"
+          ],
+          "signature": {
+            "scheme": "eip191",
+            "canonicalization": "RFC8785",
+            "digest": "keccak256",
+            "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+            "signedDigest": "0x25fac71598a7bace1b99aad6f90de5db06974f485af840b5ee73f903ade9ca31",
+            "value": "0xb1e07443ddd66a3aadd5a35a425c52a997243cd616df4af0e1213a29b9b99f8f41902d7547c4cfcb6bb662f89a7a93c3f53cfbb0c26f2720fd77ce1b5e9197941b"
+          }
+        }
+      },
+      "ms": 1800,
+      "isError": false,
+      "result": {
+        "chainId": 84532,
+        "network": "eip155:84532",
+        "networkName": "base-sepolia",
+        "blockNumber": "52045234",
+        "contracts": {
+          "escrow": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D",
+          "evaluatorRegistry": "0x30576DE005df028D1947C56dEcc85a2a5612036a",
+          "token": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+          "arbitrator": "0x3C4587eD99B1969581cA4f041FD9535a0D269736",
+          "identityRegistry": null,
+          "evaluatorAdapter": "0x27803F8DBDAd0D6B0E719d2AB2eB7A31b5c53509",
+          "depositRouteFactory": "0x32174eFD01e600E621Cf3f0D19Ff694483B19b95"
+        },
+        "kind": "trust-manifest",
+        "valid": true,
+        "signer": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68",
+        "checks": [
+          {
+            "check": "JSON Schema agentcoin-trust/0.1",
+            "pass": true,
+            "detail": "valid"
+          },
+          {
+            "check": "signature",
+            "pass": true,
+            "detail": "eip191 signer 0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68"
+          },
+          {
+            "check": "issuer == signer",
+            "pass": true,
+            "detail": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68"
+          },
+          {
+            "check": "chainId",
+            "pass": true,
+            "detail": "84532"
+          },
+          {
+            "check": "contract escrow codeHash",
+            "pass": true,
+            "detail": "0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D chain 0x11bc5beacc8dca74745956ea8993ea5541cfe9533ae45ea0902fb755fe3641ee"
+          },
+          {
+            "check": "contract evaluatorRegistry codeHash",
+            "pass": true,
+            "detail": "0x30576DE005df028D1947C56dEcc85a2a5612036a chain 0xc248c0e267e26f05aac6b885fd584c4813d7f55966fe9c3686809f212e565b8f"
+          },
+          {
+            "check": "contract token codeHash",
+            "pass": true,
+            "detail": "0x036CbD53842c5426634e7929541eC2318f3dCF7e chain 0xedc5281a85c0efecd49999a1ef668390c59b88702f2d4a07029d7f5d63059d6c"
+          },
+          {
+            "check": "contract arbitrator codeHash",
+            "pass": true,
+            "detail": "0x3C4587eD99B1969581cA4f041FD9535a0D269736 chain 0x64d8fb9958a0f36a2716c5cf96f7f248b4b4a9d930fe02f56c587a22fe8b1328"
+          },
+          {
+            "check": "contract evaluatorAdapter codeHash",
+            "pass": true,
+            "detail": "0x27803F8DBDAd0D6B0E719d2AB2eB7A31b5c53509 chain 0x02e928f2c75a55986909c6b473412182e2ed7c7b77d0c0abdd8af1fcb5568e80"
+          },
+          {
+            "check": "contract depositRouteFactory codeHash",
+            "pass": true,
+            "detail": "0x32174eFD01e600E621Cf3f0D19Ff694483B19b95 chain 0xe9f11acdd45c84aa23d6625d5892f0a4f0abf7155eb99c65adacc083f6d7f1d8"
+          },
+          {
+            "check": "escrowConfig v1",
+            "pass": true,
+            "detail": "matches chain"
+          },
+          {
+            "check": "escrowConfig is current (informational)",
+            "pass": true,
+            "detail": "current"
+          },
+          {
+            "check": "fees.feeBps == escrowConfig.feeBps",
+            "pass": true,
+            "detail": "100"
+          },
+          {
+            "check": "fees.evaluatorFeeBps == escrowConfig.evaluatorFeeBps",
+            "pass": true,
+            "detail": "50"
+          },
+          {
+            "check": "adapterConfig v2",
+            "pass": true,
+            "detail": "matches chain"
+          },
+          {
+            "check": "fees.arbitrationFee == arbitrator.arbitrationCost(0, 0) (at latest)",
+            "pass": true,
+            "detail": "chain 500000"
+          },
+          {
+            "check": "ERC-8004 identity (informational)",
+            "pass": true,
+            "detail": "none: no identity registry on this network; issuer is identified by its signing address only"
+          },
+          {
+            "check": "disputeRules specs/SPEC-v0.md sha256",
+            "pass": true,
+            "detail": "0xbe66b2d4865d06a260bfd5b94e3cf218ccca2833f15012897763adea628752bb"
+          },
+          {
+            "check": "disputeRules docs/ASSUMPTIONS.md sha256",
+            "pass": true,
+            "detail": "0x61ad4d798a6657e83f788126d95f6cd402a95b0b739719b287fbe2ddcb5dd890"
+          },
+          {
+            "check": "attestation[0] evaluator-stake signature",
+            "pass": true,
+            "detail": "eip191 signer 0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68"
+          },
+          {
+            "check": "attestation[0] evaluator-stake chainId",
+            "pass": true,
+            "detail": "84532"
+          },
+          {
+            "check": "attestation[0] evaluator-stake stake@52045175",
+            "pass": true,
+            "detail": "chain 3000000 claim 3000000"
+          },
+          {
+            "check": "attestation[0] evaluator-stake stake@latest (informational)",
+            "pass": true,
+            "detail": "current 3000000"
+          },
+          {
+            "check": "attestation[0] signer == issuer",
+            "pass": true,
+            "detail": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68"
+          },
+          {
+            "check": "attestation[1] contract-code signature",
+            "pass": true,
+            "detail": "eip191 signer 0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68"
+          },
+          {
+            "check": "attestation[1] contract-code chainId",
+            "pass": true,
+            "detail": "84532"
+          },
+          {
+            "check": "attestation[1] contract-code codeHash escrow",
+            "pass": true,
+            "detail": "chain 0x11bc5beacc8dca74745956ea8993ea5541cfe9533ae45ea0902fb755fe3641ee"
+          },
+          {
+            "check": "attestation[1] signer == issuer",
+            "pass": true,
+            "detail": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68"
+          },
+          {
+            "check": "attestation[2] contract-code signature",
+            "pass": true,
+            "detail": "eip191 signer 0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68"
+          },
+          {
+            "check": "attestation[2] contract-code chainId",
+            "pass": true,
+            "detail": "84532"
+          },
+          {
+            "check": "attestation[2] contract-code codeHash evaluatorRegistry",
+            "pass": true,
+            "detail": "chain 0xc248c0e267e26f05aac6b885fd584c4813d7f55966fe9c3686809f212e565b8f"
+          },
+          {
+            "check": "attestation[2] signer == issuer",
+            "pass": true,
+            "detail": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68"
+          },
+          {
+            "check": "attestation[3] contract-code signature",
+            "pass": true,
+            "detail": "eip191 signer 0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68"
+          },
+          {
+            "check": "attestation[3] contract-code chainId",
+            "pass": true,
+            "detail": "84532"
+          },
+          {
+            "check": "attestation[3] contract-code codeHash token",
+            "pass": true,
+            "detail": "chain 0xedc5281a85c0efecd49999a1ef668390c59b88702f2d4a07029d7f5d63059d6c"
+          },
+          {
+            "check": "attestation[3] signer == issuer",
+            "pass": true,
+            "detail": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68"
+          },
+          {
+            "check": "attestation[4] contract-code signature",
+            "pass": true,
+            "detail": "eip191 signer 0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68"
+          },
+          {
+            "check": "attestation[4] contract-code chainId",
+            "pass": true,
+            "detail": "84532"
+          },
+          {
+            "check": "attestation[4] contract-code codeHash arbitrator",
+            "pass": true,
+            "detail": "chain 0x64d8fb9958a0f36a2716c5cf96f7f248b4b4a9d930fe02f56c587a22fe8b1328"
+          },
+          {
+            "check": "attestation[4] signer == issuer",
+            "pass": true,
+            "detail": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68"
+          },
+          {
+            "check": "attestation[5] contract-code signature",
+            "pass": true,
+            "detail": "eip191 signer 0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68"
+          },
+          {
+            "check": "attestation[5] contract-code chainId",
+            "pass": true,
+            "detail": "84532"
+          },
+          {
+            "check": "attestation[5] contract-code codeHash evaluatorAdapter",
+            "pass": true,
+            "detail": "chain 0x02e928f2c75a55986909c6b473412182e2ed7c7b77d0c0abdd8af1fcb5568e80"
+          },
+          {
+            "check": "attestation[5] signer == issuer",
+            "pass": true,
+            "detail": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68"
+          },
+          {
+            "check": "attestation[6] contract-code signature",
+            "pass": true,
+            "detail": "eip191 signer 0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68"
+          },
+          {
+            "check": "attestation[6] contract-code chainId",
+            "pass": true,
+            "detail": "84532"
+          },
+          {
+            "check": "attestation[6] contract-code codeHash depositRouteFactory",
+            "pass": true,
+            "detail": "chain 0xe9f11acdd45c84aa23d6625d5892f0a4f0abf7155eb99c65adacc083f6d7f1d8"
+          },
+          {
+            "check": "attestation[6] signer == issuer",
+            "pass": true,
+            "detail": "0xf1b27b5Bd659D9Bfb4835777E64B8F8e5C3eCf68"
+          }
+        ]
+      }
+    }
+  ],
+  "failures": [],
+  "finishedAt": "2026-10-30T03:28:36.251Z"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "agentkoin-arbiter-sdk",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Builds AgentKoin auth-capture arbiter terms, salt and PaymentInfo exactly as AgentKoinAuthCaptureArbiter checks them. Testnet prototype; unpublished.",
+  "engines": { "node": ">=22.18" },
+  "scripts": { "test": "node --test test/*.test.ts" },
+  "dependencies": { "viem": "^2.57.11" },
+  "license": "MIT"
+}

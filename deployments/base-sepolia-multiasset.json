@@ -1,0 +1,18 @@
+{
+  "network": "base-sepolia",
+  "chainId": 84532,
+  "task": "AD-009 Phase 1",
+  "sourceCommit": "2d32963",
+  "deployer": "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e",
+  "contracts": {
+    "CrossCurrencySettler": { "address": "0x6258D112bf27006287253424a1fa877C607B564a", "deployTx": "0x6cccaf4a78d9edde7c5ddf355fa91264a2cf4e35deea15468443a6ac8869c097", "block": 58988545, "gasUsed": 1068734, "constructorArgs": ["0x94cC0AaC535CCDB3C01d6787D6413C739ae12bc4"] },
+    "JobEscrowEURC": { "address": "0x17349D60efD6469Fd399F807c644Ce0a92798516", "deployTx": "0x792f12270b9d3bf827cb34e23bf252c6a93ea98696424efeb85666e5a5c6a183", "block": 58988546, "gasUsed": 4046451, "constructorArgs": ["0x808456652fdb597867f38412077A9182bf77359F", "0x30576DE005df028D1947C56dEcc85a2a5612036a", "treasury of 0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D", "arbitrator of 0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D", "currentConfig() of 0x4EaF6d09F8C22980Bb16E719779ACe73A7b1CB3D", "0x78e2C0164A80F3e337AE17e3bA4b8EA2C0Fa488e"] }
+  },
+  "registryProposeSlasher": { "tx": "0x93a6ea68ebb200acfe0100967809c9421e52a3010df00942bc9fc8e776e43cd4", "block": 58988547, "gasUsed": 48383, "slasher": "0x17349D60efD6469Fd399F807c644Ce0a92798516", "executableAfterUnix": 1794892373, "executed": false },
+  "external": {
+    "EURC": { "address": "0x808456652fdb597867f38412077A9182bf77359F", "source": "https://developers.circle.com/stablecoins/eurc-contract-addresses" },
+    "UniswapV3": { "factory": "0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24", "quoterV2": "0xC5290058841028F1614F3A6F0F5816cAd0df5E27", "swapRouter02": "0x94cC0AaC535CCDB3C01d6787D6413C739ae12bc4", "eurcUsdcPool500": "0x43047A302cD99DDb32E32B2886B40935b60aD2C1", "source": "https://docs.uniswap.org/contracts/v3/reference/deployments/base-deployments" }
+  },
+  "gasPriceWei": 6000000,
+  "totalGasUsed": 5163568
+}

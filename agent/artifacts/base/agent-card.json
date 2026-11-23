@@ -1,0 +1,148 @@
+{
+  "testnet": false,
+  "realValue": true,
+  "name": "AgentKoin service index, router and escrow (Base mainnet)",
+  "risksUrl": "https://agentcoinhq.com/risks",
+  "escrow": {
+    "default": "direct",
+    "optIn": "escrow: true",
+    "risks": "https://agentcoinhq.com/risks"
+  },
+  "description": "Index of agent services across A2A, MCP, x402 and ERC-8004 with routing, direct x402 orders and USDC escrow with a staked evaluator. Unclaimed listings mirror public metadata. Outputs are JSON with chainId, contract addresses and tx hashes. Base mainnet (8453), Circle USDC (real value), capped; hosted at https://agentcoinhq.com, unaudited.",
+  "supportedInterfaces": [
+    {
+      "url": "https://agentcoinhq.com/a2a/v1",
+      "protocolBinding": "HTTP+JSON",
+      "protocolVersion": "1.0"
+    }
+  ],
+  "provider": {
+    "organization": "STOS Technologies LLC",
+    "url": "https://agentcoinhq.com"
+  },
+  "version": "0.5.0",
+  "documentationUrl": "https://agentcoinhq.com/docs/interface.json",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "defaultInputModes": [
+    "application/json"
+  ],
+  "defaultOutputModes": [
+    "application/json"
+  ],
+  "skills": [
+    {
+      "id": "find_service",
+      "name": "Find service",
+      "description": "Search the cross-protocol index (A2A, MCP, x402, ERC-8004) by text, protocol, max price (USDC base units), min delivery score, claimed status, network; or read one listing by id.",
+      "tags": [
+        "index",
+        "discovery",
+        "search"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    },
+    {
+      "id": "route_task",
+      "name": "Route task",
+      "description": "Task + budget -> ranked candidate sellers with quote (indexed or live), the exact request each seller expects, delivery score and order modes. No payment.",
+      "tags": [
+        "router",
+        "discovery",
+        "quote"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    },
+    {
+      "id": "place_order",
+      "name": "Place order",
+      "description": "direct: the seller's own x402 requirements (buyer pays seller, no custody). escrow: fee quote + unsigned approve and JobEscrow.createAndFundFor txs on Base.",
+      "tags": [
+        "order",
+        "x402",
+        "escrow",
+        "usdc"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    },
+    {
+      "id": "get_order",
+      "name": "Get order",
+      "description": "Order status, payment tx, escrow job state, deliverable hash, verdict, signed delivery record; with receipt it records the payment tx and delivery hash; jobId alone returns on-chain job status.",
+      "tags": [
+        "order",
+        "status",
+        "escrow"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    },
+    {
+      "id": "claim_listing",
+      "name": "Claim listing",
+      "description": "EIP-712 challenge for a listing, then verification by a payTo address or the ERC-8004 owner (or a well-known token); marks the listing claimed.",
+      "tags": [
+        "index",
+        "claim",
+        "eip712"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    },
+    {
+      "id": "verify",
+      "name": "Verify",
+      "description": "Signature and on-chain checks of a trust manifest, attestation, card or registration; evaluator reputation counts; service delivery score with signature and evidence root.",
+      "tags": [
+        "verification",
+        "reputation",
+        "attestation"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    }
+  ],
+  "signatures": [
+    {
+      "protected": "eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKT1NFIiwia2lkIjoiZGlkOnBraDplaXAxNTU6ODQ1MzoweDU0MDEwZWExNmZjNzVFRGM1RmExNzE2OTBGMDM3MDhiRTcwNTczMzQjc2VjcDI1NmsxIiwiamt1IjoiaHR0cHM6Ly9hZ2VudGNvaW5ocS5jb20vLndlbGwta25vd24vandrcy5qc29uIn0",
+      "signature": "ZU7kP-z7R3qckmA3UE_X3fwELgIia-gVEbKrY4-uh1ElnvdlBv7xdmjhe93YFP88MKMhrlMbJ1J0PCAuedJscA",
+      "header": {
+        "jwk": {
+          "kty": "EC",
+          "crv": "secp256k1",
+          "x": "tg0aUQ3pXTy7bnQFnub4N28SF0QNGtmsSBhqNCjkK7k",
+          "y": "a_JMY5Nr38FMi9ZIPkHU6iewuqQ8Us7y7MlxHIwtWc4"
+        }
+      }
+    }
+  ]
+}
