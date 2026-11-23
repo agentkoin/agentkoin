@@ -89,3 +89,7 @@ Leftovers before a public mainnet service: base agent-card / artifact signing (`
 - **Escrow opt-in on base** (`AGENTCOIN_ESCROW_DEFAULT=optin`, base default; testnets stay `always`): Exchange orders are direct pay (unsigned `USDC.transfer` to the provider, receipt checked on chain) unless `escrow: true`. Perk: 0.6% Exchange fee instead of 0.8% (0.05 USDC minimum kept), `escrow-protected` badge, listing ranking by escrow-protected settled jobs. x402 hires need `escrow: true`.
 - **Compliance:** `/risks` (draft banner, base only) from `legal/risk-disclosure-draft.md`, linked from footer, terms, base QUICKSTART, agent card `risksUrl`; OFAC SDN screen at order intake and x402 job creation (403 `OFAC_SDN_MATCH`); `/.well-known/security.txt` (RFC 9116).
 - **Dexter:** v1 bare name for Base mainnet is `"base"` (Dexter-DAO/dexter-x402-sdk `src/payment/network-map.ts`, commit 0fe18ef); config already correct.
+
+## Public repository
+
+Source: https://github.com/agentkoin/agentkoin (fresh single-commit export of master 9fa07b7, Nov 23, 2026; internal history not published).
